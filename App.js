@@ -1,6 +1,10 @@
-import React from "react";
+import React from 'react'
 
-import Login from "./src/screens/LoginScreen";
-import AppStackNavigator from "./src/Router";
+import { MainNavigator } from './src/navigators'
 
-export default (App = () => <AppStackNavigator />);
+
+export default class App extends React.Component{
+  render() {
+    return <MainNavigator />
+  }
+}
