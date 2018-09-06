@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
+import React, { Component } from 'react'
+import { View, Text, StyleSheet, Image, Dimensions } from 'react-native'
 import {
   Container,
   Header,
@@ -10,30 +10,35 @@ import {
   Content,
   Label,
   Icon,
-  Thumbnail
-} from "native-base";
+  Thumbnail,
+} from 'native-base'
 
-import Footer from "../components/Footer";
+import withAuth from '../components/hocs/withAuth'
+
+import Footer from '../components/Footer'
 // import styles from './styles';
-import logo from "../img/logo.png";
+import logo from '../img/logo.png'
 
-const { width, height } = Dimensions.get("window");
+const { width, height } = Dimensions.get('window')
 
-export default class LoginScreen extends Component {
+class LoginScreen extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      email: "",
-      senha: ""
-    };
+      email: '',
+      senha: '',
+    }
   }
 
   render() {
+
+    const { loginWithFacebook } = this.props;
+
     return (
       <Container style={styles.container}>
         <Header transparent />
         <Container
-          style={{ marginHorizontal: 20, backgroundColor: "transparent" }}
+          style={{ marginHorizontal: 20, backgroundColor: 'transparent' }}
         >
           <Thumbnail
             source={logo}
@@ -41,7 +46,7 @@ export default class LoginScreen extends Component {
             style={{
               width: width / 2,
               height: height / 4,
-              alignSelf: "center"
+              alignSelf: 'center',
             }}
             resizeMode="contain"
           />
@@ -69,10 +74,10 @@ export default class LoginScreen extends Component {
             full
             style={{
               marginTop: 10,
-              borderRadius: 10
+              borderRadius: 10,
             }}
           >
-            <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 18 }}>
+            <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 18 }}>
               Login
             </Text>
           </Button>
@@ -81,14 +86,18 @@ export default class LoginScreen extends Component {
           </Button>
           <Button
             style={{
-              backgroundColor: "#00f",
+              backgroundColor: '#00f',
               marginBottom: 10,
-              borderRadius: 10
+              borderRadius: 10,
             }}
             full
+            onPress={()=>{
+              console.log('Clicado');
+              loginWithFacebook();
+            }}
           >
             <Icon type="FontAwesome" name="facebook" />
-            <Text style={{ color: "#fff", fontWeight: "bold" }}>
+            <Text style={{ color: '#fff', fontWeight: 'bold' }}>
               Login with facebook
             </Text>
           </Button>
@@ -96,29 +105,31 @@ export default class LoginScreen extends Component {
             full
             style={{
               borderRadius: 10,
-              backgroundColor: "#fff"
+              backgroundColor: '#fff',
             }}
           >
-            <Icon type="FontAwesome" name="google" style={{ color: "green" }} />
-            <Text style={{ color: "green", fontWeight: "bold" }}>
+            <Icon type="FontAwesome" name="google" style={{ color: 'green' }} />
+            <Text style={{ color: 'green', fontWeight: 'bold' }}>
               Login with google
             </Text>
           </Button>
         </Container>
         <Footer navigation={this.props.navigation} />
       </Container>
-    );
+    )
   }
 }
 
+export default withAuth(LoginScreen)
+
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "rgb(255,239,215)"
+    backgroundColor: 'rgb(255,239,215)',
   },
   conteudo: {
-    backgroundColor: "transparent",
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 1
-  }
-});
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+  },
+})
