@@ -118,7 +118,7 @@ export default class HomeScreen extends Component {
     return (
       <Container style={styles.container}>
         <Header searchBar rounded transparent>
-          <Item style={{ backgroundColor: "#fff" }}>
+          <Item style={styles.itemInput}>
             <Icon name="search" />
             <Input
               placeholder="busca por nome e/ou instrumento"
@@ -132,9 +132,7 @@ export default class HomeScreen extends Component {
           </Item>
         </Header>
 
-        <Content
-          contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
-        >
+        <Content contentContainerStyle={styles.content}>
           {this.state.users
             .filter(
               value =>
@@ -162,5 +160,12 @@ export default class HomeScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "rgb(255,239,215)"
+  },
+  itemInput: {
+    backgroundColor: "#fff"
+  },
+  content: {
+    flexDirection: "row",
+    flexWrap: "wrap"
   }
 });
