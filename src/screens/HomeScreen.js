@@ -16,7 +16,7 @@ export default class HomeScreen extends Component {
           imagem:
             "https://www.revistaplaneta.com.br/wp-content/uploads/sites/3/2017/05/15_pl530_pessoa.jpg",
           instrumento: "Bateria",
-          musicas: [],
+          repertorio: [],
           premium: true
         },
         {
@@ -24,7 +24,7 @@ export default class HomeScreen extends Component {
           nome: "Lina Garner",
           imagem: "",
           instrumento: "Cantora",
-          musicas: [],
+          repertorio: [],
           premium: false
         },
         {
@@ -33,7 +33,7 @@ export default class HomeScreen extends Component {
           imagem:
             "https://meapaixonei.com.br/wp-content/uploads/2017/10/sinais-que-comprovam-que-voce-tem-se-tornado-uma-pessoa-melhor-a-cada-dia.jpg",
           instrumento: "Cantora/Guitarra",
-          musicas: [],
+          repertorio: [],
           premium: false
         },
         {
@@ -41,7 +41,7 @@ export default class HomeScreen extends Component {
           nome: "Ann Hampton",
           imagem: "",
           instrumento: "Guitarra",
-          musicas: [],
+          repertorio: [],
           premium: true
         },
         {
@@ -49,7 +49,7 @@ export default class HomeScreen extends Component {
           nome: "Mary Fox",
           imagem: "",
           instrumento: "Baixo",
-          musicas: [],
+          repertorio: [],
           premium: false
         },
         {
@@ -57,7 +57,7 @@ export default class HomeScreen extends Component {
           nome: "Evelyn Franklin",
           imagem: "",
           instrumento: "Percussão",
-          musicas: [],
+          repertorio: [],
           premium: false
         },
         {
@@ -65,7 +65,7 @@ export default class HomeScreen extends Component {
           nome: "Luciano Júnior",
           imagem: "",
           instrumento: "Violão",
-          musicas: [
+          repertorio: [
             {
               musica: "Muito pra te dar",
               banda: "Magnificos",
