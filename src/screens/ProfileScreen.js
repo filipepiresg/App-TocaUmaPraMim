@@ -16,10 +16,46 @@ import { View, Image, StyleSheet, Text, Dimensions } from "react-native";
 
 import Footer from "../components/Footer";
 import perfil from "../img/perfil.png";
-import instrumento from "../img/violao.jpg";
+// import instrumento from "../img/violao.jpg";
 // import styles from './styles';
 
 const { width } = Dimensions.get("window");
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "rgb(255,239,215)"
+  },
+  contentMusicas: {
+    backgroundColor: "#fff"
+  },
+  subContainer: {
+    backgroundColor: "transparent",
+    marginHorizontal: 30
+  },
+  containerQtd: {
+    flex: 1,
+    justifyContent: "center",
+    flexWrap: "wrap"
+  },
+  itemBusca: {
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    marginVertical: 10
+  },
+  containerInfo: { flex: 1, flexDirection: "row" },
+  imgPerfil: {
+    width: width * 0.3,
+    height: width * 0.3,
+    borderRadius: (width * 0.3) / 2
+  },
+  containerPerfil: {
+    backgroundColor: "#fff",
+    alignItems: "center",
+    flex: 0.7,
+    paddingVertical: 10,
+    paddingHorizontal: 20
+  }
+});
 
 const contArtistas = (lista = [Object]) => {
   let qtdBandas = 0;
@@ -50,69 +86,37 @@ const contMusicas = (lista = [Object]) => {
   return qtdMusicas;
 };
 
-//
-const user = {
-  id: 7,
-  nome: "Luciano Júnior",
-  image: "",
-  instrumento: "Violão",
-  musicas: [
-    {
-      musica: "Muito pra te dar",
-      banda: "Magnificos",
-      ritmo: "Forró"
-    },
-    {
-      musica: "Disritmia",
-      banda: "Cartola",
-      ritmo: "Samba"
-    },
-    {
-      musica: "Mudar pra quê",
-      banda: "Os Nonatos",
-      ritmo: "Sertanejo"
-    },
-    {
-      musica: "Coração",
-      banda: "Dorgival Dantas",
-      ritmo: "Forró"
-    },
-    {
-      musica: "Nota Dez",
-      banda: "Xand Avião",
-      ritmo: "Forró"
-    },
-    {
-      musica: "Yellow",
-      banda: "Coldplay",
-      ritmo: "Rock"
-    },
-    {
-      musica: "Chorando Se Foi",
-      banda: "Calypson",
-      ritmo: "Lambada"
-    },
-    {
-      musica: "Mama",
-      banda: "Waleska Popozuda",
-      ritmo: "Funk"
-    }
-  ],
-  premium: true
-};
-
 export default class ProfileScreen extends Component {
   constructor(props) {
     super(props);
-    const user = this.props.navigation.getParam("user", {});
     this.state = {
-      nome: user.nome,
-      musicas: user.musicas,
-      instrumento: user.instrumento,
-      premium: user.premium,
-      id: user.id,
-      imagem: user.imagem
+      nome: "",
+      repertorio: [],
+      instrumento: "",
+      premium: false,
+      id: 0,
+      imagem: "",
+      busca: ""
     };
+  }
+
+  componentDidMount() {
+    const {
+      nome,
+      repertorio,
+      instrumento,
+      premium,
+      id,
+      imagem
+    } = this.props.navigation.getParam("user", {
+      nome: "",
+      musicas: [{ banda: "", musica: "", ritmo: "" }],
+      instrumento: "",
+      premiun: false,
+      id: 0,
+      imagem: ""
+    });
+    this.setState({ id, imagem, instrumento, repertorio, nome, premium });
   }
 
   render() {
@@ -125,8 +129,8 @@ export default class ProfileScreen extends Component {
           </Body>
           <Left />
         </Header>
-        <Container style={styles.containerProfile}>
-          <Container style={styles.subContainerPerfil}>
+        <Container style={styles.subContainer}>
+          <Container style={styles.containerPerfil}>
             <Image
               source={this.state.imagem ? { uri: this.state.imagem } : perfil}
               style={styles.imgPerfil}
@@ -136,11 +140,11 @@ export default class ProfileScreen extends Component {
             <Subtitle>{this.state.instrumento}</Subtitle>
             <View style={styles.containerInfo}>
               <View style={styles.containerQtd}>
-                <Title>{contArtistas(this.state.musicas)}</Title>
+                <Title>{contArtistas(this.state.repertorio)}</Title>
                 <Subtitle>qtd de artistas</Subtitle>
               </View>
               <View style={styles.containerQtd}>
-                <Title>{contMusicas(this.state.musicas)}</Title>
+                <Title>{contMusicas(this.state.repertorio)}</Title>
                 <Subtitle>qtd de artistas</Subtitle>
               </View>
             </View>
@@ -149,13 +153,28 @@ export default class ProfileScreen extends Component {
             <Icon name="search" />
             <Input
               placeholder="busca por música, ritmo e/ou banda"
-              onChangeText={busca => false}
+              onChangeText={busca => this.setState({ busca })}
             />
           </Item>
-          <Content style={styles.contentMusicas}>
-            {this.setState.musicas.forEach((item, index) => {
-              <Text key={index}>{JSON.stringify(item)}</Text>;
-            })}
+          <Content contentContainerStyle={styles.contentMusicas}>
+            {this.state.repertorio
+              .filter(
+                value =>
+                  value.musica
+                    .toLowerCase()
+                    .includes(this.state.busca.toLowerCase()) ||
+                  value.banda
+                    .toLowerCase()
+                    .includes(this.state.busca.toLowerCase()) ||
+                  value.ritmo
+                    .toLowerCase()
+                    .includes(this.state.busca.toLowerCase())
+              )
+              .map(item => (
+                <Text key={item.musica} style={{ padding: 5 }}>{`${
+                  item.musica
+                } - ${item.banda} - ${item.ritmo}`}</Text>
+              ))}
           </Content>
         </Container>
         <Footer navigation={this.props.navigation} />
@@ -163,40 +182,3 @@ export default class ProfileScreen extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "rgb(255,239,215)"
-  },
-  contentMusicas: {
-    marginTop: 10,
-    backgroundColor: "#fff"
-  },
-  containerProfile: {
-    backgroundColor: "transparent",
-    marginHorizontal: 30
-  },
-  containerQtd: {
-    flex: 1,
-    justifyContent: "center",
-    flexWrap: "wrap"
-  },
-  itemBusca: {
-    backgroundColor: "#fff",
-    borderRadius: 20
-  },
-  containerInfo: { flex: 1, flexDirection: "row" },
-  imgPerfil: {
-    width: width * 0.3,
-    height: width * 0.3,
-    borderRadius: (width * 0.3) / 2
-  },
-  subContainerPerfil: {
-    backgroundColor: "#fff",
-    alignItems: "center",
-    flex: 0.7,
-    marginVertical: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 20
-  }
-});
