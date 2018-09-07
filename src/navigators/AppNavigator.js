@@ -1,7 +1,12 @@
-import { createStackNavigator } from 'react-navigation'
-import { HomeScreen, ProfileScreen } from '../screens'
+import { createStackNavigator } from "react-navigation";
+import { ExploreScreen, ProfileScreen } from "../screens";
 
-export default createStackNavigator({
-  Home: HomeScreen,
-  Profile: ProfileScreen
-})
+export default createStackNavigator(
+  {
+    Explore: ExploreScreen,
+    Profile: ProfileScreen
+  },
+  {
+    headerMode: "none"
+  }
+);

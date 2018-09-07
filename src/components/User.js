@@ -8,7 +8,7 @@ const { width, height } = Dimensions.get("window");
 
 const User = ({ user, navigation }) => (
   <TouchableOpacity
-    onPress={() => navigation.navigate("Profile", { user: user })}
+    onPress={() => navigation.navigate("Profile", { user, back: true })}
   >
     <View
       style={[
@@ -17,7 +17,7 @@ const User = ({ user, navigation }) => (
       ]}
     >
       <Thumbnail
-        source={user.imagem ? { uri: user.imagem } : perfil}
+        source={user.imgProfile ? { uri: user.imgProfile } : perfil}
         large
         style={styles.imagem}
       />
@@ -31,10 +31,10 @@ const User = ({ user, navigation }) => (
           }
         ]}
       >
-        {user.nome}
+        {user.name}
       </Text>
       <Text style={[styles.txt, { color: user.premium ? "#fff" : "#000" }]}>
-        {user.instrumento}
+        {user.instrument}
       </Text>
     </View>
   </TouchableOpacity>

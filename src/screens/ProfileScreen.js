@@ -5,19 +5,19 @@ import {
   Content,
   Title,
   Subtitle,
+  H1,
   Right,
   Body,
   Left,
   Item,
   Input,
-  Icon
+  Icon,
+  Button
 } from "native-base";
 import { View, Image, StyleSheet, Text, Dimensions } from "react-native";
 
 import Footer from "../components/Footer";
-import perfil from "../img/perfil.png";
-// import instrumento from "../img/violao.jpg";
-// import styles from './styles';
+import imgDefault from "../img/perfil.png";
 
 const { width } = Dimensions.get("window");
 
@@ -25,24 +25,31 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "rgb(255,239,215)"
   },
-  contentMusicas: {
+  content: {
     backgroundColor: "#fff"
+  },
+  inputSearch: {
+    textAlign: "center",
+    fontSize: 16
   },
   subContainer: {
     backgroundColor: "transparent",
     marginHorizontal: 30
   },
-  containerQtd: {
+  typeInfo: {
     flex: 1,
-    justifyContent: "center",
-    flexWrap: "wrap"
+    alignItems: "center"
   },
-  itemBusca: {
+  itemSearch: {
     backgroundColor: "#fff",
     borderRadius: 20,
     marginVertical: 10
   },
-  containerInfo: { flex: 1, flexDirection: "row" },
+  containerInfo: {
+    flex: 1,
+    flexDirection: "row",
+    marginTop: 10
+  },
   imgPerfil: {
     width: width * 0.3,
     height: width * 0.3,
@@ -54,130 +61,142 @@ const styles = StyleSheet.create({
     flex: 0.7,
     paddingVertical: 10,
     paddingHorizontal: 20
+  },
+  txtInfo: {
+    textAlign: "center",
+    color: "#ccc"
   }
 });
 
-const contArtistas = (lista = [Object]) => {
+const amountArtists = (inventory = []) => {
   let qtdBandas = 0;
-  if (lista.length > 0) {
-    const bandas = [];
-    lista.forEach(item => {
-      if (!bandas.includes(item.banda)) {
-        bandas.push(item.banda);
+  if (inventory.length > 0) {
+    const groups = [];
+    inventory.forEach(item => {
+      if (item.group && !groups.includes(item.group)) {
+        groups.push(item.group);
       }
     });
-    qtdBandas = bandas.length;
+    qtdBandas = groups.length;
   }
   return qtdBandas;
 };
 
-const contMusicas = (lista = [Object]) => {
-  // console.log(lista.musicas);
-  let qtdMusicas = 0;
-  if (lista.length > 0) {
-    const musicas = [];
-    lista.forEach(item => {
-      if (!musicas.includes(item.musica)) {
-        musicas.push(item.musica);
+const amountRitmos = (inventory = []) => {
+  let amountRitmo = 0;
+  if (inventory.length > 0) {
+    const ritmos = [];
+    inventory.forEach(item => {
+      if (item.ritmo && !ritmos.includes(item.ritmo)) {
+        ritmos.push(item.ritmo);
       }
     });
-    qtdMusicas = musicas.length;
+    amountRitmo = ritmos.length;
   }
-  return qtdMusicas;
+  return amountRitmo;
 };
 
 export default class ProfileScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      nome: "",
-      repertorio: [],
-      instrumento: "",
+      name: "",
+      inventory: [],
+      instrument: "",
       premium: false,
-      id: 0,
-      imagem: "",
-      busca: ""
+      imgProfile: "",
+      search: ""
     };
+    // this.receiveUser(this.props.navigation);
   }
 
   componentDidMount() {
+    const { navigation } = this.props;
     const {
-      nome,
-      repertorio,
-      instrumento,
+      name,
+      inventory,
+      instrument,
       premium,
-      id,
-      imagem
-    } = this.props.navigation.getParam("user", {
-      nome: "",
-      musicas: [{ banda: "", musica: "", ritmo: "" }],
-      instrumento: "",
+      imgProfile
+    } = navigation.getParam("user", {
+      name: "",
+      inventory: [],
+      instrument: "",
       premiun: false,
-      id: 0,
-      imagem: ""
+      imgProfile: ""
     });
-    this.setState({ id, imagem, instrumento, repertorio, nome, premium });
+    this.setState({ imgProfile, instrument, inventory, name, premium });
   }
 
   render() {
+    const { imgProfile, instrument, name, inventory, search } = this.state;
+    const { navigation } = this.props;
     return (
       <Container style={styles.container}>
         <Header transparent>
-          <Right />
+          {navigation.getParam("back", false) ? (
+            <Left>
+              <Button onPress={() => navigation.goBack()} transparent>
+                <Icon type="FontAwesome" name="angle-left" />
+              </Button>
+            </Left>
+          ) : (
+            <Left />
+          )}
           <Body>
             <Title>Profile</Title>
           </Body>
-          <Left />
+          <Right />
         </Header>
         <Container style={styles.subContainer}>
           <Container style={styles.containerPerfil}>
             <Image
-              source={this.state.imagem ? { uri: this.state.imagem } : perfil}
+              source={imgProfile ? { uri: imgProfile } : imgDefault}
               style={styles.imgPerfil}
               resizeMode="cover"
             />
-            <Title>{this.state.nome}</Title>
-            <Subtitle>{this.state.instrumento}</Subtitle>
+            <Title>{name}</Title>
+            <Subtitle>{instrument}</Subtitle>
             <View style={styles.containerInfo}>
-              <View style={styles.containerQtd}>
-                <Title>{contArtistas(this.state.repertorio)}</Title>
-                <Subtitle>qtd de artistas</Subtitle>
+              <View style={styles.typeInfo}>
+                <H1>{inventory ? inventory.length : 0}</H1>
+                <Text style={styles.txtInfo}>músicas diferentes</Text>
               </View>
-              <View style={styles.containerQtd}>
-                <Title>{contMusicas(this.state.repertorio)}</Title>
-                <Subtitle>qtd de artistas</Subtitle>
+              <View style={styles.typeInfo}>
+                <H1>{amountArtists(inventory)}</H1>
+                <Text style={styles.txtInfo}>artistas diferentes</Text>
+              </View>
+              <View style={styles.typeInfo}>
+                <H1>{amountRitmos(inventory)}</H1>
+                <Text style={styles.txtInfo}>ritmos diferentes</Text>
               </View>
             </View>
           </Container>
-          <Item style={styles.itemBusca}>
-            <Icon name="search" />
+          <Item style={styles.itemSearch}>
             <Input
               placeholder="busca por música, ritmo e/ou banda"
-              onChangeText={busca => this.setState({ busca })}
+              autoCorrect={false}
+              underlineColorAndroid="transparent"
+              style={styles.inputSearch}
+              onChangeText={search => this.setState({ search })}
             />
           </Item>
-          <Content contentContainerStyle={styles.contentMusicas}>
-            {this.state.repertorio
+          <Content contentContainerStyle={styles.content}>
+            {inventory
               .filter(
                 value =>
-                  value.musica
-                    .toLowerCase()
-                    .includes(this.state.busca.toLowerCase()) ||
-                  value.banda
-                    .toLowerCase()
-                    .includes(this.state.busca.toLowerCase()) ||
-                  value.ritmo
-                    .toLowerCase()
-                    .includes(this.state.busca.toLowerCase())
+                  value.music.toLowerCase().includes(search.toLowerCase()) ||
+                  value.group.toLowerCase().includes(search.toLowerCase()) ||
+                  value.ritmo.toLowerCase().includes(search.toLowerCase())
               )
               .map(item => (
-                <Text key={item.musica} style={{ padding: 5 }}>{`${
-                  item.musica
-                } - ${item.banda} - ${item.ritmo}`}</Text>
+                <Text key={item.music} style={{ padding: 5 }}>{`${
+                  item.music
+                } - ${item.group} - ${item.ritmo}`}</Text>
               ))}
           </Content>
         </Container>
-        <Footer navigation={this.props.navigation} />
+        <Footer navigation={navigation} />
       </Container>
     );
   }

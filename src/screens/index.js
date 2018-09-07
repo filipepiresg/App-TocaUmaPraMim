@@ -1,7 +1,13 @@
-import HomeScreen from './HomeScreen'
-import LoginScreen from './LoginScreen'
-import ProfileScreen from './ProfileScreen'
-import AuthLoadingScreen from './AuthLoadingScreen'
-import InfoScreen from './InfoScreen'
+import ExploreScreen from "./ExploreScreen";
+import LoginScreen from "./LoginScreen";
+import ProfileScreen from "./ProfileScreen";
+import AuthLoadingScreen from "./AuthLoadingScreen";
+import InfoScreen from "./InfoScreen";
 
-export { HomeScreen, LoginScreen, ProfileScreen, AuthLoadingScreen, InfoScreen }
+export {
+  ExploreScreen,
+  LoginScreen,
+  ProfileScreen,
+  AuthLoadingScreen,
+  InfoScreen
+};

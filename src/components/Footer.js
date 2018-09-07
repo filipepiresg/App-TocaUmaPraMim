@@ -7,17 +7,17 @@ import { Footer, FooterTab, Button, Icon } from "native-base";
 const Footers = ({ navigation }) => (
   <Footer style={{ backgroundColor: "rgb(72,186,196)" }}>
     <FooterTab>
-      <Button full onPress={() => navigation.navigate("Home")}>
+      <Button full onPress={() => navigation.navigate("Explore")}>
         <Icon type="FontAwesome" name="home" style={{ color: "#FFF" }} />
       </Button>
     </FooterTab>
     <FooterTab>
-      <Button full onPress={() => navigation.navigate("ExplorerScreen")}>
+      <Button full onPress={() => navigation.navigate("Explore")}>
         <Icon type="FontAwesome" name="globe" style={{ color: "#FFF" }} />
       </Button>
     </FooterTab>
     <FooterTab>
-      <Button full onPress={() => navigation.navigate("Profile", { user: {} })}>
+      <Button full onPress={() => navigation.push("Profile")}>
         <Icon type="FontAwesome" name="user" style={{ color: "#FFF" }} />
       </Button>
     </FooterTab>
