@@ -1,12 +1,13 @@
-import { createStackNavigator } from 'react-navigation'
-import { LoginScreen, InfoScreen } from '../screens'
+import { createStackNavigator } from "react-navigation";
+import { LoginScreen, InfoScreen, InitialLoginScreen } from "../screens";
 
 export default createStackNavigator(
   {
-    Login: LoginScreen,
-    Info: InfoScreen,
+    // Login: LoginScreen,
+    Login: InitialLoginScreen,
+    Info: InfoScreen
   },
   {
-    initialRouteName: 'Login',
+    initialRouteName: "Login"
   }
-)
+);
