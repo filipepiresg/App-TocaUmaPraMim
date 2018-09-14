@@ -17,7 +17,7 @@ const User = ({ user, navigation }) => (
       ]}
     >
       <Thumbnail
-        source={user.imgProfile ? { uri: user.imgProfile } : perfil}
+        source={user.picture ? { uri: user.picture } : perfil}
         large
         style={styles.imagem}
       />

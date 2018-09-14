@@ -104,7 +104,7 @@ export default class ProfileScreen extends Component {
       inventory: [],
       instrument: "",
       premium: false,
-      imgProfile: "",
+      picture: "",
       search: ""
     };
     // this.receiveUser(this.props.navigation);
@@ -117,19 +117,19 @@ export default class ProfileScreen extends Component {
       inventory,
       instrument,
       premium,
-      imgProfile
+      picture
     } = navigation.getParam("user", {
       name: "",
-      inventory: [],
+      inventory: "",
       instrument: "",
       premiun: false,
-      imgProfile: ""
+      picture: ""
     });
-    this.setState({ imgProfile, instrument, inventory, name, premium });
+    this.setState({ picture, instrument, inventory, name, premium });
   }
 
   render() {
-    const { imgProfile, instrument, name, inventory, search } = this.state;
+    const { picture, instrument, name, inventory, search } = this.state;
     const { navigation } = this.props;
     return (
       <Container style={styles.container}>
@@ -151,7 +151,7 @@ export default class ProfileScreen extends Component {
         <Container style={styles.subContainer}>
           <Container style={styles.containerPerfil}>
             <Image
-              source={imgProfile ? { uri: imgProfile } : imgDefault}
+              source={picture ? { uri: picture } : imgDefault}
               style={styles.imgPerfil}
               resizeMode="cover"
             />
@@ -163,11 +163,11 @@ export default class ProfileScreen extends Component {
                 <Text style={styles.txtInfo}>músicas diferentes</Text>
               </View>
               <View style={styles.typeInfo}>
-                <H1>{amountArtists(inventory)}</H1>
+                <H1>{/* amountArtists(inventory) */ 0}</H1>
                 <Text style={styles.txtInfo}>artistas diferentes</Text>
               </View>
               <View style={styles.typeInfo}>
-                <H1>{amountRitmos(inventory)}</H1>
+                <H1>{/* amountRitmos(inventory) */ 0}</H1>
                 <Text style={styles.txtInfo}>ritmos diferentes</Text>
               </View>
             </View>
@@ -182,7 +182,8 @@ export default class ProfileScreen extends Component {
             />
           </Item>
           <Content contentContainerStyle={styles.content}>
-            {inventory
+            {console.log(this.state)
+            /* inventory
               .filter(
                 value =>
                   value.music.toLowerCase().includes(search.toLowerCase()) ||
@@ -193,7 +194,8 @@ export default class ProfileScreen extends Component {
                 <Text key={item.music} style={{ padding: 5 }}>{`${
                   item.music
                 } - ${item.group} - ${item.ritmo}`}</Text>
-              ))}
+              )) */
+            }
           </Content>
         </Container>
         <Footer navigation={navigation} />
