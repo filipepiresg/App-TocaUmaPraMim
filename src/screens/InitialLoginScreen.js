@@ -5,7 +5,6 @@ import {
   Container,
   Button,
   Icon,
-  Footer,
   Content,
   Body,
   Thumbnail,
@@ -14,9 +13,46 @@ import {
   Text
 } from "native-base";
 
+import Footer from "../components/Footer";
 import Logo from "../img/logo.png";
 
 const { width } = Dimensions.get("window");
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "rgb(255,239,215)"
+  },
+  subContainer: {
+    marginTop: 20,
+    flexDirection: "row",
+    flex: 1
+  },
+  thumbnailLogo: {
+    width: width * 0.5,
+    height: width * 0.5,
+    marginBottom: 30
+  },
+  txt: {
+    textAlign: "center",
+    fontWeight: "bold"
+  },
+  containerCadastro: {
+    paddingLeft: 10,
+    flex: 1,
+    justifyContent: "space-between",
+    paddingVertical: 10
+  },
+  containerBusca: {
+    paddingRight: 10,
+    flex: 1,
+    borderRightWidth: 2,
+    borderColor: "rgb(97,197,207)",
+    justifyContent: "space-between",
+    paddingVertical: 10
+  },
+  btn: {
+    justifyContent: "flex-start"
+  }
+});
 
 export default class InitialLoginScreen extends Component {
   constructor(props) {
@@ -28,6 +64,7 @@ export default class InitialLoginScreen extends Component {
 
   render() {
     const { search } = this.state;
+    const { navigation } = this.props;
     return (
       <Container style={styles.container}>
         <Content padder>
@@ -96,45 +133,8 @@ export default class InitialLoginScreen extends Component {
             </View>
           </Body>
         </Content>
-        <Footer />
+        <Footer navigation={navigation} />
       </Container>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "rgb(255,239,215)"
-  },
-  subContainer: {
-    marginTop: 20,
-    flexDirection: "row",
-    flex: 1
-  },
-  thumbnailLogo: {
-    width: width * 0.5,
-    height: width * 0.5,
-    marginBottom: 30
-  },
-  txt: {
-    textAlign: "center",
-    fontWeight: "bold"
-  },
-  containerCadastro: {
-    paddingLeft: 10,
-    flex: 1,
-    justifyContent: "space-between",
-    paddingVertical: 10
-  },
-  containerBusca: {
-    paddingRight: 10,
-    flex: 1,
-    borderRightWidth: 2,
-    borderColor: "rgb(97,197,207)",
-    justifyContent: "space-between",
-    paddingVertical: 10
-  },
-  btn: {
-    justifyContent: "flex-start"
-  }
-});
