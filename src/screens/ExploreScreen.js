@@ -1,15 +1,15 @@
+import firebase from "firebase";
+import { Container, Content, Header, Icon, Input, Item } from "native-base";
 import React, { Component } from "react";
 import { StyleSheet } from "react-native";
-import { Container, Content, Header, Icon, Input, Item } from "native-base";
-
-import User from "../components/User";
 import Footer from "../components/Footer";
+import User from "../components/User";
 
-const usersCreated = [
+/* const usersCreated = [
   {
     id: 0,
     name: "Henry Greene",
-    imgProfile:
+    profile:
       "https://www.revistaplaneta.com.br/wp-content/uploads/sites/3/2017/05/15_pl530_pessoa.jpg",
     instrument: "Bateria",
     inventory: [],
@@ -18,7 +18,7 @@ const usersCreated = [
   {
     id: 1,
     name: "Lina Garner",
-    imgProfile: "",
+    profile: "",
     instrument: "Cantora",
     inventory: [],
     premium: false
@@ -26,7 +26,7 @@ const usersCreated = [
   {
     id: 3,
     name: "Theresa Bridges",
-    imgProfile:
+    profile:
       "https://meapaixonei.com.br/wp-content/uploads/2017/10/sinais-que-comprovam-que-voce-tem-se-tornado-uma-pessoa-melhor-a-cada-dia.jpg",
     instrument: "Cantora/Guitarra",
     inventory: [],
@@ -35,7 +35,7 @@ const usersCreated = [
   {
     id: 4,
     name: "Ann Hampton",
-    imgProfile: "",
+    profile: "",
     instrument: "Guitarra",
     inventory: [],
     premium: true
@@ -43,7 +43,7 @@ const usersCreated = [
   {
     id: 5,
     name: "Mary Fox",
-    imgProfile: "",
+    profile: "",
     instrument: "Baixo",
     inventory: [],
     premium: false
@@ -51,7 +51,7 @@ const usersCreated = [
   {
     id: 6,
     name: "Evelyn Franklin",
-    imgProfile: "",
+    profile: "",
     instrument: "Percussão",
     inventory: [],
     premium: false
@@ -59,7 +59,7 @@ const usersCreated = [
   {
     id: 7,
     name: "Luciano Júnior",
-    imgProfile: "",
+    profile: "",
     instrument: "Violão",
     inventory: [
       {
@@ -105,15 +105,35 @@ const usersCreated = [
     ],
     premium: true
   }
-];
+]; */
 
 export default class ExploreScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      users: usersCreated,
+      users: [],
       search: ""
     };
+    this.retrieveDataUsers();
+  }
+
+  /**
+   * Retorna todos os usuarios cadastrados no database do firebase
+   */
+  async retrieveDataUsers() {
+    const dbUsers = firebase
+      .database()
+      .ref("users")
+      .orderByChild("name");
+    await dbUsers.on("value", snapshot => {
+      const dataUsers = [];
+      if (snapshot.val()) {
+        Object.getOwnPropertyNames(snapshot.val()).forEach(key => {
+          dataUsers.push(snapshot.val()[key]);
+        });
+      }
+      this.setState({ users: dataUsers });
+    });
   }
 
   render() {
@@ -131,21 +151,14 @@ export default class ExploreScreen extends Component {
               autoCapitalize="none"
               autoCorrect={false}
               keyboardType="name-phone-pad"
-              // underlineColorAndroid='transparent'
             />
           </Item>
         </Header>
 
         <Content contentContainerStyle={styles.content}>
-          {users
-            .filter(
-              value =>
-                value.name.toLowerCase().includes(search.toLowerCase()) ||
-                value.instrument.toLowerCase().includes(search.toLowerCase())
-            )
-            .map(user => (
-              <User key={user.id} user={user} back navigation={navigation} />
-            ))}
+          {users.map((user, index) => (
+            <User key={index} user={user} back navigation={navigation} />
+          ))}
         </Content>
         <Footer navigation={navigation} />
       </Container>
