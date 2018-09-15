@@ -4,7 +4,7 @@ import { LoginScreen, InfoScreen, InitialLoginScreen } from "../screens";
 export default createStackNavigator(
   {
     // Login: LoginScreen,
-    Login: InitialLoginScreen,
+    Login: LoginScreen,
     Info: InfoScreen
   },
   {
