@@ -34,7 +34,9 @@ const User = ({ user, navigation }) => (
         {user.name}
       </Text>
       <Text style={[styles.txt, { color: user.premium ? "#fff" : "#000" }]}>
-        {user.instrument}
+        {user.instruments && user.instruments.length > 0
+          ? user.instruments[0]
+          : ""}
       </Text>
     </View>
   </TouchableOpacity>
