@@ -1,135 +1,198 @@
-import React, { Component } from 'react'
-import { View, Text, StyleSheet, Image, Dimensions } from 'react-native'
+import * as firebase from "firebase";
+import React, { Component } from "react";
+import { View, StyleSheet, Dimensions, AsyncStorage } from "react-native";
 import {
   Container,
-  Header,
   Button,
-  Input,
-  Form,
-  Item,
-  Content,
-  Label,
   Icon,
+  Content,
+  Body,
   Thumbnail,
-} from 'native-base'
+  Item,
+  Input,
+  Text
+} from "native-base";
+import Expo from "expo";
 
-import withAuth from '../components/hocs/withAuth'
+import Footer from "../components/Footer";
+import Logo from "../img/logo.png";
 
-import Footer from '../components/Footer'
-// import styles from './styles';
-import logo from '../img/logo.png'
+const { width } = Dimensions.get("window");
+const fbID = "2185612565044522";
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "rgb(255,239,215)"
+  },
+  subContainer: {
+    marginTop: 20,
+    flexDirection: "row",
+    flex: 1
+  },
+  thumbnailLogo: {
+    width: width * 0.5,
+    height: width * 0.5,
+    marginBottom: 30
+  },
+  txt: {
+    textAlign: "center",
+    fontWeight: "bold"
+  },
+  containerCadastro: {
+    paddingLeft: 10,
+    flex: 1,
+    justifyContent: "space-between",
+    paddingVertical: 10
+  },
+  containerBusca: {
+    paddingRight: 10,
+    flex: 1,
+    borderRightWidth: 2,
+    borderColor: "rgb(97,197,207)",
+    justifyContent: "space-between",
+    paddingVertical: 10
+  },
+  btn: {
+    justifyContent: "flex-start"
+  }
+});
 
-const { width, height } = Dimensions.get('window')
-
-class LoginScreen extends Component {
+export default class LoginScreen extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      email: '',
-      senha: '',
+      search: ""
+    };
+  }
+
+  /**
+   * faz o login com as credenciais do facebook
+   */
+  async loginFb() {
+    const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(
+      fbID,
+      { permissions: ["public_profile", "email"] }
+    );
+    if (type === "success") {
+      const response = await fetch(
+        `https://graph.facebook.com/me?access_token=${token}&fields=id,name,email,about,picture`
+      );
+
+      const { id } = await response.json();
+      const { navigation } = this.props;
+      try {
+        const dbUsers = await firebase.database().ref("users");
+        firebase.auth().languageCode = "pt-BR";
+        const {
+          user
+        } = await firebase
+          .auth()
+          .signInAndRetrieveDataWithCredential(
+            firebase.auth.FacebookAuthProvider.credential(token)
+          );
+        dbUsers.once('value', snapshot => {
+          if(!snapshot.val() || !Object.getOwnPropertyNames(snapshot.val()).includes(user.uid) ) {
+            this.createUserDb(id, user);
+          }
+        })
+        navigation.navigate("Explore");
+      } catch (error) {
+        console.error(error);
+      }
     }
   }
 
+  /**
+   * cria o usuario no banco de dados realtime database do firebase
+   */
+  createUserDb = (id=String, user=Object) => {
+    const dbUsers = firebase.database().ref("users");
+    const dataUser = {
+      name: user.displayName,
+      email: user.email,
+      picture: `https://graph.facebook.com/${id}/picture`,
+      instruments: [],
+      inventory: [],
+      premium: false,
+      visible: true
+    };
+    // esta sendo criado o usuario no database
+    // colocar na page de criacao do perfil
+    dbUsers.child(`${user.uid}`).set({
+      ...dataUser
+    });
+  }
+
   render() {
-
-    const { loginWithFacebook } = this.props;
-
+    const { search } = this.state;
+    const { navigation } = this.props;
     return (
       <Container style={styles.container}>
-        <Header transparent />
-        <Container
-          style={{ marginHorizontal: 20, backgroundColor: 'transparent' }}
-        >
-          <Thumbnail
-            source={logo}
-            square
-            style={{
-              width: width / 2,
-              height: height / 4,
-              alignSelf: 'center',
-            }}
-            resizeMode="contain"
-          />
-          <Form>
-            <Item
-              floatingLabel
-              // style={{ backgroundColor: "#fff" }}
-            >
-              <Label>e-mail</Label>
-              <Input onChangeText={email => this.setState({ email })} />
-            </Item>
-            <Item
-              floatingLabel
-              // style={{ backgroundColor: "#fff" }}
-            >
-              <Label>senha</Label>
-              <Input
-                secureTextEntry
-                onChangeText={senha => this.setState({ senha })}
-              />
-            </Item>
-          </Form>
-          <Button
-            success
-            full
-            style={{
-              marginTop: 10,
-              borderRadius: 10,
-            }}
-          >
-            <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 18 }}>
-              Login
+        <Content padder>
+          <Body>
+            <Thumbnail source={Logo} style={styles.thumbnailLogo} square />
+            <Text style={[styles.txt, { marginVertical: 30, fontSize: 19 }]}>
+              Compartilhe as músicas que você sabe e descubra quais seus amigos
+              tocam!
             </Text>
-          </Button>
-          <Button transparent full>
-            <Text>Cadastre-se clicando aqui</Text>
-          </Button>
-          <Button
-            style={{
-              backgroundColor: '#00f',
-              marginBottom: 10,
-              borderRadius: 10,
-            }}
-            full
-            onPress={()=>{
-              console.log('Clicado');
-              loginWithFacebook();
-            }}
-          >
-            <Icon type="FontAwesome" name="facebook" />
-            <Text style={{ color: '#fff', fontWeight: 'bold' }}>
-              Login with facebook
-            </Text>
-          </Button>
-          <Button
-            full
-            style={{
-              borderRadius: 10,
-              backgroundColor: '#fff',
-            }}
-          >
-            <Icon type="FontAwesome" name="google" style={{ color: 'green' }} />
-            <Text style={{ color: 'green', fontWeight: 'bold' }}>
-              Login with google
-            </Text>
-          </Button>
-        </Container>
-        <Footer navigation={this.props.navigation} />
+            <View style={styles.subContainer}>
+              <View style={styles.containerBusca}>
+                <Text style={[styles.txt, { fontWeight: "100" }]}>
+                  Veja o repertório de alguém
+                </Text>
+                <Button
+                  block
+                  iconLeft
+                  style={[
+                    styles.btn,
+                    { backgroundColor: "rgb(97,197,207)", marginVertical: 10 }
+                  ]}
+                >
+                  <Icon type="FontAwesome" name="camera" />
+                  <Text>Tag Friend</Text>
+                </Button>
+                <Item>
+                  <Input
+                    placeholder="Digite o usuario"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    style={{
+                      borderWidth: 2,
+                      borderColor: "rgb(97,197,207)",
+                      backgroundColor: "#fff"
+                    }}
+                    value={search}
+                    onChangeText={txt => this.setState({ search: txt })}
+                    returnKeyType="search"
+                  />
+                </Item>
+              </View>
+              <View style={styles.containerCadastro}>
+                <Text style={[styles.txt, { fontWeight: "100" }]}>
+                  Você é músico?
+                </Text>
+                <Button
+                  block
+                  iconLeft
+                  onPress={() => this.loginFb()}
+                  style={[styles.btn, { backgroundColor: "rgb(80,114,166)" }]}
+                >
+                  <Icon type="FontAwesome" name="facebook" />
+                  {/* <Text style={{ fontSize: 12 }}>logar com facebook</Text> */}
+                </Button>
+                <Button
+                  block
+                  iconLeft
+                  style={[styles.btn, { backgroundColor: "rgb(28,117,202)" }]}
+                >
+                  <Icon type="FontAwesome" name="google" />
+                  {/* <Text style={{ fontSize: 12 }}>logar com google</Text> */}
+                </Button>
+              </View>
+            </View>
+          </Body>
+        </Content>
+        <Footer navigation={navigation} />
       </Container>
-    )
+    );
   }
 }
-
-export default withAuth(LoginScreen)
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'rgb(255,239,215)',
-  },
-  conteudo: {
-    backgroundColor: 'transparent',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-  },
-})
