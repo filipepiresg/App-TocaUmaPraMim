@@ -182,8 +182,7 @@ export default class ProfileScreen extends Component {
             />
           </Item>
           <Content contentContainerStyle={styles.content}>
-            {console.log(this.state)
-            /* inventory
+            {/*inventory
               .filter(
                 value =>
                   value.music.toLowerCase().includes(search.toLowerCase()) ||
@@ -194,8 +193,7 @@ export default class ProfileScreen extends Component {
                 <Text key={item.music} style={{ padding: 5 }}>{`${
                   item.music
                 } - ${item.group} - ${item.ritmo}`}</Text>
-              )) */
-            }
+              )) */}
           </Content>
         </Container>
         <Footer navigation={navigation} />
