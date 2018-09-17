@@ -18,6 +18,7 @@ import { View, Image, StyleSheet, Text, Dimensions } from "react-native";
 
 import Footer from "../components/Footer";
 import imgDefault from "../img/perfil.png";
+import MusicRegistrationScreen from "./MusicRegistrationScreen";
 
 const { width } = Dimensions.get("window");
 
@@ -43,7 +44,8 @@ const styles = StyleSheet.create({
   itemSearch: {
     backgroundColor: "#fff",
     borderRadius: 20,
-    marginVertical: 10
+    marginVertical: 10,
+    flex: 1
   },
   containerInfo: {
     flex: 1,
@@ -172,14 +174,21 @@ export default class ProfileScreen extends Component {
               </View>
             </View>
           </Container>
-          <Item style={styles.itemSearch}>
-            <Input
-              placeholder="busca por música, ritmo e/ou banda"
-              autoCorrect={false}
-              underlineColorAndroid="transparent"
-              style={styles.inputSearch}
-              onChangeText={search => this.setState({ search })}
-            />
+          <Item>
+              <Icon type="FontAwesome"
+                    name="plus"
+                    style={{ color: "#11841a" }}
+                    onPress={() => navigation.navigate("MusicRegistration")}
+              />
+              <Item style={styles.itemSearch}>
+                  <Input
+                      placeholder="busca por música, ritmo e/ou banda"
+                      autoCorrect={false}
+                      underlineColorAndroid="transparent"
+                      style={styles.inputSearch}
+                      onChangeText={search => this.setState({ search })}
+                  />
+              </Item>
           </Item>
           <Content contentContainerStyle={styles.content}>
             {/*inventory

@@ -7,6 +7,6 @@ export default class InfoScreen extends Component {
       <View>
         <Text>InfoScreen</Text>
       </View>
-    )
+    );
   }
 }
