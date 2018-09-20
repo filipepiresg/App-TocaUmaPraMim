@@ -3,6 +3,7 @@ import * as firebase from "firebase";
 
 import { MainNavigator } from "./src/navigators";
 import "./ReactotronConfig";
+import { Spinner, Root } from "native-base";
 
 export default class App extends React.Component {
 
@@ -11,10 +12,12 @@ export default class App extends React.Component {
       'Roboto': require('native-base/Fonts/Roboto.ttf'),
       'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
     });
+    this.setState({ loading: false });
   }
   
   constructor(props) {
     super(props);
+    this.state = { loading: true };
     const firebaseConfig = {
       apiKey: "AIzaSyBUg1w5wWR2DttpKi5WKC3MTftqqlVbKZs",
       authDomain: "tupm-app.firebaseapp.com",
@@ -27,6 +30,17 @@ export default class App extends React.Component {
   }
 
   render() {
-    return <MainNavigator />;
+    if (this.state.loading) {
+        return (
+            <Root>
+                <Spinner />
+            </Root>
+        );
+    }
+    return (
+        <Root>
+            <MainNavigator />
+        </Root>
+    );
   }
 }

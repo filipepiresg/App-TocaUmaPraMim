@@ -30,8 +30,9 @@
   "dependencies": {
     "expo": "^27.0.1",
     "firebase": "^5.4.2",
+    "lodash": "^4.17.11",
     "native-base": "^2.8.0",
-    "react": "16.3.1",
+    "prop-types": "^15.6.2",
     "react-native": "~0.55.2",
     "react-native-material-dropdown": "^0.11.1",
     "react-navigation": "^2.12.1"

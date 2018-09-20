@@ -19,6 +19,7 @@ import { View, Image, StyleSheet, Text, Dimensions } from "react-native";
 import Footer from "../components/Footer";
 import imgDefault from "../img/perfil.png";
 import MusicRegistrationScreen from "./MusicRegistrationScreen";
+import DebouncedInputComponent from "../components/DebouncedInput";
 
 const { width } = Dimensions.get("window");
 
@@ -130,6 +131,10 @@ export default class ProfileScreen extends Component {
     this.setState({ picture, instrument, inventory, name, premium });
   }
 
+  searchSong = (search) => {
+    this.setState({ search })
+  }
+
   render() {
     const { picture, instrument, name, inventory, search } = this.state;
     const { navigation } = this.props;
@@ -181,12 +186,10 @@ export default class ProfileScreen extends Component {
                     onPress={() => navigation.navigate("MusicRegistration")}
               />
               <Item style={styles.itemSearch}>
-                  <Input
+                  <DebouncedInputComponent
                       placeholder="busca por música, ritmo e/ou banda"
-                      autoCorrect={false}
-                      underlineColorAndroid="transparent"
+                      updateText={this.searchSong}
                       style={styles.inputSearch}
-                      onChangeText={search => this.setState({ search })}
                   />
               </Item>
           </Item>
