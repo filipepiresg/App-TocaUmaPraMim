@@ -12,12 +12,18 @@ const _loginWithFacebook = async () => {
     const credential = firebase.auth.FacebookAuthProvider.credential(token);
 
     // Sign in with credential from the Facebook user.
-    firebase.auth().signInWithCredential(credential).catch((error) => {
-      console.log('Houve um erro');
+    firebase.auth().signInAndRetrieveDataWithCredential(credential).then(({ user })=>{
+      console.log(user);
+    }).catch((error) => {
+      console.log('Esse erro deve ser tratado e deve ser exibido um feedback para o usuário');
       console.log(error);
     });
+  } else {
+    console.log('Esse cenário deve ser tratado e deve ser exibido um feedback para o usuário');
   }
 }
+
+const _verifyUser = async (uid) => {  }
 
 export default (WrappedComponent) => {
   class withAuth extends React.Component {

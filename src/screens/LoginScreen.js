@@ -16,9 +16,13 @@ import Expo from "expo";
 
 import Footer from "../components/Footer";
 import Logo from "../img/logo.png";
+import withAuth from "../components/hocs/withAuth";
 
 const { width } = Dimensions.get("window");
-const fbID = "2185612565044522";
+
+// const fbID = "2185612565044522";
+const fbID = "2207895276121269";
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "rgb(255,239,215)"
@@ -56,7 +60,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default class LoginScreen extends Component {
+class LoginScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -68,37 +72,44 @@ export default class LoginScreen extends Component {
    * faz o login com as credenciais do facebook
    */
   async loginFb() {
-    const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(
+    Expo.Facebook.logInWithReadPermissionsAsync(
       fbID,
       { permissions: ["public_profile", "email"] }
-    );
-    if (type === "success") {
-      const response = await fetch(
-        `https://graph.facebook.com/me?access_token=${token}&fields=id,name,email,about,picture`
-      );
-
-      const { id } = await response.json();
-      const { navigation } = this.props;
-      try {
-        const dbUsers = await firebase.database().ref("users");
-        firebase.auth().languageCode = "pt-BR";
-        const {
-          user
-        } = await firebase
-          .auth()
-          .signInAndRetrieveDataWithCredential(
-            firebase.auth.FacebookAuthProvider.credential(token)
-          );
-        dbUsers.once('value', snapshot => {
-          if(!snapshot.val() || !Object.getOwnPropertyNames(snapshot.val()).includes(user.uid) ) {
-            this.createUserDb(id, user);
-          }
-        })
-        navigation.navigate("Explore");
-      } catch (error) {
-        console.error(error);
-      }
-    }
+    ).then(({ type, token}) => {
+      console.log('SÓ DEU CERTO');
+      console.log(token)
+      // if (type === "success") {
+      //   const response = await fetch(
+      //     `https://graph.facebook.com/me?access_token=${token}&fields=id,name,email,about,picture`
+      //   );
+  
+      //   const { id } = await response.json();
+      //   const { navigation } = this.props;
+      //   try {
+      //     const dbUsers = await firebase.database().ref("users");
+      //     firebase.auth().languageCode = "pt-BR";
+      //     const {
+      //       user
+      //     } = await firebase
+      //       .auth()
+      //       .signInAndRetrieveDataWithCredential(
+      //         firebase.auth.FacebookAuthProvider.credential(token)
+      //       );
+      //     dbUsers.once('value', snapshot => {
+      //       if(!snapshot.val() || !Object.getOwnPropertyNames(snapshot.val()).includes(user.uid) ) {
+      //         this.createUserDb(id, user);
+      //       }
+      //     })
+      //     navigation.navigate("Explore");
+      //   } catch (error) {
+      //     console.error(error);
+      //   }
+      // }
+    }, (err) => {
+      console.log('OCORREU UM ERRO');
+      console.log(err);
+    });
+    
   }
 
   /**
@@ -124,7 +135,7 @@ export default class LoginScreen extends Component {
 
   render() {
     const { search } = this.state;
-    const { navigation } = this.props;
+    const { navigation, loginWithFacebook } = this.props;
     return (
       <Container style={styles.container}>
         <Content padder>
@@ -173,7 +184,7 @@ export default class LoginScreen extends Component {
                 <Button
                   block
                   iconLeft
-                  onPress={() => this.loginFb()}
+                  onPress={() => loginWithFacebook()}
                   style={[styles.btn, { backgroundColor: "rgb(80,114,166)" }]}
                 >
                   <Icon type="FontAwesome" name="facebook" />
@@ -195,3 +206,5 @@ export default class LoginScreen extends Component {
     );
   }
 }
+
+export default withAuth(LoginScreen)
