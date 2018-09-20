@@ -208,7 +208,6 @@ export default class ProfileScreen extends Component {
               )) */}
           </Content>
         </Container>
-        <Footer navigation={navigation} />
       </Container>
     );
   }

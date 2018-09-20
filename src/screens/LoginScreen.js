@@ -1,4 +1,3 @@
-import * as firebase from "firebase";
 import React, { Component } from "react";
 import { View, StyleSheet, Dimensions, AsyncStorage } from "react-native";
 import {
@@ -12,13 +11,12 @@ import {
   Input,
   Text
 } from "native-base";
-import Expo from "expo";
 
-import Footer from "../components/Footer";
 import Logo from "../img/logo.png";
+import withAuth from "../components/hocs/withAuth";
 
 const { width } = Dimensions.get("window");
-const fbID = "2185612565044522";
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "rgb(255,239,215)"
@@ -56,75 +54,14 @@ const styles = StyleSheet.create({
   }
 });
 
-export default class LoginScreen extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      search: ""
-    };
-  }
-
-  /**
-   * faz o login com as credenciais do facebook
-   */
-  async loginFb() {
-    const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(
-      fbID,
-      { permissions: ["public_profile", "email"] }
-    );
-    if (type === "success") {
-      const response = await fetch(
-        `https://graph.facebook.com/me?access_token=${token}&fields=id,name,email,about,picture`
-      );
-
-      const { id } = await response.json();
-      const { navigation } = this.props;
-      try {
-        const dbUsers = await firebase.database().ref("users");
-        firebase.auth().languageCode = "pt-BR";
-        const {
-          user
-        } = await firebase
-          .auth()
-          .signInAndRetrieveDataWithCredential(
-            firebase.auth.FacebookAuthProvider.credential(token)
-          );
-        dbUsers.once('value', snapshot => {
-          if(!snapshot.val() || !Object.getOwnPropertyNames(snapshot.val()).includes(user.uid) ) {
-            this.createUserDb(id, user);
-          }
-        })
-        navigation.navigate("Explore");
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  }
-
-  /**
-   * cria o usuario no banco de dados realtime database do firebase
-   */
-  createUserDb = (id=String, user=Object) => {
-    const dbUsers = firebase.database().ref("users");
-    const dataUser = {
-      name: user.displayName,
-      email: user.email,
-      picture: `https://graph.facebook.com/${id}/picture`,
-      instruments: [],
-      inventory: [],
-      premium: false,
-      visible: true
-    };
-    // esta sendo criado o usuario no database
-    // colocar na page de criacao do perfil
-    dbUsers.child(`${user.uid}`).set({
-      ...dataUser
-    });
+class LoginScreen extends Component {
+  state = {
+    search: ''
   }
 
   render() {
     const { search } = this.state;
-    const { navigation } = this.props;
+    const { loginWithFacebook } = this.props;
     return (
       <Container style={styles.container}>
         <Content padder>
@@ -173,7 +110,7 @@ export default class LoginScreen extends Component {
                 <Button
                   block
                   iconLeft
-                  onPress={() => this.loginFb()}
+                  onPress={() => loginWithFacebook()}
                   style={[styles.btn, { backgroundColor: "rgb(80,114,166)" }]}
                 >
                   <Icon type="FontAwesome" name="facebook" />
@@ -191,8 +128,9 @@ export default class LoginScreen extends Component {
             </View>
           </Body>
         </Content>
-        <Footer navigation={navigation} />
       </Container>
     );
   }
 }
+
+export default withAuth(LoginScreen)

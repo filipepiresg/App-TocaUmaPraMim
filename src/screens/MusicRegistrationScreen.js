@@ -27,6 +27,21 @@ const styles = StyleSheet.create({
     }
 });
 
+// TODO: Refact to Song
+// How song shoud be?
+/**
+ * '0aa12sed552sfirebaseId' : {
+ *    name: 'Verdadeiro Amor',
+ *    artist: 'Magníficos',
+ *    genre: 'Forró', // I think it doesnt need to reference another object
+ *    instrument: 'Violão' // This may be adequate to reference another object, but depends on if we are gonna use firestore
+ *    info: 'Geralmente tocada em F \n Outra linha',
+ *    cifraClub: {
+ *          songSlug: 'verdadeiro-amor', 
+ *          artistSlug: 'magnificos'
+ *      } // undefined if it was not chosen from the CifraClub list
+ * }
+ */
 export default class MusicRegistrationScreen extends Component {
     constructor(props) {
         super(props);
