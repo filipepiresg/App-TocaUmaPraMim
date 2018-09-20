@@ -18,6 +18,6 @@ export default class InfoScreen extends Component {
         <Text>InfoScreen</Text>
         <button onClick={this.logout}>Logout</button> 
       </View>
-    )
+    );
   }
 }
