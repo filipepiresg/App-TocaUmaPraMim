@@ -114,7 +114,6 @@ class LoginScreen extends Component {
             </Text>
           </Button>
         </Container>
-        <Footer navigation={this.props.navigation} />
       </Container>
     )
   }

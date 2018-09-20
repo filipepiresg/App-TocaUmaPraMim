@@ -160,7 +160,6 @@ export default class ExploreScreen extends Component {
             <User key={index} user={user} back navigation={navigation} />
           ))}
         </Content>
-        <Footer navigation={navigation} />
       </Container>
     );
   }

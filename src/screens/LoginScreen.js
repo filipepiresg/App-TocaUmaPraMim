@@ -191,7 +191,6 @@ export default class LoginScreen extends Component {
             </View>
           </Body>
         </Content>
-        <Footer navigation={navigation} />
       </Container>
     );
   }
