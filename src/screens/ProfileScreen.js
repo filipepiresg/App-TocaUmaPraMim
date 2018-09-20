@@ -113,7 +113,7 @@ export default class ProfileScreen extends Component {
     // this.receiveUser(this.props.navigation);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const { navigation } = this.props;
     const {
       name,
