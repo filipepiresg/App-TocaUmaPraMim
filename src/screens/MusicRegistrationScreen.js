@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
-import Footer from "../components/Footer";
+import { Text, StyleSheet, TouchableOpacity, View } from "react-native";
+
 import Card from "../components/Card";
 import CardSection from "../components/CardSection";
 import Input from "../components/Input";
-import { Container, Button, Content, Header } from "native-base";
+import { Container, Button, List, ListItem, Header, Content, Item } from "native-base";
+import DebouncedInputComponent from "../components/DebouncedInput";
 
 const styles = StyleSheet.create({
     title: {
@@ -24,6 +25,21 @@ const styles = StyleSheet.create({
     },
     container: {
         backgroundColor: "rgb(255,239,215)"
+    },
+    inputSearch: {
+        textAlign: "center",
+        fontSize: 16
+    },
+    itemSearch: {
+        backgroundColor: "#fff",
+        borderRadius: 20,
+        marginVertical: 10,
+        flex: 1
+    },
+    showInputs: {
+        textAlign: "center",
+        alignItems: 'center',
+        fontSize: 16
     }
 });
 
@@ -46,6 +62,8 @@ export default class MusicRegistrationScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            hideInputs: true,
+            search: "",
             name: "",
             artist: "",
             genre: ""
@@ -56,54 +74,89 @@ export default class MusicRegistrationScreen extends Component {
         console.log(this.state);
     }
 
+    searchSong(search) {
+        this.setState({ search });
+    }
+
     render() {
-        const { name, artist, genre } = this.state;
+        const { hideInputs, name, artist, genre, search } = this.state;
         const { navigation } = this.props;
         return (
             <Container style={styles.container}>
                 <Content padder>
                     <Header transparent/>
                     <Text style={styles.title}>Nova música</Text>
+                    <Item style={styles.itemSearch}>
+                        <DebouncedInputComponent
+                            updateText={this.searchSong.bind(this)}
+                            placeholder="busca por música"
+                            style={styles.inputSearch}
+                        />
+                    </Item>
                     <Card>
-                        <CardSection>
-                            <Input
-                                label="Nome"
-                                placeholder="Digite o nome da música"
-                                onChangeText={ name => this.setState({name}) }
-                                value={name}
-                            />
-                        </CardSection>
+                        { search == '' ? null : (
+                            <View>
+                                <CardSection>
+                                    <List dataArray={['Item 1','Item 2','Item 3!']}
+                                          renderRow={(item) =>
+                                        <ListItem>
+                                            <Text>{item}</Text>
+                                        </ListItem>
+                                    }>
+                                    </List>
+                                </CardSection>
 
-                        <CardSection>
-                            <Input
-                                label="Artista"
-                                placeholder="Digite o nome do artista"
-                                onChangeText={ artist => this.setState({artist}) }
-                                value={artist}
-                            />
-                        </CardSection>
-
-                        <CardSection>
-                            <Input
-                                label="Gênero"
-                                placeholder="Digite o gênero"
-                                onChangeText={ genre => this.setState({genre}) }
-                                value={genre}
-                            />
-                        </CardSection>
-
-                        <CardSection>
-                            <Button
-                                block
-                                iconLeft
-                                style={styles.buttonStyle}
-                                onPress={ () => this.saveInfo() }>
-                                <Text style={styles.buttonText}>Adicionar</Text>
-                            </Button>
-                        </CardSection>
+                                <CardSection>
+                                    <TouchableOpacity onPress={() => this.setState({ hideInputs: false})}>
+                                        <Text style={{color: 'blue'}}>Não encontrei</Text>
+                                    </TouchableOpacity>
+                                </CardSection>
+                            </View>
+                        )}
                     </Card>
+
+                    { hideInputs ? null : (
+                        <Card>
+                            <CardSection>
+                                <Input
+                                    label="Nome"
+                                    placeholder="Digite o nome da música"
+                                    onChangeText={ name => this.setState({name}) }
+                                    value={name}
+                                />
+                            </CardSection>
+
+                            <CardSection>
+                                <Input
+                                    label="Artista"
+                                    placeholder="Digite o nome do artista"
+                                    onChangeText={ artist => this.setState({artist}) }
+                                    value={artist}
+                                />
+                            </CardSection>
+
+                            <CardSection>
+                                <Input
+                                    label="Gênero"
+                                    placeholder="Digite o gênero"
+                                    onChangeText={ genre => this.setState({genre}) }
+                                    value={genre}
+                                />
+                            </CardSection>
+
+                            <CardSection>
+                                <Button
+                                    block
+                                    iconLeft
+                                    style={styles.buttonStyle}
+                                    onPress={ () => this.saveInfo() }>
+                                    <Text style={styles.buttonText}>Adicionar</Text>
+                                </Button>
+                            </CardSection>
+                        </Card>
+                    )}
+
                 </Content>
-                <Footer navigation={navigation} />
             </Container>
         );
     }
