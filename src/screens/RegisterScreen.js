@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, Picker } from 'react-native'
-import Footer from '../components/Footer'
-import Card from '../components/Card'
-import CardSection from '../components/CardSection'
+import { View, Text, StyleSheet } from 'react-native'
 
 import {
   Container,
@@ -12,10 +9,9 @@ import {
   Form,
   Item,
   Label,
-  Input,
-  Textarea
+  Input
 } from 'native-base'
-import { Dropdown } from 'react-native-material-dropdown'
+// import { Dropdown } from 'react-native-material-dropdown'
 
 const styles = StyleSheet.create({
   title: {
