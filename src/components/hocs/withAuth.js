@@ -14,7 +14,7 @@ export default WrappedComponent => {
       if (type === 'success') {
         // Build Firebase credential with the Facebook access token.
         const credential = firebase.auth.FacebookAuthProvider.credential(token)
-        navigation.navigate('Register')
+        this.props.navigation.navigate('Register')
         // Sign in with credential from the Facebook user.
         firebase
           .auth()
