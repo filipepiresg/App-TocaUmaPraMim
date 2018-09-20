@@ -14,7 +14,6 @@ export default WrappedComponent => {
       if (type === 'success') {
         // Build Firebase credential with the Facebook access token.
         const credential = firebase.auth.FacebookAuthProvider.credential(token)
-        this.props.navigation.navigate('Register')
         // Sign in with credential from the Facebook user.
         firebase
           .auth()
@@ -45,10 +44,13 @@ export default WrappedComponent => {
         .where('authId', '==', user.uid)
         .get()
       if (response.empty) {
-
-      } else {
+        const { providerData, uid } = user;
+        this.props.navigation.navigate('Register', { user: providerData[0], authId: uid })
         
+      } else {
+        // this.props.navigation.navigate('Explore')
       }
+
     }
 
     render() {

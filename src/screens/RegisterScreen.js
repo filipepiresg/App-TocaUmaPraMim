@@ -11,6 +11,9 @@ import {
   Label,
   Input
 } from 'native-base'
+import * as firebase from 'firebase';
+require('firebase/firestore')
+// import Reactotron from 'reactotron-react-native'
 // import { Dropdown } from 'react-native-material-dropdown'
 
 const styles = StyleSheet.create({
@@ -51,12 +54,45 @@ export default class MusicRegistrationScreen extends Component {
     city: ''
   }
 
-  saveInfo() {
+  async saveInfo(uid) {
     console.log(this.state)
+    const { name, username, stateCode, city } = this.state
+    const dbUsers = firebase.firestore().collection('users')
+    await dbUsers.add({
+      fullName: name,
+      stateCode,
+      username,
+      city,
+      uid
+    }).then( () => {
+      // console.log(ref, 'add ao firestore');
+      this.props.navigation.navigate('Explore')
+    })
   }
 
+  componentWillMount() {
+    const user = this.props.navigation.getParam('user', { 
+      displayName:'', 
+      email: null, 
+      phoneNumber:null,
+      photoURL: null,
+      providerId: 'facebook.com',
+      uid: null
+    });
+    // Reactotron.log(user);
+    this.setState({ name: user.displayName })
+  }
+  
   render() {
     const { name, username, stateCode, city } = this.state
+    const user = this.props.navigation.getParam('user', { 
+      displayName:'', 
+      email: null, 
+      phoneNumber:null,
+      photoURL: null,
+      providerId: 'facebook.com',
+      uid: null
+    });
 
     return (
       <Container style={styles.container}>
@@ -74,6 +110,8 @@ export default class MusicRegistrationScreen extends Component {
             <Item floatingLabel>
               <Label>Username</Label>
               <Input
+                autoCapitalize='none'
+                autoCorrect={false}
                 onChangeText={username => this.setState({ username })}
                 value={username}
               />
@@ -103,7 +141,7 @@ export default class MusicRegistrationScreen extends Component {
               block
               iconLeft
               style={styles.buttonStyle}
-              onPress={() => this.saveInfo()}
+              onPress={() => this.saveInfo(user.uid)}
             >
               <Text style={styles.buttonText}>Cadastrar</Text>
             </Button>
