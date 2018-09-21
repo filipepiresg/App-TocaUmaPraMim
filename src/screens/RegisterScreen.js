@@ -54,45 +54,34 @@ export default class MusicRegistrationScreen extends Component {
     city: ''
   }
 
-  async saveInfo(uid) {
-    console.log(this.state)
+  async saveInfo(authId) {
     const { name, username, stateCode, city } = this.state
+    const { photoURL } = this.props.navigation.getParam('user', {
+      photoURL:''
+    })
     const dbUsers = firebase.firestore().collection('users')
     await dbUsers.add({
       fullName: name,
       stateCode,
       username,
       city,
-      uid
+      authId,
+      photoURL
     }).then( () => {
-      // console.log(ref, 'add ao firestore');
       this.props.navigation.navigate('Explore')
     })
   }
 
   componentWillMount() {
-    const user = this.props.navigation.getParam('user', { 
-      displayName:'', 
-      email: null, 
-      phoneNumber:null,
-      photoURL: null,
-      providerId: 'facebook.com',
-      uid: null
+    const {displayName} = this.props.navigation.getParam('user', { 
+      displayName:''
     });
-    // Reactotron.log(user);
-    this.setState({ name: user.displayName })
+    this.setState({ name: displayName })
   }
   
   render() {
     const { name, username, stateCode, city } = this.state
-    const user = this.props.navigation.getParam('user', { 
-      displayName:'', 
-      email: null, 
-      phoneNumber:null,
-      photoURL: null,
-      providerId: 'facebook.com',
-      uid: null
-    });
+    const authId = this.props.navigation.getParam('authId', '');
 
     return (
       <Container style={styles.container}>
@@ -141,7 +130,7 @@ export default class MusicRegistrationScreen extends Component {
               block
               iconLeft
               style={styles.buttonStyle}
-              onPress={() => this.saveInfo(user.uid)}
+              onPress={() => this.saveInfo(authId)}
             >
               <Text style={styles.buttonText}>Cadastrar</Text>
             </Button>
