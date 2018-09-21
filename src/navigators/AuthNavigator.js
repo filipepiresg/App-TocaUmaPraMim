@@ -4,10 +4,10 @@ import MusicRegistrationScreen from "../screens/MusicRegistrationScreen";
 
 export default createStackNavigator(
   {
-    // Login: LoginScreen,
     Login: LoginScreen,
     Info: InfoScreen,
-    Register: RegisterScreen
+    Register: RegisterScreen,
+    MusicRegistration: MusicRegistrationScreen
   },
   {
     initialRouteName: "Login"

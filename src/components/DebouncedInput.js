@@ -6,8 +6,7 @@ import { Input } from 'native-base';
 class DebouncedInputComponent extends Component {
 
     static propTypes = {
-        text: PropTypes.string.isRequired,
-        updateText: PropTypes.func.isRequired,
+        updateText: PropTypes.func.isRequired
     };
 
     constructor(props) {

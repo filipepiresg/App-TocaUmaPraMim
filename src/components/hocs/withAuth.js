@@ -38,20 +38,24 @@ export default WrappedComponent => {
      * @param {String} uid
      */
     _verifyUser = async user => {
+      let isRegistered = false
       const db = firebase.firestore()
       db.settings({ timestampsInSnapshots: true })
-      const response = await db
-        .collection('users')
-        .where('authId', '==', user.uid)
-        .get()
-      if (response.empty) {
+        
+      const users = await db.collection('users').get()
+
+      users.forEach((u) => {
+        if(u.data().uid == user.providerData[0].uid) {
+            isRegistered = true
+        }
+      })
+
+      if (!isRegistered) {
         const { providerData, uid } = user;
         this.props.navigation.navigate('Register', { user: providerData[0], authId: uid })
-        
       } else {
-        // this.props.navigation.navigate('Explore')
+        this.props.navigation.navigate('Explore')
       }
-
     }
 
     render() {
