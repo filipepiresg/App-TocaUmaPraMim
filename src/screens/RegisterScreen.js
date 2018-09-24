@@ -12,6 +12,7 @@ import {
   Input
 } from 'native-base'
 import * as firebase from 'firebase';
+import UsernameInput from '../components/UsernameInput';
 require('firebase/firestore')
 // import Reactotron from 'reactotron-react-native'
 // import { Dropdown } from 'react-native-material-dropdown'
@@ -96,15 +97,9 @@ export default class MusicRegistrationScreen extends Component {
                 value={name}
               />
             </Item>
-            <Item floatingLabel>
-              <Label>Username</Label>
-              <Input
-                autoCapitalize='none'
-                autoCorrect={false}
-                onChangeText={username => this.setState({ username })}
-                value={username}
-              />
-            </Item>
+            <UsernameInput
+              onChange={username => this.setState({ username })}
+            />
             <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
               <View style={{width: '20%'}}>
                 <Item floatingLabel>
