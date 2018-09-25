@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Input, Label, Item, Icon } from 'native-base'
+import debounce from 'lodash/debounce';
 
 class UsernameInput extends Component {
   state = {
@@ -12,17 +13,36 @@ class UsernameInput extends Component {
   componentDidMount() {
     const { initialValue } = this.props
     if (initialValue) {
-      // this.setState({value: initialValue})
+      this.setState({value: initialValue})
     }
+    this.onChangeText = debounce(this.onChangeText, 1000);
   }
 
-  onChangeText = text => {
-    this.setState({ value: text })
+  checkUsername = (username) => {
+    // TODO: Replace this with an actual ajax call for our cloud functions
+    return new Promise((resolve) =>{
+      setTimeout(() => {
+        resolve({exists: Math.random() > 0.5})
+      }, 300)
+    });
+  }
+
+  onChangeText = async text => {
+    const { onChange } = this.props;
+    if (!text) {
+      onChange();
+      return this.setState({pristine: true, loading: false})  
+    }
+    this.setState({pristine: false, loading: true})
+    const username = text.trim();
+    const data = await this.checkUsername(username);
+    this.setState({valid: !data.exists, loading: false})
+    onChange(!data.exists ? username : null)
   }
 
   renderIcon = () => {
     const { loading, pristine, valid } = this.state
-    console.log('called, pristine is ==>', pristine)
+
     if (pristine) return null
     if (loading) {
       return <Icon active name="dots-three-horizontal" type="Entypo" />
@@ -37,7 +57,7 @@ class UsernameInput extends Component {
   }
 
   render() {
-    const { onChange, label, placeholder } = this.props
+    const { label, placeholder } = this.props
     const { value } = this.state
 
     return (
