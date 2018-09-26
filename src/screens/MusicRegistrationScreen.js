@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import { Text, StyleSheet, TouchableOpacity, View } from "react-native";
-
 import Card from "../components/Card";
 import CardSection from "../components/CardSection";
 import Input from "../components/Input";
-import { Container, Button, List, ListItem, Header, Content, Item } from "native-base";
+import { Container, Button, List, ListItem, Header, Content, Item, Picker, Icon, CheckBox, Body } from "native-base";
 import DebouncedInputComponent from "../components/DebouncedInput";
 
 const styles = StyleSheet.create({
@@ -40,24 +39,44 @@ const styles = StyleSheet.create({
         textAlign: "center",
         alignItems: 'center',
         fontSize: 16
+    },
+    labelStyle: {
+		fontSize: 18,
+        paddingLeft: 25,
+        paddingRight: 53,
+        paddingTop: 7
+    },
+    checkBoxStyle: {
+        marginRight: 5, 
+        marginLeft: 20, 
+        marginTop: 10, 
+        marginBottom: 10
     }
 });
 
-// TODO: Refact to Song
-// How song shoud be?
-/**
- * '0aa12sed552sfirebaseId' : {
- *    name: 'Verdadeiro Amor',
- *    artist: 'Magníficos',
- *    genre: 'Forró', // I think it doesnt need to reference another object
- *    instrument: 'Violão' // This may be adequate to reference another object, but depends on if we are gonna use firestore
- *    info: 'Geralmente tocada em F \n Outra linha',
- *    cifraClub: {
- *          songSlug: 'verdadeiro-amor', 
- *          artistSlug: 'magnificos'
- *      } // undefined if it was not chosen from the CifraClub list
- * }
- */
+// const instruments = [
+//     'Piano', 'Teclado', 'Guitarra',
+//     'Violão', 'Baixo', 'Violoncelo',
+//     'Clarinete', 'Bateria', 'Flauta',
+//     'Harpa', 'Saxofone', 'Trompete',
+//     'Violino', 'Cavaquinho', 'Sanfona' ];
+
+const genres = [
+'Alternativo','Axé','Blues','Bolero','Bossa Nova','Brega','Clássico',
+'Country','Cuarteto','Cumbia','Dance','Disco','Eletrônica',
+'Emocore','Fado','Folk','Forró','Funk','Funk Internacional',
+'Gospel/Religioso','Grunge','Guarânia','Gótico','Hard Rock',
+'Hardcore','Heavy Metal','Hip Hop/Rap','House','Indie','Industrial',
+'Infantil','Instrumental','J-Pop/J-Rock','Jazz','Jovem Guarda',
+'K-Pop/K-Rock','MPB','Mambo','Marchas/Hinos','Mariachi',
+'Merengue','Música andina','New Age','New Wave','Pagode',
+'Pop','Pop Rock','Post-Rock','Power-Pop','Psicodelia','Punk Rock',
+'R&B','Ranchera','Reggae','Reggaeton','Regional','Rock',
+'Rock Progressivo','Rock and Roll','Rockabilly','Romântico',
+'Salsa','Samba','Samba Enredo','Sertanejo','Ska','Soft Rock',
+'Soul','Surf Music','Tango','Tecnopop','Trova','Velha Guarda',
+'World Music','Zamba','Zouk'];
+
 export default class MusicRegistrationScreen extends Component {
     constructor(props) {
         super(props);
@@ -66,7 +85,9 @@ export default class MusicRegistrationScreen extends Component {
             search: "",
             name: "",
             artist: "",
-            genre: ""
+            selectedGenre: "",
+            melodic: false,
+            harmonic: false 
         };
     }
 
@@ -78,13 +99,35 @@ export default class MusicRegistrationScreen extends Component {
         this.setState({ search });
     }
 
+    renderPickerItems(list) {
+        return ( list.map(genre => { 
+                return (<Picker.Item label={genre} value={genre} />);
+            })
+        );
+    }
+
+    onGenreSelected(selectedGenre) {
+        this.setState({selectedGenre});
+    }
+
+    onHarmonicSelect() {
+        console.log(this.state);
+        this.setState({harmonic: !this.state.harmonic});
+        console.log(this.state);
+    }
+
+    onMelodicSelect() {
+        console.log(this.state);
+        this.setState({melodic: !this.state.melodic});
+        console.log(this.state);
+    }
+
     render() {
-        const { hideInputs, name, artist, genre, search } = this.state;
+        const { hideInputs, name, artist, selectedGenre, search, melodic, harmonic } = this.state;
         const { navigation } = this.props;
         return (
             <Container style={styles.container}>
                 <Content padder>
-                    <Header transparent/>
                     <Text style={styles.title}>Nova música</Text>
                     <Item style={styles.itemSearch}>
                         <DebouncedInputComponent
@@ -93,6 +136,7 @@ export default class MusicRegistrationScreen extends Component {
                             style={styles.inputSearch}
                         />
                     </Item>
+
                     <Card>
                         { search == '' ? null : (
                             <View>
@@ -108,7 +152,7 @@ export default class MusicRegistrationScreen extends Component {
 
                                 <CardSection>
                                     <TouchableOpacity onPress={() => this.setState({ hideInputs: false})}>
-                                        <Text style={{color: 'blue'}}>Não encontrei</Text>
+                                        <Text style={{color: 'blue'}}>Não encontrei!!</Text>
                                     </TouchableOpacity>
                                 </CardSection>
                             </View>
@@ -129,20 +173,38 @@ export default class MusicRegistrationScreen extends Component {
                             <CardSection>
                                 <Input
                                     label="Artista"
-                                    placeholder="Digite o nome do artista"
+                                    placeholder="Digite o nome do artistaA"
                                     onChangeText={ artist => this.setState({artist}) }
                                     value={artist}
                                 />
                             </CardSection>
+                            
+                            <CardSection>
+                                <Text style={styles.labelStyle}>Gênero</Text>
+                                <Picker
+                                    mode="dropdown"
+                                    iosIcon={<Icon name="ios-arrow-down-outline" />}
+                                    style={{backgroundColor: '#FFFFFF', marginTop: -6, marginBottom: -5 }}
+                                    placeholder="Selecione um gênero"
+                                    placeholderStyle={{ color: "#bfc6ea" }}
+                                    placeholderIconColor="#007aff"
+                                    selectedValue={selectedGenre}
+                                    onValueChange={this.onGenreSelected.bind(this)}
+                                >
+                                    { this.renderPickerItems(genres) }
+                                </Picker>
+                            </CardSection>
 
                             <CardSection>
-                                <Input
-                                    label="Gênero"
-                                    placeholder="Digite o gênero"
-                                    onChangeText={ genre => this.setState({genre}) }
-                                    value={genre}
-                                />
-                            </CardSection>
+                                <CheckBox checked={melodic}  
+                                        style={styles.checkBoxStyle}
+                                        onPress={this.onMelodicSelect.bind(this)}/>
+                                <Body><Text>Melódico</Text></Body>
+                                <CheckBox checked={harmonic} 
+                                        style={styles.checkBoxStyle}
+                                        onPress={this.onHarmonicSelect.bind(this)}/>
+                                <Body><Text>Harmonico</Text></Body>
+                            </CardSection>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
 
                             <CardSection>
                                 <Button
@@ -155,7 +217,7 @@ export default class MusicRegistrationScreen extends Component {
                             </CardSection>
                         </Card>
                     )}
-
+                    
                 </Content>
             </Container>
         );
