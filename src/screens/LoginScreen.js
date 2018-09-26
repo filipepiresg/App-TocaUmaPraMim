@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Dimensions, Alert } from "react-native";
+import { View, StyleSheet, Dimensions, Alert, Modal } from "react-native";
 import {
   Container,
   Button,
@@ -11,7 +11,8 @@ import {
   Input,
   Text
 } from "native-base";
-import firebase from 'firebase'
+import firebase from 'firebase';
+import { Spinner } from 'native-base';
 require('firebase/firestore')
 
 import Logo from "../img/logo.png";
@@ -83,7 +84,7 @@ class LoginScreen extends Component {
 
   render() {
     const { search } = this.state;
-    const { loginWithFacebook } = this.props;
+    const { loginWithFacebook, loading } = this.props;
     return (
       <Container style={styles.container}>
         <Content padder>
@@ -151,6 +152,12 @@ class LoginScreen extends Component {
             </View>
           </Body>
         </Content>
+        <Modal 
+          transparent 
+          visible={loading} 
+        >
+          <Spinner style={{flex:1, justifyContent:'center'}}/>
+        </Modal>
       </Container>
     );
   }
