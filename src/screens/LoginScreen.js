@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Dimensions } from "react-native";
+import { View, StyleSheet, Dimensions, Alert } from "react-native";
 import {
   Container,
   Button,
@@ -11,6 +11,8 @@ import {
   Input,
   Text
 } from "native-base";
+import firebase from 'firebase'
+require('firebase/firestore')
 
 import Logo from "../img/logo.png";
 import withAuth from "../components/hocs/withAuth";
@@ -59,6 +61,26 @@ class LoginScreen extends Component {
     search: ''
   }
 
+  async lookingForArtist() {
+    const {search} = this.state;
+    // alert(search)
+    const db = firebase.firestore()
+    db.settings({ timestampsInSnapshots: true })
+    const usersRef = await db.collection('users')
+    usersRef.where('username','==',search)
+      .get()
+      .then( value => {
+        if (value.empty) {
+          Alert.alert('Usuário não encontrado!')
+        } else {
+          this.props.navigation.navigate('Profile', {user:value.docs[0].data()})
+        }
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+  }
+
   render() {
     const { search } = this.state;
     const { loginWithFacebook } = this.props;
@@ -100,6 +122,7 @@ class LoginScreen extends Component {
                     value={search}
                     onChangeText={txt => this.setState({ search: txt })}
                     returnKeyType="search"
+                    onSubmitEditing={() => {this.lookingForArtist()}}
                   />
                 </Item>
               </View>

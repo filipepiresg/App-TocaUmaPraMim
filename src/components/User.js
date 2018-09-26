@@ -17,7 +17,7 @@ const User = ({ user, navigation }) => (
       ]}
     >
       <Thumbnail
-        source={user.picture ? { uri: user.picture } : perfil}
+        source={user.photoURL ? { uri: user.photoURL } : perfil}
         large
         style={styles.imagem}
       />
@@ -31,7 +31,7 @@ const User = ({ user, navigation }) => (
           }
         ]}
       >
-        {user.name}
+        {user.fullName}
       </Text>
       <Text style={[styles.txt, { color: user.premium ? "#fff" : "#000" }]}>
         {user.instruments && user.instruments.length > 0

@@ -45,7 +45,7 @@ export default WrappedComponent => {
       const users = await db.collection('users').get()
 
       users.forEach((u) => {
-        if(u.data().uid == user.providerData[0].uid) {
+        if(u.data().authId == user.uid) {
             isRegistered = true
         }
       })

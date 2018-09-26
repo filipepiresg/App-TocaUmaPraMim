@@ -120,15 +120,15 @@ export default class ProfileScreen extends Component {
       inventory,
       instrument,
       premium,
-      picture
+      photoURL
     } = navigation.getParam("user", {
       name: "",
       inventory: "",
       instrument: "",
       premiun: false,
-      picture: ""
+      photoURL: ""
     });
-    this.setState({ picture, instrument, inventory, name, premium });
+    this.setState({ photoURL, instrument, inventory, name, premium });
   }
 
   searchSong = (search) => {
@@ -136,20 +136,22 @@ export default class ProfileScreen extends Component {
   }
 
   render() {
-    const { picture, instrument, name, inventory, search } = this.state;
+    const { photoURL, instrument, name, inventory, search } = this.state;
     const { navigation } = this.props;
     return (
       <Container style={styles.container}>
         <Header transparent>
-          {navigation.getParam("back", false) ? (
-            <Left>
-              <Button onPress={() => navigation.goBack()} transparent>
-                <Icon type="FontAwesome" name="angle-left" />
-              </Button>
-            </Left>
-          ) : (
-            <Left />
-          )}
+          {
+            navigation.getParam("back", false) ? (
+              <Left>
+                <Button onPress={() => navigation.goBack()} transparent>
+                  <Icon type="FontAwesome" name="angle-left" />
+                </Button>
+              </Left>
+            ) : (
+              <Left />
+            )
+          }
           <Body>
             <Title>Profile</Title>
           </Body>
@@ -158,7 +160,7 @@ export default class ProfileScreen extends Component {
         <Container style={styles.subContainer}>
           <Container style={styles.containerPerfil}>
             <Image
-              source={picture ? { uri: picture } : imgDefault}
+              source={photoURL ? { uri: photoURL } : imgDefault}
               style={styles.imgPerfil}
               resizeMode="cover"
             />
@@ -170,11 +172,11 @@ export default class ProfileScreen extends Component {
                 <Text style={styles.txtInfo}>músicas diferentes</Text>
               </View>
               <View style={styles.typeInfo}>
-                <H1>{/* amountArtists(inventory) */ 0}</H1>
+                <H1>{ amountArtists(inventory) }</H1>
                 <Text style={styles.txtInfo}>artistas diferentes</Text>
               </View>
               <View style={styles.typeInfo}>
-                <H1>{/* amountRitmos(inventory) */ 0}</H1>
+                <H1>{ amountRitmos(inventory) }</H1>
                 <Text style={styles.txtInfo}>ritmos diferentes</Text>
               </View>
             </View>

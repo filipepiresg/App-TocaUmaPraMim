@@ -12,14 +12,19 @@ import {
   Input
 } from 'native-base'
 import * as firebase from 'firebase';
+import UsernameInput from '../components/UsernameInput';
+import ProfileForm from '../components/ProfileForm';
+
 require('firebase/firestore')
-// import Reactotron from 'reactotron-react-native'
-// import { Dropdown } from 'react-native-material-dropdown'
+
 
 const styles = StyleSheet.create({
   title: {
     fontSize: 40,
     margin: 20,
+  },
+  container: {
+    backgroundColor: 'rgb(255,239,215)',
   },
   buttonStyle: {
     backgroundColor: 'rgb(72,186,196)',
@@ -31,22 +36,13 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontWeight: 'bold',
-  },
-  container: {
-    backgroundColor: 'rgb(255,239,215)',
-  },
-  dropdownContainerStyle: {
-    justifyContent: 'flex-start',
-    flexDirection: 'row',
-    flex: 1,
-  },
-  dropdownStyle: {
-    width: '50%',
-  },
+  }
 })
 
-
-export default class MusicRegistrationScreen extends Component {
+export default class RegisterScreen extends Component {
+    constructor (props) {
+        super(props);
+    }
   state = {
     name: '',
     username: '',
@@ -54,100 +50,58 @@ export default class MusicRegistrationScreen extends Component {
     city: ''
   }
 
-  async saveInfo(uid) {
-    console.log(this.state)
+  async saveInfo(authId) {
     const { name, username, stateCode, city } = this.state
+    const { photoURL } = this.props.navigation.getParam('user', {
+      photoURL:''
+    })
     const dbUsers = firebase.firestore().collection('users')
     await dbUsers.add({
       fullName: name,
       stateCode,
       username,
       city,
-      uid
+      authId,
+      photoURL
     }).then( () => {
-      // console.log(ref, 'add ao firestore');
       this.props.navigation.navigate('Explore')
     })
   }
 
   componentWillMount() {
-    const user = this.props.navigation.getParam('user', { 
-      displayName:'', 
-      email: null, 
-      phoneNumber:null,
-      photoURL: null,
-      providerId: 'facebook.com',
-      uid: null
+    const {displayName} = this.props.navigation.getParam('user', { 
+      displayName:''
     });
-    // Reactotron.log(user);
-    this.setState({ name: user.displayName })
+    this.setState({ name: displayName })
+  }
+
+  updateState(user){
+      this.setState({name: user.name,
+        username: user.username,
+       stateCode: user.stateCode,
+        city: user.city});
   }
   
   render() {
     const { name, username, stateCode, city } = this.state
-    const user = this.props.navigation.getParam('user', { 
-      displayName:'', 
-      email: null, 
-      phoneNumber:null,
-      photoURL: null,
-      providerId: 'facebook.com',
-      uid: null
-    });
+    const authId = this.props.navigation.getParam('authId', '');
 
     return (
-      <Container style={styles.container}>
-        <Content padder>
-          <Header transparent />
-          <Text style={styles.title}>Só mais um pouco...</Text>
-          <Form>
-            <Item floatingLabel>
-              <Label>Nome</Label>
-              <Input
-                onChangeText={name => this.setState({ name })}
-                value={name}
-              />
-            </Item>
-            <Item floatingLabel>
-              <Label>Username</Label>
-              <Input
-                autoCapitalize='none'
-                autoCorrect={false}
-                onChangeText={username => this.setState({ username })}
-                value={username}
-              />
-            </Item>
-            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-              <View style={{width: '20%'}}>
-                <Item floatingLabel>
-                  <Label>UF</Label>
-                  <Input
-                    onChangeText={stateCode => this.setState({ stateCode })}
-                    value={stateCode}
-                  />
-                </Item>
-              </View>
-              <View style={{width: '80%'}}>
-                <Item floatingLabel>
-                  <Label>Cidade</Label>
-                  <Input
-                    onChangeText={city => this.setState({ city })}
-                    value={city}
-                  />
-                </Item>
-              </View>
-            </View>
-            
-            <Button
+    <Container style={styles.container}>
+      <Content padder>
+        <Header transparent />
+        <Text style={styles.title}>Só mais um pouco...</Text>
+        <ProfileForm user = {this.state} onChange={user => (this.updateState(user))}/>
+        <Button
               block
               iconLeft
               style={styles.buttonStyle}
-              onPress={() => this.saveInfo(user.uid)}
-            >
-              <Text style={styles.buttonText}>Cadastrar</Text>
-            </Button>
-          </Form>
-        </Content>
-      </Container>
+              onPress={() => this.saveInfo(authId)}
+        >
+        <Text style={styles.buttonText}>Cadastrar</Text>
+        </Button>
+      </Content>
+    </Container>
     )
   }
 }
