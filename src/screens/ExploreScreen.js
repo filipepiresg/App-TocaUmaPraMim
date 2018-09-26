@@ -14,15 +14,15 @@ export default class ExploreScreen extends Component {
     };
   }
   
-  componentWillMount() {
+  componentDidMount() {
     this.retrieveDataUsers();
     
   }
 
   retrieveDataUsers = async () => {
-    // const {users} = this.state;
-    const dbUsers = await firebase
-      .firestore()
+    const db = firebase.firestore()
+    db.settings({ timestampsInSnapshots: true })
+    const dbUsers = await db
       .collection("users")
       .get();
     const users = []
@@ -43,7 +43,7 @@ export default class ExploreScreen extends Component {
             <Input
               placeholder="busca por nome e/ou instrumento"
               value={search}
-              onChangeText={search => this.setState({ search })}
+              onChangeText={text => this.setState({ search:text })}
               autoCapitalize="none"
               autoCorrect={false}
               keyboardType="name-phone-pad"
