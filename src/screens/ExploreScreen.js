@@ -1,11 +1,13 @@
 import firebase from "firebase";
-import { Container, Content, Header, Icon, Input, Item } from "native-base";
 import React, { Component } from "react";
+import { Container, Content, Header, Icon, Input, Item, Spinner } from "native-base";
 import { StyleSheet } from "react-native";
-import User from "../components/User";
 require("firebase/firestore");
 
-export default class ExploreScreen extends Component {
+import User from "../components/User";
+import withLoading from '../components/hocs/withLoading';
+
+class ExploreScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,21 +22,29 @@ export default class ExploreScreen extends Component {
   }
 
   retrieveDataUsers = async () => {
-    const db = firebase.firestore()
-    db.settings({ timestampsInSnapshots: true })
+    const {  showLoading, hideLoading } = this.props;
+    showLoading();
+
+    const db = firebase.firestore();
+    db.settings({ timestampsInSnapshots: true });
     const dbUsers = await db
       .collection("users")
       .get();
-    const users = []
+    const users = [];
     dbUsers.forEach( user => {
-      users.push(user.data())
+      users.push(user.data());
     })
-    this.setState({ users })
+    this.setState({ users });
+
+    hideLoading();
   }
 
   render() {
     const { search, users } = this.state;
-    const { navigation } = this.props;
+    const { navigation, loading } = this.props;
+    const content = ( loading ) 
+      ? <Spinner style={{flex:1, alignItems:'center'}} /> 
+      : users.map( user => ( <User key={user.username} user={user} navigation={navigation} /> ))
     return (
       <Container style={styles.container}>
         <Header searchBar rounded transparent>
@@ -53,9 +63,7 @@ export default class ExploreScreen extends Component {
 
         <Content contentContainerStyle={styles.content}>
           { 
-            users.map( user => (
-              <User key={user.username} user={user} navigation={navigation} />
-            ))
+            content
           }
         </Content>
       </Container>
@@ -75,3 +83,5 @@ const styles = StyleSheet.create({
     flexWrap: "wrap"
   }
 });
+
+export default withLoading(ExploreScreen);

@@ -9,14 +9,15 @@ import {
   Thumbnail,
   Item,
   Input,
-  Text
+  Text,
+  Header
 } from "native-base";
 import firebase from 'firebase';
-import { Spinner } from 'native-base';
 require('firebase/firestore')
 
 import Logo from "../img/logo.png";
 import withAuth from "../components/hocs/withAuth";
+import Loading from "../components/Loading";
 
 const { width } = Dimensions.get("window");
 
@@ -62,9 +63,10 @@ class LoginScreen extends Component {
     search: ''
   }
 
-  async lookingForArtist() {
-    const {search} = this.state;
-    // alert(search)
+  async lookingForArtist(search) {
+    const { showLoading, hideLoading } = this.props;
+    showLoading();
+
     const db = firebase.firestore()
     db.settings({ timestampsInSnapshots: true })
     const usersRef = await db.collection('users')
@@ -72,7 +74,7 @@ class LoginScreen extends Component {
       .get()
       .then( value => {
         if (value.empty) {
-          Alert.alert('Usuário não encontrado!')
+          Alert.alert('Usuário não foi encontrado','', [{text: 'Voltar', style:'destructive'}])
         } else {
           this.props.navigation.navigate('Profile', {user:value.docs[0].data()})
         }
@@ -80,13 +82,15 @@ class LoginScreen extends Component {
       .catch((err) => {
         console.error(err)
       })
+      hideLoading();
   }
 
   render() {
     const { search } = this.state;
-    const { loginWithFacebook, loading } = this.props;
+    const { loginWithFacebook } = this.props;
     return (
       <Container style={styles.container}>
+        <Header transparent/>
         <Content padder>
           <Body>
             <Thumbnail source={Logo} style={styles.thumbnailLogo} square />
@@ -123,7 +127,7 @@ class LoginScreen extends Component {
                     value={search}
                     onChangeText={txt => this.setState({ search: txt })}
                     returnKeyType="search"
-                    onSubmitEditing={() => {this.lookingForArtist()}}
+                    onSubmitEditing={() => this.lookingForArtist(search)}
                   />
                 </Item>
               </View>
@@ -152,12 +156,7 @@ class LoginScreen extends Component {
             </View>
           </Body>
         </Content>
-        <Modal 
-          transparent 
-          visible={loading} 
-        >
-          <Spinner style={{flex:1, justifyContent:'center'}}/>
-        </Modal>
+        <Loading loading={this.props.loading} />
       </Container>
     );
   }
