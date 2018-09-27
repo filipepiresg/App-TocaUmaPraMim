@@ -1,15 +1,20 @@
 import { createStackNavigator } from "react-navigation";
-import { LoginScreen, InfoScreen, RegisterScreen } from "../screens";
-import MusicRegistrationScreen from "../screens/MusicRegistrationScreen";
+import { 
+  InfoScreen,
+  LoginScreen,
+  RegisterScreen,
+  MusicRegistrationScreen
+} from "../screens";
 
 export default createStackNavigator(
   {
-    Login: LoginScreen,
     Info: InfoScreen,
+    Login: LoginScreen,
     Register: RegisterScreen,
     MusicRegistration: MusicRegistrationScreen
   },
   {
-    initialRouteName: "Login"
+    initialRouteName: "Login",
+    headerMode:'none'
   }
 );
