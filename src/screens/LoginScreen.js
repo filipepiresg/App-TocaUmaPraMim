@@ -10,14 +10,14 @@ import {
   Item,
   Input,
   Text,
-  Header
 } from "native-base";
 import firebase from 'firebase';
 require('firebase/firestore')
+import { compose } from "redux";
 
 import Logo from "../img/logo.png";
 import withAuth from "../components/hocs/withAuth";
-import Loading from "../components/Loading";
+import withLoading from "../components/hocs/withLoading";
 
 const { width } = Dimensions.get("window");
 
@@ -90,7 +90,6 @@ class LoginScreen extends Component {
     const { loginWithFacebook } = this.props;
     return (
       <Container style={styles.container}>
-        <Header transparent/>
         <Content padder>
           <Body>
             <Thumbnail source={Logo} style={styles.thumbnailLogo} square />
@@ -156,10 +155,9 @@ class LoginScreen extends Component {
             </View>
           </Body>
         </Content>
-        <Loading loading={this.props.loading} />
       </Container>
     );
   }
 }
 
-export default withAuth(LoginScreen)
+export default compose(withAuth, withLoading)(LoginScreen)

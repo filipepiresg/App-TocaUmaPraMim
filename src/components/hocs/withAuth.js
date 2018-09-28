@@ -3,16 +3,10 @@ import { Alert } from 'react-native'
 import * as firebase from 'firebase'
 require('firebase/firestore');
 
-import withLoading from './withLoading';
-
 export default WrappedComponent => {
   class withAuth extends React.Component {
-    state = {
-      loading: false
-    }
     
     _loginWithFacebook = async () => {
-      const { showLoading, hideLoading } = this.props;
       const { type, token } = await Expo.Facebook
         .logInWithReadPermissionsAsync(
           '2207895276121269',
@@ -20,7 +14,6 @@ export default WrappedComponent => {
         )
         
       if (type === 'success') {
-        showLoading();
 
         // Build Firebase credential with the Facebook access token.
         const credential = firebase.auth.FacebookAuthProvider.credential(token)
@@ -32,7 +25,6 @@ export default WrappedComponent => {
           this._verifyUser(user)
         })
         .catch(error => {
-          hideLoading();
 
           Alert.alert('Houve um erro ao tentar logar')
           console.log(error)
@@ -49,7 +41,6 @@ export default WrappedComponent => {
      * @param {String} uid
      */
     _verifyUser = async user => {
-      const { hideLoading } = this.props;
       let isRegistered = false
       const db = firebase.firestore()
       db.settings({ timestampsInSnapshots: true })
@@ -61,9 +52,6 @@ export default WrappedComponent => {
           isRegistered = true
         }
       })
-      
-      // this.setState({ loading: false })
-      hideLoading();
 
       if (!isRegistered) {
         const { providerData, uid } = user;
@@ -77,12 +65,11 @@ export default WrappedComponent => {
       return (
           <WrappedComponent
             loginWithFacebook={this._loginWithFacebook}
-            loading={this.state.loading}
             {...this.props}
           />
       )
     }
   }
 
-  return withLoading(withAuth)
+  return withAuth
 }

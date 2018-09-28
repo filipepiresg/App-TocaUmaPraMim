@@ -1,16 +1,14 @@
-import React, { createContext } from "react";
+import React from "react";
 import * as firebase from "firebase";
-import { Root } from "native-base";
 
 import "./ReactotronConfig";
 import { MainNavigator } from "./src/navigators";
 import { LoadingContext } from './src/components/contexts';
-import Loading from "./src/components/Loading";
 
 class App extends React.Component {
   constructor() {
     super();
-    this.state = { loading: false, loadingInicial: true };
+    this.state = { loading: true };
     const firebaseConfig = {
       apiKey: "AIzaSyBUg1w5wWR2DttpKi5WKC3MTftqqlVbKZs",
       authDomain: "tupm-app.firebaseapp.com",
@@ -27,23 +25,20 @@ class App extends React.Component {
       'Roboto': require('native-base/Fonts/Roboto.ttf'),
       'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
     });
-    this.setState({ loadingInicial: false })
+    this.setState({ loading: false })
   }
 
   showLoading = () => this.setState({ loading: true })
   hideLoading = () => this.setState({ loading: false })
 
   render() {
-    const { loading, loadingInicial } = this.state;
+    const { loading } = this.state;
     const { showLoading, hideLoading } = this;
 
     // loading aparecendo pra mais de uma pagina
     return(
       <LoadingContext.Provider value={ { loading, showLoading, hideLoading } }>
-        <Root>
-          <MainNavigator />
-          <Loading loading={loadingInicial} />
-        </Root>
+        <MainNavigator />
       </LoadingContext.Provider>
     );
   }
