@@ -36,7 +36,6 @@ class DebouncedInputComponent extends Component {
     };
 
     sendTextChange = (text) => {
-        console.log(text);
         this.props.updateText(text);
     };
 }

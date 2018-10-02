@@ -5,6 +5,8 @@ import CardSection from "../components/CardSection";
 import Input from "../components/Input";
 import { Container, Button, List, ListItem, Header, Content, Item, Picker, Icon, CheckBox, Body } from "native-base";
 import DebouncedInputComponent from "../components/DebouncedInput";
+import genres from '../jsons/genres.json';
+import axios from 'axios';
 
 const styles = StyleSheet.create({
     title: {
@@ -61,26 +63,13 @@ const styles = StyleSheet.create({
 //     'Harpa', 'Saxofone', 'Trompete',
 //     'Violino', 'Cavaquinho', 'Sanfona' ];
 
-const genres = [
-'Alternativo','Axé','Blues','Bolero','Bossa Nova','Brega','Clássico',
-'Country','Cuarteto','Cumbia','Dance','Disco','Eletrônica',
-'Emocore','Fado','Folk','Forró','Funk','Funk Internacional',
-'Gospel/Religioso','Grunge','Guarânia','Gótico','Hard Rock',
-'Hardcore','Heavy Metal','Hip Hop/Rap','House','Indie','Industrial',
-'Infantil','Instrumental','J-Pop/J-Rock','Jazz','Jovem Guarda',
-'K-Pop/K-Rock','MPB','Mambo','Marchas/Hinos','Mariachi',
-'Merengue','Música andina','New Age','New Wave','Pagode',
-'Pop','Pop Rock','Post-Rock','Power-Pop','Psicodelia','Punk Rock',
-'R&B','Ranchera','Reggae','Reggaeton','Regional','Rock',
-'Rock Progressivo','Rock and Roll','Rockabilly','Romântico',
-'Salsa','Samba','Samba Enredo','Sertanejo','Ska','Soft Rock',
-'Soul','Surf Music','Tango','Tecnopop','Trova','Velha Guarda',
-'World Music','Zamba','Zouk'];
+const CIFRACLUB_API_URL = '192.168.25.11:8082';
 
 export default class MusicRegistrationScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            searchResult: [],
             hideInputs: true,
             search: "",
             name: "",
@@ -97,6 +86,16 @@ export default class MusicRegistrationScreen extends Component {
 
     searchSong(search) {
         this.setState({ search });
+        let url = CIFRACLUB_API_URL + '/songs?name=' + search;
+
+        axios.get(url)
+        .then(res => {
+            console.log(res);
+            // let searchResult = res.json();
+            // this.setState({ searchResult });
+        })
+
+        console.log("SEARCHHHH!");
     }
 
     renderPickerItems(list) {
@@ -111,19 +110,16 @@ export default class MusicRegistrationScreen extends Component {
     }
 
     onHarmonicSelect() {
-        console.log(this.state);
         this.setState({harmonic: !this.state.harmonic});
-        console.log(this.state);
     }
 
     onMelodicSelect() {
-        console.log(this.state);
         this.setState({melodic: !this.state.melodic});
-        console.log(this.state);
     }
 
     render() {
-        const { hideInputs, name, artist, selectedGenre, search, melodic, harmonic } = this.state;
+        const { searchResult, hideInputs, name, artist, 
+            selectedGenre, search, melodic, harmonic } = this.state;
         const { navigation } = this.props;
         return (
             <Container style={styles.container}>
@@ -141,10 +137,10 @@ export default class MusicRegistrationScreen extends Component {
                         { search == '' ? null : (
                             <View>
                                 <CardSection>
-                                    <List dataArray={['Item 1','Item 2','Item 3!']}
-                                          renderRow={(item) =>
+                                    <List dataArray={searchResult}
+                                          renderRow={(song) =>
                                         <ListItem>
-                                            <Text>{item}</Text>
+                                            <Text>{song.artist.name + ' - ' + song.name}</Text>
                                         </ListItem>
                                     }>
                                     </List>
