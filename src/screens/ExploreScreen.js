@@ -1,9 +1,10 @@
-import firebase from "firebase";
 import React, { Component } from "react";
-import { Container, Content, Header, Icon, Input, Item, Spinner } from "native-base";
 import { StyleSheet } from "react-native";
+import firebase from "firebase";
 require("firebase/firestore");
+import { Container, Content, Icon, Input, Item, Spinner } from "native-base";
 
+import stylesd from '../stylesd';
 import User from "../components/User";
 import withLoading from '../components/hocs/withLoading';
 
@@ -43,24 +44,21 @@ class ExploreScreen extends Component {
     const { search, users } = this.state;
     const { navigation, loading } = this.props;
     const content = ( loading ) 
-      ? <Spinner style={{flex:1, alignItems:'center'}} /> 
+      ? <Spinner style={ styles.spinner } /> 
       : users.map( user => ( <User key={user.username} user={user} navigation={navigation} /> ))
     return (
       <Container style={styles.container}>
-        <Header searchBar rounded transparent>
-          <Item style={styles.itemInput}>
-            <Icon name="search" />
-            <Input
-              placeholder="busca por nome e/ou instrumento"
-              value={search}
-              onChangeText={text => this.setState({ search:text })}
-              autoCapitalize="none"
-              autoCorrect={false}
-              keyboardType="name-phone-pad"
-            />
-          </Item>
-        </Header>
-
+        <Item style={styles.itemInput} rounded>
+          <Icon name="search" />
+          <Input
+            value={search}
+            autoCorrect={false}
+            autoCapitalize="none"
+            keyboardType="name-phone-pad"
+            placeholder="busca por nome e/ou instrumento"
+            onChangeText={text => this.setState({ search:text })}
+          />
+        </Item>
         <Content contentContainerStyle={styles.content}>
           { 
             content
@@ -73,14 +71,18 @@ class ExploreScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "rgb(255,239,215)"
+    backgroundColor: stylesd.corDeFundo
   },
   itemInput: {
     backgroundColor: "#fff"
   },
   content: {
+    flexWrap: "wrap",
     flexDirection: "row",
-    flexWrap: "wrap"
+  },
+  spinner: {
+    flex:1, 
+    alignItems:'center'
   }
 });
 

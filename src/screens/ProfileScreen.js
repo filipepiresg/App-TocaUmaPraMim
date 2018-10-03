@@ -16,6 +16,7 @@ import {
 } from "native-base";
 import { View, Image, StyleSheet, Text, Dimensions } from "react-native";
 
+import stylesd from '../stylesd';
 import Footer from "../components/Footer";
 import imgDefault from "../img/perfil.png";
 import MusicRegistrationScreen from "./MusicRegistrationScreen";
@@ -25,7 +26,7 @@ const { width } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "rgb(255,239,215)"
+    backgroundColor: stylesd.corDeFundo
   },
   content: {
     backgroundColor: "#fff"
@@ -140,23 +141,6 @@ export default class ProfileScreen extends Component {
     const { navigation } = this.props;
     return (
       <Container style={styles.container}>
-        <Header transparent>
-          {
-            navigation.getParam("back", false) ? (
-              <Left>
-                <Button onPress={() => navigation.goBack()} transparent>
-                  <Icon type="FontAwesome" name="angle-left" />
-                </Button>
-              </Left>
-            ) : (
-              <Left />
-            )
-          }
-          <Body>
-            <Title>Profile</Title>
-          </Body>
-          <Right />
-        </Header>
         <Container style={styles.subContainer}>
           <Container style={styles.containerPerfil}>
             <Image

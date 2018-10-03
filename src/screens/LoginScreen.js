@@ -15,6 +15,7 @@ import firebase from 'firebase';
 require('firebase/firestore')
 import { compose } from "redux";
 
+import stylesd from '../stylesd';
 import Logo from "../img/logo.png";
 import withAuth from "../components/hocs/withAuth";
 import withLoading from "../components/hocs/withLoading";
@@ -23,7 +24,7 @@ const { width } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "rgb(255,239,215)"
+    backgroundColor: stylesd.corDeFundo
   },
   subContainer: {
     marginTop: 20,
@@ -49,13 +50,25 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     flex: 1,
     borderRightWidth: 2,
-    borderColor: "rgb(97,197,207)",
+    borderColor: stylesd.segundaCor,
     justifyContent: "space-between",
     paddingVertical: 10
   },
   btn: {
     justifyContent: "flex-start"
-  }
+  },
+  inputBusca: {
+    borderWidth: 2,
+    borderColor: stylesd.segundaCor,
+    backgroundColor: "#fff"
+  },
+  txtSobreApp: { 
+    marginVertical: 30, 
+    fontSize: 19 
+  },
+  txtSobreContainer: { 
+    fontWeight: "100"
+ }
 });
 
 class LoginScreen extends Component {
@@ -76,7 +89,7 @@ class LoginScreen extends Component {
         if (value.empty) {
           Alert.alert('Usuário não foi encontrado','', [{text: 'Voltar', style:'destructive'}])
         } else {
-          this.props.navigation.navigate('Profile', {user:value.docs[0].data()})
+          this.props.navigation.navigate('Info', {user:value.docs[0].data()})
         }
       })
       .catch((err) => {
@@ -93,13 +106,13 @@ class LoginScreen extends Component {
         <Content padder>
           <Body>
             <Thumbnail source={Logo} style={styles.thumbnailLogo} square />
-            <Text style={[styles.txt, { marginVertical: 30, fontSize: 19 }]}>
+            <Text style={[styles.txt, styles.txtSobreApp]}>
               Compartilhe as músicas que você sabe e descubra quais seus amigos
               tocam!
             </Text>
             <View style={styles.subContainer}>
               <View style={styles.containerBusca}>
-                <Text style={[styles.txt, { fontWeight: "100" }]}>
+                <Text style={[styles.txt, styles.txtSobreContainer]}>
                   Veja o repertório de alguém
                 </Text>
                 <Button
@@ -107,7 +120,7 @@ class LoginScreen extends Component {
                   iconLeft
                   style={[
                     styles.btn,
-                    { backgroundColor: "rgb(97,197,207)", marginVertical: 10 }
+                    { backgroundColor: stylesd.segundaCor, marginVertical: 10 }
                   ]}
                 >
                   <Icon type="FontAwesome" name="camera" />
@@ -115,23 +128,19 @@ class LoginScreen extends Component {
                 </Button>
                 <Item>
                   <Input
-                    placeholder="Digite o usuario"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    style={{
-                      borderWidth: 2,
-                      borderColor: "rgb(97,197,207)",
-                      backgroundColor: "#fff"
-                    }}
                     value={search}
-                    onChangeText={txt => this.setState({ search: txt })}
+                    autoCorrect={false}
+                    autoCapitalize="none"
                     returnKeyType="search"
+                    style={styles.inputBusca}
+                    placeholder="Digite o usuario"
+                    onChangeText={txt => this.setState({ search: txt })}
                     onSubmitEditing={() => this.lookingForArtist(search)}
                   />
                 </Item>
               </View>
               <View style={styles.containerCadastro}>
-                <Text style={[styles.txt, { fontWeight: "100" }]}>
+                <Text style={[styles.txt, styles.txtSobreContainer]}>
                   Você é músico?
                 </Text>
                 <Button
