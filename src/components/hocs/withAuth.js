@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert } from 'react-native'
+import { Alert, AsyncStorage } from 'react-native'
 import * as firebase from 'firebase'
 require('firebase/firestore');
 
@@ -49,14 +49,15 @@ export default WrappedComponent => {
       
       users.forEach((u) => {
         if(u.data().authId == user.uid) {
-          isRegistered = true
+          isRegistered = true;
         }
       })
-
+      
       if (!isRegistered) {
         const { providerData, uid } = user;
         this.props.navigation.navigate('Register', { user: providerData[0], authId: uid })
       } else {
+        await AsyncStorage.setItem('firebaseAuthToken', user.uid)
         this.props.navigation.navigate('Explore')
       }
     }
