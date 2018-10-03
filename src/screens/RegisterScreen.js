@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, AsyncStorage } from 'react-native'
 
 import {
   Container,
@@ -12,6 +12,8 @@ import {
   Input
 } from 'native-base'
 import * as firebase from 'firebase';
+
+import stylesd from '../stylesd';
 import UsernameInput from '../components/UsernameInput';
 import ProfileForm from '../components/ProfileForm';
 
@@ -24,10 +26,10 @@ const styles = StyleSheet.create({
     margin: 20,
   },
   container: {
-    backgroundColor: 'rgb(255,239,215)',
+    backgroundColor: stylesd.corDeFundo,
   },
   buttonStyle: {
-    backgroundColor: 'rgb(72,186,196)',
+    backgroundColor: stylesd.segundaCor,
     marginBottom: 10,
     borderRadius: 10,
     marginTop: 25,
@@ -44,14 +46,17 @@ export default class RegisterScreen extends Component {
         super(props);
     }
   state = {
-    name: '',
-    username: '',
-    stateCode: '',
-    city: ''
+    user: {
+      name: '',
+      username: '',
+      stateCode: '',
+      city: ''
+    },
+    loading: false
   }
 
   async saveInfo(authId) {
-    const { name, username, stateCode, city } = this.state
+    const { name, username, stateCode, city } = this.state.user;
     const { photoURL } = this.props.navigation.getParam('user', {
       photoURL:''
     })
@@ -64,6 +69,7 @@ export default class RegisterScreen extends Component {
       authId,
       photoURL
     }).then( () => {
+      AsyncStorage.setItem('firebaseAuthToken', authId)
       this.props.navigation.navigate('Explore')
     })
   }
@@ -72,26 +78,23 @@ export default class RegisterScreen extends Component {
     const {displayName} = this.props.navigation.getParam('user', { 
       displayName:''
     });
-    this.setState({ name: displayName })
+    const { user } = this.state;
+    this.setState({ user: {...user, name: displayName }})
   }
 
   updateState(user){
-      this.setState({name: user.name,
-        username: user.username,
-       stateCode: user.stateCode,
-        city: user.city});
+      this.setState({ user });
   }
   
   render() {
-    const { name, username, stateCode, city } = this.state
+    const { name, username, stateCode, city } = this.state.user;
     const authId = this.props.navigation.getParam('authId', '');
-
     return (
     <Container style={styles.container}>
       <Content padder>
-        <Header transparent />
         <Text style={styles.title}>Só mais um pouco...</Text>
-        <ProfileForm user = {this.state} onChange={user => (this.updateState(user))}/>
+        <ProfileForm user = {this.state.user} onChange={ user => this.updateState(user) }/>
+        {/* <ProfileForm user = {this.state} onChange={user => (this.updateState(user))}/> */}
         <Button
               block
               iconLeft
