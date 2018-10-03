@@ -3,17 +3,23 @@ import {
   InfoScreen,
   LoginScreen,
   RegisterScreen,
-  MusicRegistrationScreen
 } from "../screens";
+import stylesd from '../stylesd';
 
 export default createStackNavigator(
   {
     Info: InfoScreen,
     Login: LoginScreen,
-    Register: RegisterScreen,
-    MusicRegistration: MusicRegistrationScreen
+    Register: RegisterScreen  
   },
   {
+    headerMode: 'float',
     initialRouteName: "Login",
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: stylesd.corDeFundo,
+
+      },
+    }
   }
 );
