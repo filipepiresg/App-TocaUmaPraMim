@@ -91,6 +91,7 @@ class LoginScreen extends Component {
         } else {
           this.props.navigation.navigate('Info', {user:value.docs[0].data()})
         }
+        this.setState({ search: '' })
       })
       .catch((err) => {
         console.error(err)

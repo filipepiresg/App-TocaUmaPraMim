@@ -37,6 +37,9 @@ const amountRitmos = (inventory = []) => {
 };
 
 export default class InfoScreen extends Component {
+  static navigationOptions = {
+    title: (this.state) ? this.state.name : 'profile' 
+  }
   constructor(props) {
     super(props);
     this.state = {
@@ -44,12 +47,23 @@ export default class InfoScreen extends Component {
       inventory: [],
       instrument: "",
       premium: false,
-      picture: "",
-      search: ""}
+      picture: ""
+    }
+  }
+
+  componentWillMount() {
+    const { navigation } = this.props;
+    const user = navigation.getParam('user', {
+      name: "",
+      inventory: [],
+      instrument: "",
+      premium: false,
+      picture: ""
+    })
+      this.setState(user);
   }
   render() {
-    const { navigation } = this.props;
-    const { photoURL, instrument, name, inventory, search } = this.state;
+    const { photoURL, instrument, name, inventory } = this.state;
     return (
       <Container style={ styles.container }>
         <Container style={styles.subContainer}>
