@@ -57,8 +57,8 @@ export default WrappedComponent => {
         const { providerData, uid } = user;
         this.props.navigation.navigate('Register', { user: providerData[0], authId: uid })
       } else {
-        await AsyncStorage.setItem('firebaseAuthToken', user.uid)
-        this.props.navigation.navigate('Explore')
+        // await AsyncStorage.setItem('firebaseAuthToken', user.uid)
+        this.props.navigation.navigate('App')
       }
     }
 

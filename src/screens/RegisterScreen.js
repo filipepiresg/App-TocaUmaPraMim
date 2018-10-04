@@ -69,8 +69,8 @@ export default class RegisterScreen extends Component {
       authId,
       photoURL
     }).then( () => {
-      AsyncStorage.setItem('firebaseAuthToken', authId)
-      this.props.navigation.navigate('Explore')
+      // AsyncStorage.setItem('firebaseAuthToken', authId)
+      this.props.navigation.navigate('App')
     })
   }
 
@@ -94,7 +94,6 @@ export default class RegisterScreen extends Component {
       <Content padder>
         <Text style={styles.title}>Só mais um pouco...</Text>
         <ProfileForm user = {this.state.user} onChange={ user => this.updateState(user) }/>
-        {/* <ProfileForm user = {this.state} onChange={user => (this.updateState(user))}/> */}
         <Button
               block
               iconLeft

@@ -37,9 +37,6 @@ const amountRitmos = (inventory = []) => {
 };
 
 export default class InfoScreen extends Component {
-  static navigationOptions = {
-    title: (this.state) ? this.state.name : 'profile' 
-  }
   constructor(props) {
     super(props);
     this.state = {
