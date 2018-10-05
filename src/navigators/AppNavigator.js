@@ -1,9 +1,15 @@
-import { createBottomTabNavigator } from "react-navigation";
-import { ExploreScreen, ProfileScreen } from "../screens";
-import { Icon } from "native-base";
 import React from 'react';
+import { Icon } from "native-base";
+import { createBottomTabNavigator, createStackNavigator } from "react-navigation";
 
-export default createBottomTabNavigator({ 
+import {
+  ExploreScreen,
+  ProfileScreen,
+  MusicRegistrationScreen
+} from "../screens";
+import stylesd from '../stylesd';
+
+const TabNavigator = createBottomTabNavigator({ 
   Explore:{
     screen: ExploreScreen,
     navigationOptions:{
@@ -32,8 +38,23 @@ export default createBottomTabNavigator({
     activeTintColor: "#FFF",
     inactiveTintColor: "#CCC",
     style: {
-      backgroundColor: 'rgb(72,186,196)'
+      backgroundColor: stylesd.segundaCor
     }
   }
   
 });
+
+export default createStackNavigator({
+    TabNavigator,
+    MusicRegistration: MusicRegistrationScreen
+
+  }, {
+    headerMode: 'float',
+    initialRouteKey: 'TabNavigator',
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: stylesd.corDeFundo
+      }
+    }
+  }
+)

@@ -1,13 +1,10 @@
 import React from 'react'
-import { Alert } from 'react-native'
+import { Alert, AsyncStorage } from 'react-native'
 import * as firebase from 'firebase'
-require('firebase/firestore')
+require('firebase/firestore');
 
 export default WrappedComponent => {
   class withAuth extends React.Component {
-    state = {
-      loading: false
-    }
     
     _loginWithFacebook = async () => {
       const { type, token } = await Expo.Facebook
@@ -17,6 +14,7 @@ export default WrappedComponent => {
         )
         
       if (type === 'success') {
+
         // Build Firebase credential with the Facebook access token.
         const credential = firebase.auth.FacebookAuthProvider.credential(token)
         // Sign in with credential from the Facebook user.
@@ -24,10 +22,10 @@ export default WrappedComponent => {
         .auth()
         .signInAndRetrieveDataWithCredential(credential)
         .then(({ user }) => {
-          this.setState({ loading: true })
           this._verifyUser(user)
         })
         .catch(error => {
+
           Alert.alert('Houve um erro ao tentar logar')
           console.log(error)
         })
@@ -51,26 +49,25 @@ export default WrappedComponent => {
       
       users.forEach((u) => {
         if(u.data().authId == user.uid) {
-          isRegistered = true
+          isRegistered = true;
         }
       })
       
-      this.setState({ loading: false })
       if (!isRegistered) {
         const { providerData, uid } = user;
         this.props.navigation.navigate('Register', { user: providerData[0], authId: uid })
       } else {
-        this.props.navigation.navigate('Explore')
+        // await AsyncStorage.setItem('firebaseAuthToken', user.uid)
+        this.props.navigation.navigate('App')
       }
     }
 
     render() {
       return (
-        <WrappedComponent
-          loginWithFacebook={this._loginWithFacebook}
-          loading={this.state.loading}
-          {...this.props}
-        />
+          <WrappedComponent
+            loginWithFacebook={this._loginWithFacebook}
+            {...this.props}
+          />
       )
     }
   }

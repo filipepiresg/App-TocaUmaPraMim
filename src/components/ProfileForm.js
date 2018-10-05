@@ -53,7 +53,7 @@ export default class ProfileForm extends Component {
         return (
           <Form>
             <Item floatingLabel>
-              <Label>Nome</Label>
+              <Label>Cidade</Label>
               <Input
                 onChangeText={name => this.handleNameChange(name)}
                 value={name}

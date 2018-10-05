@@ -1,15 +1,25 @@
 import { createStackNavigator } from "react-navigation";
-import { LoginScreen, InfoScreen, RegisterScreen } from "../screens";
-import MusicRegistrationScreen from "../screens/MusicRegistrationScreen";
+import { 
+  InfoScreen,
+  LoginScreen,
+  RegisterScreen,
+} from "../screens";
+import stylesd from '../stylesd';
 
 export default createStackNavigator(
   {
-    Login: LoginScreen,
     Info: InfoScreen,
-    Register: RegisterScreen,
-    MusicRegistration: MusicRegistrationScreen
+    Login: LoginScreen,
+    Register: RegisterScreen  
   },
   {
-    initialRouteName: "Login"
+    headerMode: 'float',
+    initialRouteName: "Login",
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: stylesd.corDeFundo,
+
+      },
+    }
   }
 );

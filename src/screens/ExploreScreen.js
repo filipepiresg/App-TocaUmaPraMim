@@ -1,11 +1,14 @@
-import firebase from "firebase";
-import { Container, Content, Header, Icon, Input, Item } from "native-base";
 import React, { Component } from "react";
 import { StyleSheet } from "react-native";
-import User from "../components/User";
+import firebase from "firebase";
 require("firebase/firestore");
+import { Container, Content, Icon, Input, Item, Spinner } from "native-base";
 
-export default class ExploreScreen extends Component {
+import stylesd from '../stylesd';
+import User from "../components/User";
+import withLoading from '../components/hocs/withLoading';
+
+class ExploreScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,42 +23,45 @@ export default class ExploreScreen extends Component {
   }
 
   retrieveDataUsers = async () => {
-    const db = firebase.firestore()
-    db.settings({ timestampsInSnapshots: true })
+    const {  showLoading, hideLoading } = this.props;
+    showLoading();
+
+    const db = firebase.firestore();
+    db.settings({ timestampsInSnapshots: true });
     const dbUsers = await db
       .collection("users")
       .get();
-    const users = []
+    const users = [];
     dbUsers.forEach( user => {
-      users.push(user.data())
+      users.push(user.data());
     })
-    this.setState({ users })
+    this.setState({ users });
+
+    hideLoading();
   }
 
   render() {
     const { search, users } = this.state;
-    const { navigation } = this.props;
+    const { navigation, loading } = this.props;
+    const content = ( loading ) 
+      ? <Spinner style={ styles.spinner } /> 
+      : users.map( user => ( <User key={user.username} user={user} navigation={navigation} /> ))
     return (
       <Container style={styles.container}>
-        <Header searchBar rounded transparent>
-          <Item style={styles.itemInput}>
-            <Icon name="search" />
-            <Input
-              placeholder="busca por nome e/ou instrumento"
-              value={search}
-              onChangeText={text => this.setState({ search:text })}
-              autoCapitalize="none"
-              autoCorrect={false}
-              keyboardType="name-phone-pad"
-            />
-          </Item>
-        </Header>
-
+        <Item style={styles.itemInput} rounded>
+          <Icon name="search" />
+          <Input
+            value={search}
+            autoCorrect={false}
+            autoCapitalize="none"
+            keyboardType="name-phone-pad"
+            placeholder="busca por nome e/ou instrumento"
+            onChangeText={text => this.setState({ search:text })}
+          />
+        </Item>
         <Content contentContainerStyle={styles.content}>
           { 
-            users.map( user => (
-              <User key={user.username} user={user} navigation={navigation} />
-            ))
+            content
           }
         </Content>
       </Container>
@@ -65,13 +71,19 @@ export default class ExploreScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "rgb(255,239,215)"
+    backgroundColor: stylesd.corDeFundo
   },
   itemInput: {
     backgroundColor: "#fff"
   },
   content: {
+    flexWrap: "wrap",
     flexDirection: "row",
-    flexWrap: "wrap"
+  },
+  spinner: {
+    flex:1, 
+    alignItems:'center'
   }
 });
+
+export default withLoading(ExploreScreen);
