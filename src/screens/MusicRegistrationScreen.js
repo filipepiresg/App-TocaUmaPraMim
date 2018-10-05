@@ -89,8 +89,7 @@ export default class MusicRegistrationScreen extends Component {
     super(props)
     this.state = {
       searchResult: [],
-      songsList: null,
-      selectedSong: undefined,
+      selectedSong: null,
       hideInputs: true,
       search: '',
       name: '',
@@ -119,13 +118,6 @@ export default class MusicRegistrationScreen extends Component {
       .then(response => response.json())
       .then(searchResult => {
         this.setState({ searchResult })
-
-        this.state.songsList = (
-          <List
-            dataArray={this.state.searchResult}
-            renderRow={song => this.renderListItem(song)}
-          />
-        )
       })
       .catch(error => {
         console.error(error)
@@ -155,16 +147,6 @@ export default class MusicRegistrationScreen extends Component {
     this.setState({ selectedSong })
   }
 
-  renderListItem(song) {
-    return (
-      <ListItem key={song.name} noIndent style={{ backgroundColor: '#cde1f9' }}>
-        <TouchableOpacity onPress={() => this.selectSong.bind(this)(song)}>
-          <Text>{song.artist.name + ' - ' + song.name}</Text>
-        </TouchableOpacity>
-      </ListItem>
-    )
-  }
-
   render() {
     const {
       searchResult,
@@ -175,8 +157,7 @@ export default class MusicRegistrationScreen extends Component {
       search,
       melodic,
       harmonic,
-      selectedSong,
-      songsList,
+      selectedSong
     } = this.state
     const { navigation } = this.props
     return (
@@ -192,12 +173,25 @@ export default class MusicRegistrationScreen extends Component {
           </Item>
 
           <Card>
-            {search && (
+            { search == '' ? null : (
               <View>
+                { selectedSong == null ? null : (
+                    <CardSection>
+                        <Text style={styles.showInputs}>
+                            Música selecionada: {selectedSong.artist.name + ' - ' + selectedSong.name}
+                        </Text>
+                    </CardSection>
+                )}
                 <CardSection>
                   <List
-                    dataArray={this.state.searchResult}
-                    renderRow={song => this.renderListItem.bind(this)(song)}
+                    dataArray={searchResult}
+                    renderRow={song => 
+                        <ListItem key={song.name}>
+                            <TouchableOpacity onPress={() => this.selectSong.bind(this)(song)}>
+                            <Text>{song.artist.name + ' - ' + song.name}</Text>
+                            </TouchableOpacity>
+                        </ListItem>
+                    }
                   />
                 </CardSection>
 
@@ -212,7 +206,7 @@ export default class MusicRegistrationScreen extends Component {
             )}
           </Card>
 
-          {hideInputs && (
+          { hideInputs ? null : (
             <Card>
               <CardSection>
                 <Input
