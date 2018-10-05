@@ -1,35 +1,32 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, AsyncStorage } from 'react-native'
+import { Text, StyleSheet, AsyncStorage } from 'react-native'
+import { Container, Button, Content, View } from 'native-base'
+import * as firebase from 'firebase'
+import { styles as s } from 'react-native-style-tachyons'
 
-import {
-  Container,
-  Button,
-  Content,
-  Header,
-  Form,
-  Item,
-  Label,
-  Input
-} from 'native-base'
-import * as firebase from 'firebase';
-
-import stylesd from '../stylesd';
-import UsernameInput from '../components/UsernameInput';
-import ProfileForm from '../components/ProfileForm';
+import stylesd from '../stylesd'
+import ProfileForm from '../components/ProfileForm'
 
 require('firebase/firestore')
-
 
 const styles = StyleSheet.create({
   title: {
     fontSize: 40,
-    margin: 20,
+    marginLeft: 20,
+    marginBottom: 10,
+  },
+  subtitle: {
+    color: 'gray',
+    fontSize: 16,
+    marginLeft: 20,
   },
   container: {
     backgroundColor: stylesd.corDeFundo,
   },
-  buttonStyle: {
+  bgOurBlue: {
     backgroundColor: stylesd.segundaCor,
+  },
+  buttonStyle: {
     marginBottom: 10,
     borderRadius: 10,
     marginTop: 25,
@@ -38,76 +35,80 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontWeight: 'bold',
-  }
+  },
 })
 
-export default class RegisterScreen extends Component {
-    constructor (props) {
-        super(props);
-    }
+class RegisterScreen extends Component {
   state = {
-    user: {
-      name: '',
-      username: '',
-      stateCode: '',
-      city: ''
-    },
-    loading: false
+    user: null,
+    valid: false,
+    loading: false,
   }
 
-  async saveInfo(authId) {
-    const { name, username, stateCode, city } = this.state
-    const { photoURL } = this.props.navigation.getParam('user', {
-      photoURL:''
-    })
+  async saveInfo() {
+    const { user } = this.state
+
     const dbUsers = firebase.firestore().collection('users')
-    await dbUsers.add({
-      fullName: name,
-      stateCode,
-      username,
-      city,
-      authId,
-      photoURL
-    }).then( () => {
+    await dbUsers.add(user).then(() => {
       // AsyncStorage.setItem('firebaseAuthToken', authId)
       this.props.navigation.navigate('App')
     })
   }
 
   componentWillMount() {
-    const {displayName} = this.props.navigation.getParam('user', { 
-      displayName:''
-    });
-    const { user } = this.state;
-    this.setState({ user: {...user, name: displayName }})
+    const userExternalData = this.props.navigation.getParam('user', {
+      displayName: '',
+      photoURL: '',
+      authId: '',
+    })
+    this.setState({ user: { ...userExternalData } })
   }
 
-  updateState = (user) => {
-      this.setState({ user });
+  updateUser = userData => {
+    this.setState({ user: userData }, () => this.validateUser())
   }
-  
+
+  // Enhacement: Verify which one of the erros and send a proper message
+  validateUser = () => {
+    const { user } = this.state
+    let isValid = true
+    if (!user || !user.name || !user.username || !user.stateCode || !user.city)
+      isValid = false
+    else {
+      if (user.name.length < 10) isValid = false
+      if (user.username.length < 10) isValid = false
+    }
+    this.setState({ valid: isValid })
+  }
+
   render() {
+    const { user, loading, valid } = this.state
 
-    const authId = this.props.navigation.getParam('authId', '');
     return (
-    <Container style={styles.container}>
-      <Content padder>
-        <Text style={styles.title}>Só mais um pouco...</Text>
-        <ProfileForm user = {this.state} onChange={user => this.updateState(user)}/>
-
-        <Button
-              block
-              iconLeft
-              style={styles.buttonStyle}
-              onPress={() => this.saveInfo(authId)}
-        >
-        <Text style={styles.buttonText}>Cadastrar</Text>
-        </Button>
-        
-      </Content>
-      
-    </Container>
-             
+      <Container style={styles.container}>
+        <Content padder>
+          <Text style={styles.title}>Só mais um pouco...</Text>
+          <Text style={styles.subtitle}>Complete seus dados cadastrais</Text>
+          <View style={[s.mt2]}>
+            <ProfileForm
+              initialUser={user}
+              onChange={userData => this.updateUser(userData)}
+            />
+          </View>
+          {/** Enhacement: Create an (ButtonPP or something) where it will change its visual state when loading is true*/}
+          <Button
+            block
+            iconLeft
+            style={[styles.buttonStyle, valid && styles.bgOurBlue]}
+            disabled={!valid}
+            // onPress={() => this.saveInfo()}
+          >
+            <Text style={styles.buttonText}>Finalizar Cadastro</Text>
+          </Button>
+        </Content>
+      </Container>
     )
-  } 
+  }
 }
+
+export default RegisterScreen

@@ -1,10 +1,17 @@
 import React from "react";
 import * as firebase from "firebase";
+import NativeTachyons from 'react-native-style-tachyons';
+import { StyleSheet } from 'react-native';
 
 import "./ReactotronConfig";
 import { MainNavigator } from "./src/navigators";
 import { LoadingConsumer, LoadingProvider } from './src/components/contexts/LoadingContext';
 import Loading from './src/components/Loading'
+
+NativeTachyons.build({
+  // rem: screenWidth > 340 ? 18 : 16,
+  fontRem: 20
+}, StyleSheet);
 
 class App extends React.Component {
     
