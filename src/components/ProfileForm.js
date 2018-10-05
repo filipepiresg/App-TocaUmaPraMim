@@ -29,7 +29,7 @@ class ProfileForm extends Component {
     return value => {
       this.setState(
         { user: { ...this.state.user, [field]: value } },
-        this.updateParent()
+        this.updateParent
       )
     }
   }
@@ -37,7 +37,7 @@ class ProfileForm extends Component {
   setLocation = location => {
     this.setState(
       { user: { ...this.state.user, ...location } },
-      this.updateParent()
+      this.updateParent
     )
   }
 

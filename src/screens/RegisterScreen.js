@@ -65,14 +65,16 @@ class RegisterScreen extends Component {
   }
 
   updateUser = userData => {
-    this.setState({ user: userData }, () => this.validateUser())
+    this.setState({ user: {...userData} }, () => this.validateUser())
   }
 
   // Enhacement: Verify which one of the erros and send a proper message
   validateUser = () => {
     const { user } = this.state
     let isValid = true
-    if (!user || !user.name || !user.username || !user.stateCode || !user.city)
+    // Removing location's validation because @caiofelipeam is still fixing it 
+    // (it's not returning correctly)
+    if (!user || !user.name || !user.username)
       isValid = false
     else {
       if (user.name.length < 10) isValid = false

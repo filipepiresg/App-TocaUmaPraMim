@@ -51,10 +51,7 @@ class StateCityInput extends Component {
   handleStateCodeChange(itemValue) {
     this.setState({ stateCodeSelected: itemValue })
     this.setState(
-      { stateCode: itemValue.adminCodes1.ISO3166_2, city: null },
-      () => {
-        this.props.onChange({ stateCode: this.state.stateCode, city: null })
-      }
+      { stateCode: itemValue.adminCodes1.ISO3166_2, city: null }
     )
     return fetch(
       'http://www.geonames.org/childrenJSON?geonameId=' + itemValue.geonameId
@@ -70,8 +67,9 @@ class StateCityInput extends Component {
         console.error(error)
       })
   }
-  handleCityChange(itemValue) {
-    this.setState({ city: itemValue }, () => this.props.onChange(this.state))
+  handleCityChange(city) {
+    const { stateCode } = this.state;
+    this.setState({ city }, () => this.props.onChange({city, stateCode}))
   }
 
   render() {
