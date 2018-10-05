@@ -18,7 +18,6 @@ import { compose } from "redux";
 import stylesd from '../stylesd';
 import Logo from "../img/logo.png";
 import withAuth from "../components/hocs/withAuth";
-import withLoading from "../components/hocs/withLoading";
 
 const { width } = Dimensions.get("window");
 
@@ -77,8 +76,6 @@ class LoginScreen extends Component {
   }
 
   async lookingForArtist(search) {
-    const { showLoading, hideLoading } = this.props;
-    // showLoading();
 
     const db = firebase.firestore()
     db.settings({ timestampsInSnapshots: true })
@@ -96,7 +93,6 @@ class LoginScreen extends Component {
       .catch((err) => {
         console.error(err)
       })
-      hideLoading();
   }
 
   render() {
@@ -151,7 +147,7 @@ class LoginScreen extends Component {
                   style={[styles.btn, { backgroundColor: "rgb(80,114,166)" }]}
                 >
                   <Icon type="FontAwesome" name="facebook" />
-                  {/* <Text style={{ fontSize: 12 }}>logar com facebook</Text> */}
+                  <Text style={{ fontSize: 14 }}>login com facebook</Text>
                 </Button>
                 <Button
                   block
@@ -159,7 +155,7 @@ class LoginScreen extends Component {
                   style={[styles.btn, { backgroundColor: "rgb(28,117,202)" }]}
                 >
                   <Icon type="FontAwesome" name="google" />
-                  {/* <Text style={{ fontSize: 12 }}>logar com google</Text> */}
+                  <Text style={{ fontSize: 14 }}>login com google</Text>
                 </Button>
               </View>
             </View>
@@ -170,4 +166,4 @@ class LoginScreen extends Component {
   }
 }
 
-export default compose(withAuth, withLoading)(LoginScreen)
+export default withAuth(LoginScreen)

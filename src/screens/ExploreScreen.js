@@ -6,7 +6,6 @@ import { Container, Content, Icon, Input, Item, Spinner } from "native-base";
 
 import stylesd from '../stylesd';
 import User from "../components/User";
-import withLoading from '../components/hocs/withLoading';
 
 class ExploreScreen extends Component {
   constructor(props) {
@@ -23,8 +22,6 @@ class ExploreScreen extends Component {
   }
 
   retrieveDataUsers = async () => {
-    const {  showLoading, hideLoading } = this.props;
-    // showLoading();
 
     const db = firebase.firestore();
     db.settings({ timestampsInSnapshots: true });
@@ -42,10 +39,8 @@ class ExploreScreen extends Component {
 
   render() {
     const { search, users } = this.state;
-    const { navigation, loading } = this.props;
-    const content = ( loading ) 
-      ? <Spinner style={ styles.spinner } /> 
-      : users.map( user => ( <User key={user.username} user={user} navigation={navigation} /> ))
+    const { navigation } = this.props;
+
     return (
       <Container style={styles.container}>
         <Item style={styles.itemInput} rounded>
@@ -61,7 +56,7 @@ class ExploreScreen extends Component {
         </Item>
         <Content contentContainerStyle={styles.content}>
           { 
-            content
+            users.map( user => ( <User key={user.username} user={user} navigation={navigation} /> ))
           }
         </Content>
       </Container>
@@ -86,4 +81,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default withLoading(ExploreScreen);
+export default ExploreScreen;
