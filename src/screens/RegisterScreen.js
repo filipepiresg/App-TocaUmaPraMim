@@ -82,12 +82,8 @@ export default class RegisterScreen extends Component {
     this.setState({ user: {...user, name: displayName }})
   }
 
-  updateState(user){
-    console.log(user);
-      this.setState({name: user.name,
-        username: user.username,
-       stateCode: user.stateCode,
-        city: user.city});
+  updateState = (user) => {
+      this.setState({ user });
   }
   
   render() {

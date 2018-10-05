@@ -3,7 +3,8 @@ import * as firebase from "firebase";
 
 import "./ReactotronConfig";
 import { MainNavigator } from "./src/navigators";
-import { LoadingContext } from './src/components/contexts';
+import { LoadingConsumer, LoadingProvider } from './src/components/contexts/LoadingContext';
+import Loading from './src/components/Loading'
 
 class App extends React.Component {
   constructor() {
@@ -28,18 +29,16 @@ class App extends React.Component {
     this.setState({ loading: false })
   }
 
-  showLoading = () => this.setState({ loading: true })
-  hideLoading = () => this.setState({ loading: false })
-
   render() {
     const { loading } = this.state;
     const { showLoading, hideLoading } = this;
 
     // loading aparecendo pra mais de uma pagina
     return(
-      <LoadingContext.Provider value={ { loading, showLoading, hideLoading } }>
+      <LoadingProvider>
         <MainNavigator />
-      </LoadingContext.Provider>
+        <Loading/>
+      </LoadingProvider>
     );
   }
 }

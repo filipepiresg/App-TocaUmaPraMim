@@ -1,21 +1,21 @@
 import React from 'react';
-import { LoadingContext } from '../contexts'
+import { LoadingConsumer } from '../contexts/LoadingContext'
 
 export default WrappedComponent => {
     const withLoading = (props) => {
         return(
-            <LoadingContext.Consumer>
+            <LoadingConsumer>
               {
-                ({ loading, hideLoading, showLoading }) => (
+                ({ isLoading, hideLoading, showLoading }) => (
                   <WrappedComponent
-                    loading = {loading}
+                    isLoading = {isLoading}
                     hideLoading = {hideLoading}
                     showLoading = {showLoading}
                     {...props}
                   />
                 )
               }
-            </LoadingContext.Consumer>
+            </LoadingConsumer>
         );
     }
     return withLoading;
