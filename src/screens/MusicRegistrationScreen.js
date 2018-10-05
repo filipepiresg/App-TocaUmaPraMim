@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Text, StyleSheet, TouchableOpacity, View, ActivityIndicator } from 'react-native'
 import Card from '../components/Card'
 import CardSection from '../components/CardSection'
 import Input from '../components/Input'
@@ -88,6 +88,7 @@ export default class MusicRegistrationScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      loading: false,
       searchResult: [],
       selectedSong: null,
       hideInputs: true,
@@ -107,6 +108,7 @@ export default class MusicRegistrationScreen extends Component {
   searchSong(search) {
     this.setState({ search })
     this.setState({ hideInputs: true })
+    this.setState({ loading: true })
     let url = CIFRACLUB_API_URL + '/songs?name=' + search
 
     fetch(url, {
@@ -119,6 +121,7 @@ export default class MusicRegistrationScreen extends Component {
       .then(response => response.json())
       .then(searchResult => {
         this.setState({ searchResult })
+        this.setState({ loading: false })
       })
       .catch(error => {
         console.error(error)
@@ -150,6 +153,7 @@ export default class MusicRegistrationScreen extends Component {
 
   render() {
     const {
+      loading,
       searchResult,
       hideInputs,
       name,
@@ -189,16 +193,23 @@ export default class MusicRegistrationScreen extends Component {
                     </CardSection>
                 )}
                 <CardSection>
-                  <List
-                    dataArray={searchResult}
-                    renderRow={song => 
-                        <ListItem key={song.name}>
-                            <TouchableOpacity onPress={() => this.selectSong.bind(this)(song)}>
-                            <Text>{song.artist.name + ' - ' + song.name}</Text>
-                            </TouchableOpacity>
-                        </ListItem>
-                    }
-                  />
+                        { loading == true ? (
+                            <View style={{flex: 1}}>
+                                <ActivityIndicator/>
+                            </View>
+                        ) : (
+                            <List
+                                dataArray={searchResult}
+                                renderRow={song => 
+                                    <ListItem key={song.name}>
+                                        <TouchableOpacity onPress={() => this.selectSong.bind(this)(song)}>
+                                        <Text>{song.artist.name + ' - ' + song.name}</Text>
+                                        </TouchableOpacity>
+                                    </ListItem>
+                                }
+                            />
+                        )}
+                  
                 </CardSection>
 
                 <CardSection>
