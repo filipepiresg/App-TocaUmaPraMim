@@ -106,6 +106,7 @@ export default class MusicRegistrationScreen extends Component {
 
   searchSong(search) {
     this.setState({ search })
+    this.setState({ hideInputs: true })
     let url = CIFRACLUB_API_URL + '/songs?name=' + search
 
     fetch(url, {
@@ -177,9 +178,14 @@ export default class MusicRegistrationScreen extends Component {
               <View>
                 { selectedSong == null ? null : (
                     <CardSection>
-                        <Text style={styles.showInputs}>
-                            Música selecionada: {selectedSong.artist.name + ' - ' + selectedSong.name}
-                        </Text>
+                        <View row>
+                            <Text style={[{fontWeight: 'bold', textDecorationLine: 'underline', marginLeft: 15}]}>
+                                Música selecionada
+                            </Text>
+                            <Text style={[{marginLeft: 15}]}>
+                                {selectedSong.artist.name + ' - ' + selectedSong.name}
+                            </Text>
+                        </View>
                     </CardSection>
                 )}
                 <CardSection>
@@ -197,8 +203,12 @@ export default class MusicRegistrationScreen extends Component {
 
                 <CardSection>
                   <TouchableOpacity
-                    onPress={() => this.setState({ hideInputs: false })}
-                  >
+                    onPress={() => {
+                        this.setState({ hideInputs: false })
+                        this.setState({ search: '' })
+                        this.searchSong.bind(this)
+                    }
+                }>
                     <Text style={styles.notFoundText}>Não encontrei!!</Text>
                   </TouchableOpacity>
                 </CardSection>
