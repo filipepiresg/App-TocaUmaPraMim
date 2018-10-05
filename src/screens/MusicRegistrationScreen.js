@@ -17,8 +17,12 @@ const styles = StyleSheet.create({
     buttonStyle: {
         backgroundColor: "rgb(72,186,196)",
         marginBottom: 10,
+        marginTop: 10,
         borderRadius: 10,
-        width: '100%'
+        marginLeft: '1%',
+        width: '98%',
+        justifyContent: 'center', 
+        alignItems: 'center'
     },
     buttonText: {
         color: '#fff',
@@ -53,6 +57,10 @@ const styles = StyleSheet.create({
         marginLeft: 20, 
         marginTop: 10, 
         marginBottom: 10
+    },
+    notFoundText: {
+        color: 'blue',
+        marginLeft: '50%'
     }
 });
 
@@ -63,13 +71,15 @@ const styles = StyleSheet.create({
 //     'Harpa', 'Saxofone', 'Trompete',
 //     'Violino', 'Cavaquinho', 'Sanfona' ];
 
-const CIFRACLUB_API_URL = '192.168.25.11:8082';
+const CIFRACLUB_API_URL = 'https://a2db36cb.ngrok.io';
 
 export default class MusicRegistrationScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
             searchResult: [],
+            songsList: null,
+            selectedSong: undefined,
             hideInputs: true,
             search: "",
             name: "",
@@ -88,14 +98,26 @@ export default class MusicRegistrationScreen extends Component {
         this.setState({ search });
         let url = CIFRACLUB_API_URL + '/songs?name=' + search;
 
-        axios.get(url)
-        .then(res => {
-            console.log(res);
-            // let searchResult = res.json();
-            // this.setState({ searchResult });
-        })
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            }
+        }).then((response) => response.json())
+            .then((searchResult) => {
+                this.setState({searchResult});
 
-        console.log("SEARCHHHH!");
+                this.state.songsList = (<List dataArray={this.state.searchResult}
+                                                renderRow={(song) => 
+                                                    this.renderListItem(song)
+                                                
+                                        }>
+                                        </List>);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     }
 
     renderPickerItems(list) {
@@ -117,9 +139,24 @@ export default class MusicRegistrationScreen extends Component {
         this.setState({melodic: !this.state.melodic});
     }
 
+    selectSong(selectedSong) {
+        this.setState({ hideInputs: true });
+        this.setState({ selectedSong });
+    }
+
+    renderListItem(song) {
+        return (
+        <ListItem noIndent style={{ backgroundColor: "#cde1f9" }}>
+            <TouchableOpacity onPress={() => this.selectSong.bind(this)(song)}>
+                <Text>{song.artist.name + ' - ' + song.name}</Text>
+            </TouchableOpacity>
+        </ListItem>
+        );
+    }
+
     render() {
         const { searchResult, hideInputs, name, artist, 
-            selectedGenre, search, melodic, harmonic } = this.state;
+            selectedGenre, search, melodic, harmonic, selectedSong, songsList } = this.state;
         const { navigation } = this.props;
         return (
             <Container style={styles.container}>
@@ -137,18 +174,16 @@ export default class MusicRegistrationScreen extends Component {
                         { search == '' ? null : (
                             <View>
                                 <CardSection>
-                                    <List dataArray={searchResult}
-                                          renderRow={(song) =>
-                                        <ListItem>
-                                            <Text>{song.artist.name + ' - ' + song.name}</Text>
-                                        </ListItem>
+                                    <List dataArray={this.state.searchResult}
+                                            renderRow={(song) =>
+                                                this.renderListItem.bind(this)(song) 
                                     }>
                                     </List>
                                 </CardSection>
 
                                 <CardSection>
                                     <TouchableOpacity onPress={() => this.setState({ hideInputs: false})}>
-                                        <Text style={{color: 'blue'}}>Não encontrei!!</Text>
+                                        <Text style={styles.notFoundText}>Não encontrei!!</Text>
                                     </TouchableOpacity>
                                 </CardSection>
                             </View>
@@ -201,20 +236,18 @@ export default class MusicRegistrationScreen extends Component {
                                         onPress={this.onHarmonicSelect.bind(this)}/>
                                 <Body><Text>Harmonico</Text></Body>
                             </CardSection>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
-
-                            <CardSection>
-                                <Button
-                                    block
-                                    iconLeft
-                                    style={styles.buttonStyle}
-                                    onPress={ () => this.saveInfo() }>
-                                    <Text style={styles.buttonText}>Adicionar</Text>
-                                </Button>
-                            </CardSection>
                         </Card>
                     )}
-                    
+
+                    <Button
+                        block
+                        iconLeft
+                        style={styles.buttonStyle}
+                        onPress={ () => this.saveInfo() }>
+                        <Text style={styles.buttonText}>Adicionar</Text>
+                    </Button>
                 </Content>
+                
             </Container>
         );
     }
