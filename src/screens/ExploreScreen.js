@@ -24,7 +24,7 @@ class ExploreScreen extends Component {
 
   retrieveDataUsers = async () => {
     const {  showLoading, hideLoading } = this.props;
-    showLoading();
+    // showLoading();
 
     const db = firebase.firestore();
     db.settings({ timestampsInSnapshots: true });

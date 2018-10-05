@@ -133,8 +133,8 @@ export default class MusicRegistrationScreen extends Component {
     }
 
     renderPickerItems(list) {
-        return ( list.map(genre => { 
-                return (<Picker.Item label={genre} value={genre} />);
+        return ( list.map((genre, i) => { 
+                return (<Picker.Item key={i} label={genre} value={genre} />);
             })
         );
     }
@@ -158,7 +158,7 @@ export default class MusicRegistrationScreen extends Component {
 
     renderListItem(song) {
         return (
-        <ListItem noIndent style={{ backgroundColor: "#cde1f9" }}>
+        <ListItem key={song.name} noIndent style={{ backgroundColor: "#cde1f9" }}>
             <TouchableOpacity onPress={() => this.selectSong.bind(this)(song)}>
                 <Text>{song.artist.name + ' - ' + song.name}</Text>
             </TouchableOpacity>

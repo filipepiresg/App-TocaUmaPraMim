@@ -78,7 +78,7 @@ class LoginScreen extends Component {
 
   async lookingForArtist(search) {
     const { showLoading, hideLoading } = this.props;
-    showLoading();
+    // showLoading();
 
     const db = firebase.firestore()
     db.settings({ timestampsInSnapshots: true })

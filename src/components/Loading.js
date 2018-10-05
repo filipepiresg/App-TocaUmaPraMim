@@ -4,7 +4,7 @@ import { Spinner } from 'native-base'
 import withLoading from './hocs/withLoading'
 
 const Loading = ({ isLoading }) => {
-  if (isLoading) return null
+  if (!isLoading) return null
 
   return (
     <Modal transparent={true}>
