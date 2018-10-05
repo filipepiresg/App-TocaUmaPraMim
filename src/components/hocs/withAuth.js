@@ -7,6 +7,15 @@ require('firebase/firestore')
 
 export default WrappedComponent => {
   class withAuth extends React.Component {
+
+    componentDidMount() {
+      this.props.showLoading();
+      firebase.auth().onAuthStateChanged((user) => {
+        this._verifyUser(user)
+        this.props.hideLoading()
+      });
+    }
+
     _loginWithFacebook = async () => {
       const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(
         '2207895276121269',
@@ -41,6 +50,7 @@ export default WrappedComponent => {
      */
     _verifyUser = async user => {
       let isRegistered = false
+      console.log(user);
       const db = firebase.firestore()
       db.settings({ timestampsInSnapshots: true })
 
