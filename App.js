@@ -7,9 +7,13 @@ import { LoadingConsumer, LoadingProvider } from './src/components/contexts/Load
 import Loading from './src/components/Loading'
 
 class App extends React.Component {
-  constructor() {
-    super();
-    this.state = { loading: true };
+    
+
+  async componentDidMount() {
+    await Expo.Font.loadAsync({
+      'Roboto': require('native-base/Fonts/Roboto.ttf'),
+      'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
+    });
     const firebaseConfig = {
       apiKey: "AIzaSyBUg1w5wWR2DttpKi5WKC3MTftqqlVbKZs",
       authDomain: "tupm-app.firebaseapp.com",
@@ -21,19 +25,7 @@ class App extends React.Component {
     firebase.initializeApp(firebaseConfig);
   }
 
-  async componentDidMount() {
-    await Expo.Font.loadAsync({
-      'Roboto': require('native-base/Fonts/Roboto.ttf'),
-      'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
-    });
-    this.setState({ loading: false })
-  }
-
   render() {
-    const { loading } = this.state;
-    const { showLoading, hideLoading } = this;
-
-    // loading aparecendo pra mais de uma pagina
     return(
       <LoadingProvider>
         <MainNavigator />

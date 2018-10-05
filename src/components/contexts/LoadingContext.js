@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 const LoadingContext = React.createContext({
-  loading: false,
+  isLoading: false,
   showLoading: () => {},
   hideLoading: () => {},
 })
@@ -10,7 +10,6 @@ export const LoadingConsumer = LoadingContext.Consumer
 
 export class LoadingProvider extends Component {
   showLoading = () => {
-    console.log('show')
     this.setState({
       isLoading: true,
     })
