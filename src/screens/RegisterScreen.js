@@ -52,6 +52,7 @@ export default class RegisterScreen extends Component {
 
   async saveInfo(authId) {
     const { name, username, stateCode, city } = this.state
+    console.log(this.state);
     const { photoURL } = this.props.navigation.getParam('user', {
       photoURL:''
     })
@@ -76,6 +77,7 @@ export default class RegisterScreen extends Component {
   }
 
   updateState(user){
+    console.log(user);
       this.setState({name: user.name,
         username: user.username,
        stateCode: user.stateCode,
@@ -83,7 +85,6 @@ export default class RegisterScreen extends Component {
   }
   
   render() {
-    const { name, username, stateCode, city } = this.state
     const authId = this.props.navigation.getParam('authId', '');
 
     return (
@@ -91,7 +92,7 @@ export default class RegisterScreen extends Component {
       <Content padder>
         <Header transparent />
         <Text style={styles.title}>Só mais um pouco...</Text>
-        <ProfileForm user = {this.state} onChange={user => (this.updateState(user))}/>
+        <ProfileForm user = {this.state} onChange={user => this.updateState(user)}/>
         <Button
               block
               iconLeft
@@ -100,8 +101,11 @@ export default class RegisterScreen extends Component {
         >
         <Text style={styles.buttonText}>Cadastrar</Text>
         </Button>
+        
       </Content>
+      
     </Container>
+             
     )
-  }
+  } 
 }

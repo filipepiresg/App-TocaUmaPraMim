@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types';
 import UsernameInput from './UsernameInput';
+import StateCityInput from './StateCityInput';
 
 import {
   Container,
@@ -17,7 +18,7 @@ import {
 
 
 const styles = StyleSheet.create({
-  dropdownContainerStyle: {
+  dropdownContainerStyle: { 
     justifyContent: 'flex-start',
     flexDirection: 'row',
     flex: 1,
@@ -31,15 +32,21 @@ const styles = StyleSheet.create({
 export default class ProfileForm extends Component {
     constructor (props) {
         super(props);
-    }
+        this.state = {...this.props.user};
+    }    
 
-    state = {...this.props.user};
-
-    onChangeText = async text => {
-        const { onChange } = this.props;
-        onChange(this.state);
+    handleNameChange (name) {
+      this.setState({ name }, ()=> this.props.onChange(this.state));
     }
     
+    handleUsernameChange (username){
+      this.setState({ username}, ()=> this.props.onChange(this.state));
+    }
+
+    setLocation (location){
+      this.setState({stateCode: location.stateCode, city: location.city}, ()=> this.props.onChange(this.state));
+    }
+
     render() {
         const { name, username, stateCode, city } = this.state
 
@@ -48,35 +55,17 @@ export default class ProfileForm extends Component {
             <Item floatingLabel>
               <Label>Nome</Label>
               <Input
-                onChangeText={name => this.setState({ name })}
+                onChangeText={name => this.handleNameChange(name)}
                 value={name}
               />
             </Item>
             <UsernameInput
-              onChange={username => this.setState({ username })}
+              username={username}
+              onChange={username => this.handleUsernameChange(username)}
             />
-            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-              <View style={{width: '20%'}}>
-                <Item floatingLabel>
-                  <Label>UF</Label>
-                  <Input
-                    onChangeText={stateCode => this.setState({ stateCode })}
-                    value={stateCode}
-                  />
-                </Item>
-              </View>
-              <View style={{width: '80%'}}>
-                <Item floatingLabel>
-                  <Label>Cidade</Label>
-                  <Input
-                    onChangeText={city => this.setState({ city })}
-                    value={city}
-                  />
-                </Item>
-              </View>
-            </View>
+            <StateCityInput stateCode={stateCode} city={city} onChange={location => this.setLocation(location) }/>
           </Form>
         
         )
       }
-    }
+}

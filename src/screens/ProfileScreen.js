@@ -155,7 +155,12 @@ export default class ProfileScreen extends Component {
           <Body>
             <Title>Profile</Title>
           </Body>
-          <Right />
+          <Right>
+          <Button onPress={() => navigation.goBack()} transparent>
+           <Text   color="#841584">edit </Text>
+          </Button>
+          _  
+          </Right>
         </Header>
         <Container style={styles.subContainer}>
           <Container style={styles.containerPerfil}>
