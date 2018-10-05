@@ -34,7 +34,6 @@
     "native-base": "^2.8.0",
     "prop-types": "^15.6.2",
     "react-native": "~0.55.2",
-    "react-native-material-dropdown": "^0.11.1",
     "react-navigation": "^2.12.1"
   }
 }

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types';
 import UsernameInput from './UsernameInput';
+import StateCityInput from './StateCityInput';
 
 import {
   Container,
@@ -17,7 +18,7 @@ import {
 
 
 const styles = StyleSheet.create({
-  dropdownContainerStyle: {
+  dropdownContainerStyle: { 
     justifyContent: 'flex-start',
     flexDirection: 'row',
     flex: 1,
@@ -29,56 +30,42 @@ const styles = StyleSheet.create({
 
 
 export default class ProfileForm extends Component {
-  constructor (props) {
-      super(props);
-  }
+    constructor (props) {
+        super(props);
+        this.state = {...this.props.user};
+    }    
 
-  state = {...this.props.user};
+    handleNameChange (name) {
+      this.setState({ name }, ()=> this.props.onChange(this.state));
+    }
+    
+    handleUsernameChange (username){
+      this.setState({ username}, ()=> this.props.onChange(this.state));
+    }
 
-  onChangeText = (user) => {
-      this.setState(user);
-      const { onChange } = this.props;
-      onChange(this.state);
-  }
-  
-  render() {
-    const { name, username, stateCode, city } = this.state
-    return (
-      <Form>
-        <Item floatingLabel>
-          <Label>Nome</Label>
-          <Input
-            value={name}
-            onChangeText={ name => this.onChangeText({ name }) }
-          />
-        </Item>
-        <UsernameInput
-          onChange={txt => this.onChangeText({ username: txt })}
-        />
-        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-          <View style={{width: '20%'}}>
-            <Item floatingLabel>
-              <Label>UF</Label>
-              <Input
-                value={stateCode}
-                autoCapitalize='characters'
-                onChangeText={ txt => this.onChangeText({ stateCode: txt.toUpperCase()  })}
-              />
-            </Item>
-          </View>
-          <View style={{width: '80%'}}>
+    setLocation (location){
+      this.setState({stateCode: location.stateCode, city: location.city}, ()=> this.props.onChange(this.state));
+    }
+
+    render() {
+        const { name, username, stateCode, city } = this.state
+
+        return (
+          <Form>
             <Item floatingLabel>
               <Label>Cidade</Label>
               <Input
-                value={city}
-                autoCapitalize='words'
-                keyboardType='name-phone-pad'
-                onChangeText={city => this.onChangeText({ city })}
+                onChangeText={name => this.handleNameChange(name)}
+                value={name}
               />
             </Item>
-          </View>
-        </View>
-      </Form>
-    )
-  }
+            <UsernameInput
+              username={username}
+              onChange={username => this.handleUsernameChange(username)}
+            />
+            <StateCityInput stateCode={stateCode} city={city} onChange={location => this.setLocation(location) }/>
+          </Form>
+        
+        )
+      }
 }

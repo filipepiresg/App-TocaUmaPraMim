@@ -1,12 +1,23 @@
-import React, { Component } from "react";
-import { Text, StyleSheet, TouchableOpacity, View } from "react-native";
-import Card from "../components/Card";
-import CardSection from "../components/CardSection";
-import Input from "../components/Input";
-import { Container, Button, List, ListItem, Header, Content, Item, Picker, Icon, CheckBox, Body } from "native-base";
-import DebouncedInputComponent from "../components/DebouncedInput";
-import genres from '../jsons/genres.json';
-import axios from 'axios';
+import React, { Component } from 'react'
+import { Text, StyleSheet, TouchableOpacity, View } from 'react-native'
+import Card from '../components/Card'
+import CardSection from '../components/CardSection'
+import Input from '../components/Input'
+import {
+  Container,
+  Button,
+  List,
+  ListItem,
+  Header,
+  Content,
+  Item,
+  Picker,
+  Icon,
+  CheckBox,
+  Body,
+} from 'native-base'
+import DebouncedInputComponent from '../components/DebouncedInput'
+import genres from '../jsons/genres.json'
 
 const styles = StyleSheet.create({
     title: {
@@ -63,6 +74,7 @@ const styles = StyleSheet.create({
         marginLeft: '50%'
     }
 });
+
 
 // const instruments = [
 //     'Piano', 'Teclado', 'Guitarra',
