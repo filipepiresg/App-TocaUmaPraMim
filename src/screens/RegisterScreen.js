@@ -101,7 +101,7 @@ class RegisterScreen extends Component {
             iconLeft
             style={[styles.buttonStyle, valid && styles.bgOurBlue]}
             disabled={!valid}
-            // onPress={() => this.saveInfo()}
+            onPress={() => this.saveInfo()}
           >
             <Text style={styles.buttonText}>Finalizar Cadastro</Text>
           </Button>

@@ -33,8 +33,6 @@ class ExploreScreen extends Component {
       users.push(user.data());
     })
     this.setState({ users });
-
-    hideLoading();
   }
 
   render() {
