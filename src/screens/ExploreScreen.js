@@ -15,25 +15,25 @@ const { width, height } = Dimensions.get("window");
 
 class ExploreScreen extends Component {
   renderLoader = () => {
-    const cardWidth = width / 2 - 20
+    const cardWidth = width / 2 - 34
     const cardHeight = 160
 
     return (
-      <View style={[s.pa2]}>
+      <View style={[s.pa2, s.pl3]}>
         <SvgAnimatedLinearGradient
           width={width}
           height={400}
           primaryColor="#f3f3f3"
-          secondaryColor="#ecebeb"
+          secondaryColor="#ffefd7"
         >
           {[0,1,2,3,4,5].map(i => (<Svg.Rect
             key={i}
-            x={i % 2 ? 5 : cardWidth + 10}
-            y={i % 2 ? i * cardHeight + 5 : (i-1) * cardHeight + 10}
+            x={i % 2 == 0 ? 5 : cardWidth + 25}
+            y={Math.floor(i/2) * cardHeight + 40}
             rx="0"
             ry="0"
             width={cardWidth}
-            height={cardHeight}
+            height={140}
           />))}
           
         </SvgAnimatedLinearGradient>
@@ -78,13 +78,13 @@ class ExploreScreen extends Component {
             autoCorrect={false}
             autoCapitalize="none"
             keyboardType="name-phone-pad"
-            placeholder="busca por nome e/ou inst    rumento"
+            placeholder="busca por nome e/ou instrumento"
             onChangeText={text => this.setState({ search: text })}
           />
         </Item>
         <Content contentContainerStyle={styles.content}>
-          {true && this.renderLoader()}
-          {false &&
+          {loading && this.renderLoader()}
+          {!loading &&
             users.map(user => (
               <User key={user.username} user={user} navigation={navigation} />
             ))}
