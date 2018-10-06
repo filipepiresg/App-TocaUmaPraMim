@@ -27,6 +27,7 @@ class ExploreScreen extends Component {
           secondaryColor="#ecebeb"
         >
           {[0,1,2,3,4,5].map(i => (<Svg.Rect
+            key={i}
             x={i % 2 ? 5 : cardWidth + 10}
             y={i % 2 ? i * cardHeight + 5 : (i-1) * cardHeight + 10}
             rx="0"
