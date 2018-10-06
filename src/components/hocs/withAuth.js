@@ -7,6 +7,15 @@ require('firebase/firestore')
 
 export default WrappedComponent => {
   class withAuth extends React.Component {
+
+    componentDidMount() {
+      this.props.showLoading();
+      firebase.auth().onAuthStateChanged((user) => {
+        this._verifyUser(user)
+        this.props.hideLoading()
+      });
+    }
+
     _loginWithFacebook = async () => {
       const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(
         '2207895276121269',
@@ -40,27 +49,19 @@ export default WrappedComponent => {
      * @param {String} uid
      */
     _verifyUser = async user => {
-      let isRegistered = false
       const db = firebase.firestore()
       db.settings({ timestampsInSnapshots: true })
-
-      const users = await db.collection('users').get()
-
-      users.forEach(u => {
-        if (u.data().authId == user.uid) {
-          isRegistered = true
-        }
-      })
-
+      
+      const collection = await db.collection('users').where('authId', '==', user.uid).get()
       this.props.hideLoading()
-      if (!isRegistered) {
+
+      if (collection.empty) {
         const { providerData, uid } = user
         this.props.navigation.navigate('Register', {
           user: providerData[0],
           authId: uid,
         })
       } else {
-        // await AsyncStorage.setItem('firebaseAuthToken', user.uid)
         this.props.navigation.navigate('App')
       }
     }

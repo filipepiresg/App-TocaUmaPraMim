@@ -56,26 +56,31 @@ class RegisterScreen extends Component {
   }
 
   componentWillMount() {
-    const userExternalData = this.props.navigation.getParam('user', {
-      displayName: '',
-      photoURL: '',
-      authId: '',
-    })
-    this.setState({ user: { ...userExternalData } })
+    const { getParam } = this.props.navigation;
+
+    const {
+      photoURL,
+      displayName: name,
+      email,
+      providerId,
+    } = getParam('user')
+
+    const authId = getParam('authId')
+
+    this.setState({ user: { authId, photoURL, name, email, providerId } })
   }
 
   updateUser = userData => {
-    this.setState({ user: {...userData} }, () => this.validateUser())
+    this.setState({ user: { ...userData } }, () => this.validateUser())
   }
 
   // Enhacement: Verify which one of the erros and send a proper message
   validateUser = () => {
     const { user } = this.state
     let isValid = true
-    // Removing location's validation because @caiofelipeam is still fixing it 
+    // Removing location's validation because @caiofelipeam is still fixing it
     // (it's not returning correctly)
-    if (!user || !user.name || !user.username)
-      isValid = false
+    if (!user || !user.name || !user.username) isValid = false
     else {
       if (user.name.length < 10) isValid = false
       if (user.username.length < 10) isValid = false
