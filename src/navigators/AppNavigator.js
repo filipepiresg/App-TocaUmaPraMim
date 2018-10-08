@@ -53,7 +53,8 @@ export default createStackNavigator({
     initialRouteKey: 'TabNavigator',
     navigationOptions: {
       headerStyle: {
-        backgroundColor: stylesd.corDeFundo
+        backgroundColor: stylesd.corDeFundo,
+        borderBottomColor: 'transparent'
       }
     }
   }

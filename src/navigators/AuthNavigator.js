@@ -18,7 +18,7 @@ export default createStackNavigator(
     navigationOptions: {
       headerStyle: {
         backgroundColor: stylesd.corDeFundo,
-
+        borderBottomColor:'transparent'
       },
     }
   }
