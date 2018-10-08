@@ -141,6 +141,7 @@ export default class ProfileScreen extends Component {
     const { navigation } = this.props;
     return (
       <Container style={styles.container}>
+      
       <Container style={styles.subContainer}>
         <Container style={styles.containerPerfil}>
           <Image
@@ -179,6 +180,11 @@ export default class ProfileScreen extends Component {
                 />
             </Item>
         </Item>
+        <Button
+      onPress={navigation.navigate("EditProfile")}
+      title="edit"
+      color="#841584">
+      </Button>
         <Content contentContainerStyle={styles.content}>
           {/*inventory
             .filter(
@@ -193,6 +199,7 @@ export default class ProfileScreen extends Component {
               } - ${item.group} - ${item.ritmo}`}</Text>
             )) */}
         </Content>
+        
       </Container>
     </Container>
     );
