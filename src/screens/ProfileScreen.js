@@ -19,7 +19,7 @@ import { View, Image, StyleSheet, Text, Dimensions } from "react-native";
 import stylesd from '../stylesd';
 import Footer from "../components/Footer";
 import imgDefault from "../img/perfil.png";
-import MusicRegistrationScreen from "./MusicRegistrationScreen";
+import NewSongScreen from "./NewSongScreen";
 import DebouncedInputComponent from "../components/DebouncedInput";
 
 const { width } = Dimensions.get("window");
@@ -169,7 +169,7 @@ export default class ProfileScreen extends Component {
             <Icon type="FontAwesome"
                   name="plus"
                   style={{ color: "#11841a" }}
-                  onPress={() => navigation.navigate("MusicRegistration")}
+                  onPress={() => navigation.navigate("NewSong")}
             />
             <Item style={styles.itemSearch}>
                 <DebouncedInputComponent
