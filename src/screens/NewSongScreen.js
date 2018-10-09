@@ -19,7 +19,7 @@ import {
 import _ from 'lodash'
 import DebouncedInputComponent from '../components/DebouncedInput'
 import SelectableSongList from '../components/SelectableSongList'
-import {styles as s} from "react-native-style-tachyons";
+import { styles as s } from 'react-native-style-tachyons'
 
 import genres from '../jsons/genres.json'
 
@@ -170,22 +170,23 @@ class NewSongScreen extends Component {
             />
           </Item>
 
-          <Card>
-            {!!search && (
+          {!!search && (
+            <Card>
               <SelectableSongList
                 songs={searchResult}
                 onSelect={this.selectSong}
               />
-            )}
+            </Card>
+          )}
+
             <TouchableOpacity
               onPress={() => {
                 this.setState({ hideInputs: false, search: '' })
                 this.searchSong.bind(this)
               }}
             >
-              <Text >Não encontrei</Text>
+              <Text style={[s.tc, s.mt2, s.b]}>Inserir manualmente</Text>
             </TouchableOpacity>
-          </Card>
 
           {!hideInputs && (
             <Card>
