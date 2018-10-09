@@ -5,7 +5,7 @@ import { createBottomTabNavigator, createStackNavigator } from "react-navigation
 import {
   ExploreScreen,
   ProfileScreen,
-  MusicRegistrationScreen
+  NewSongScreen
 } from "../screens";
 import stylesd from '../stylesd';
 
@@ -46,7 +46,7 @@ const TabNavigator = createBottomTabNavigator({
 
 export default createStackNavigator({
     TabNavigator,
-    MusicRegistration: MusicRegistrationScreen
+    NewSong: NewSongScreen
 
   }, {
     headerMode: 'float',
