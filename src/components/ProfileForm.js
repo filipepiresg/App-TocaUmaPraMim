@@ -8,7 +8,11 @@ import StateCityInput from './StateCityInput'
 
 import { Form, Item, Label, Input } from 'native-base'
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  label:{
+    color: 'gray'
+  }
+})
 
 class ProfileForm extends Component {
   static propTypes = {
@@ -50,7 +54,7 @@ class ProfileForm extends Component {
     return (
       <Form>
         <Item floatingLabel>
-          <Label>Nome</Label>
+          <Label style={ styles.label }>Nome</Label>
           <Input onChangeText={this.getHandlerForUser('name')} value={name} />
         </Item>
         <UsernameInput

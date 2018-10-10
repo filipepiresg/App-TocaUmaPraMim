@@ -41,6 +41,7 @@ export default class EditProfileScreen extends Component {
         super(props);
     }
   state = {
+    user:
     loading: false
   }
 
@@ -67,20 +68,17 @@ export default class EditProfileScreen extends Component {
     const {displayName} = this.props.navigation.getParam('user', { 
       displayName:''
     });
+    const db = firebase.firestore()
+    const dbUsers = db.collection('users')
     firebase.auth().onAuthStateChanged((currentUser) => {
-        firebase.auth().getUser(currentUser.uid)
-            .then(function(userLogged) {
-                console.log("Successfully fetched user data:", userLogged.toJSON());
-                let user = userLogged.toJSON();
-                this.setState({ name: user.name, username: user.username, stateCode: user.stateCode, city: user.city});
-            })
-            .catch(function(error) {
-                console.log("Error fetching user data:", error);
-            });
-    
+      dbUsers.where("authId", "==", currentUser.uid).get()
+      .then( user => {
+        this.setState({user: user.docs[0].data()});
+      })
+     
+      
      });
-    const { user } = this.state;
-    this.setState({ user: {...user, name: displayName }})
+    this.setState({  name: displayName })
   }
 
   updateState(user){

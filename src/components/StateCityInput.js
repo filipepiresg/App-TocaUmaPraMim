@@ -1,7 +1,15 @@
 import React, { Component } from 'react'
-import { View, ActivityIndicator } from 'react-native'
+import { View, ActivityIndicator, StyleSheet } from 'react-native'
 import { Item, Label, Input, Picker } from 'native-base'
 import {styles as s} from "react-native-style-tachyons";
+
+const styles = StyleSheet.create({
+  picker:{
+    color: '#000000'
+  }
+
+})
+
 
 class StateCityInput extends Component {
   state = {
@@ -74,6 +82,7 @@ class StateCityInput extends Component {
 
   render() {
     const { stateCode, city, stateCodeSelected, citySelected } = this.state
+    const { input } = styles;
     if (this.state.isLoading) {
       return (
         <View style={{ flex: 1, padding: 20 }}>
@@ -93,6 +102,7 @@ class StateCityInput extends Component {
             mode="dropdown"
             selectedValue={stateCodeSelected}
             onValueChange={itemValue => this.handleStateCodeChange(itemValue)}
+            pickerStyle ={{ color: "black", placeholderTextColor:"gray" }}
           >
             {this.loadStates()}
           </Picker>
@@ -105,9 +115,11 @@ class StateCityInput extends Component {
           <Picker
             placeholder="Cidade"
             mode="dropdown"
-            enabled={stateCode}
+            enabled={stateCodeSelected}
             selectedValue={city}
             onValueChange={itemValue => this.handleCityChange(itemValue)}
+            pickerStyle ={{ color: "black", placeholderTextColor:"gray" }}
+
           >
             {this.loadCities()}
           </Picker>
