@@ -5,7 +5,7 @@ import { StyleSheet } from 'react-native';
 
 import "./ReactotronConfig";
 import { MainNavigator } from "./src/navigators";
-import { LoadingConsumer, LoadingProvider } from './src/components/contexts/LoadingContext';
+import { LoadingProvider } from './src/components/contexts/LoadingContext';
 import Loading from './src/components/Loading'
 
 NativeTachyons.build({
@@ -37,7 +37,7 @@ class App extends React.Component {
   render() {
     return(
       <LoadingProvider>
-        <MainNavigator />
+          <MainNavigator />
         <Loading/>
       </LoadingProvider>
     );
