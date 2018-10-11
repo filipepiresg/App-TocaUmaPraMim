@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { StyleSheet, TouchableOpacity } from 'react-native'
+import { StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
 import Card from '../components/Card'
-import CardSection from '../components/CardSection'
-import Input from '../components/Input'
+import SongForm from '../components/SongForm'
 import {
   View,
   Container,
@@ -20,8 +19,7 @@ import _ from 'lodash'
 import DebouncedInputComponent from '../components/DebouncedInput'
 import SelectableSongList from '../components/SelectableSongList'
 import { styles as s } from 'react-native-style-tachyons'
-
-import genres from '../jsons/genres.json'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 const styles = StyleSheet.create({
   title: {
@@ -80,7 +78,7 @@ const styles = StyleSheet.create({
   },
 })
 
-const CIFRACLUB_API_URL = 'https://20a4a644.ngrok.io'
+const CIFRACLUB_API_URL = 'https://lais.juniorluciano.com/cifra-club-api'
 
 class NewSongScreen extends Component {
   constructor(props) {
@@ -89,7 +87,7 @@ class NewSongScreen extends Component {
       loading: false,
       searchResult: [],
       selectedSong: null,
-      hideInputs: true,
+      showSongForm: false,
       search: '',
       name: '',
       artist: '',
@@ -105,7 +103,7 @@ class NewSongScreen extends Component {
   }
 
   searchSong(search) {
-    this.setState({ search, loading: true, hideInputs: true })
+    this.setState({ search, loading: true, showSongForm: false })
 
     const url = `${CIFRACLUB_API_URL}/songs?name=${search}`
 
@@ -127,138 +125,66 @@ class NewSongScreen extends Component {
     })
   }
 
-  onGenreSelected(selectedGenre) {
-    this.setState({ selectedGenre })
-  }
-
-  onHarmonicSelect() {
-    this.setState({ harmonic: !this.state.harmonic })
-  }
-
-  onMelodicSelect() {
-    this.setState({ melodic: !this.state.melodic })
-  }
-
   selectSong = selectedSong => {
-    this.setState({ hideInputs: true })
-    this.setState({ selectedSong })
+    this.setState({ selectedSong }, () => {
+      this.setState({ showSongForm: true })
+    })
   }
 
   render() {
     const {
       loading,
       searchResult,
-      hideInputs,
-      name,
-      artist,
-      selectedGenre,
+      showSongForm,
       search,
-      melodic,
-      harmonic,
       selectedSong,
     } = this.state
-    const { navigation } = this.props
     return (
-      <Container style={styles.container}>
-        <Content padder>
-          <Text style={styles.title}>Nova música</Text>
-          <Item style={styles.itemSearch}>
-            <DebouncedInputComponent
-              updateText={this.searchSong.bind(this)}
-              placeholder="busca por música"
-              style={styles.inputSearch}
-            />
-          </Item>
-
-          {!!search && (
-            <Card>
-              <SelectableSongList
-                songs={searchResult}
-                onSelect={this.selectSong}
+      <KeyboardAwareScrollView>
+        <Container style={styles.container}>
+          <Content padder>
+            <Text style={styles.title}>Nova música</Text>
+            <Item style={styles.itemSearch}>
+              <DebouncedInputComponent
+                updateText={this.searchSong.bind(this)}
+                placeholder="busca por música"
+                style={styles.inputSearch}
               />
-            </Card>
-          )}
+            </Item>
+
+            {!!search && (
+              <Card>
+                <SelectableSongList
+                  songs={searchResult}
+                  onSelect={this.selectSong}
+                />
+              </Card>
+            )}
 
             <TouchableOpacity
               onPress={() => {
-                this.setState({ hideInputs: false, search: '' })
+                this.setState({ showSongForm: true, search: '' })
                 this.searchSong.bind(this)
               }}
             >
               <Text style={[s.tc, s.mt2, s.b]}>Inserir manualmente</Text>
             </TouchableOpacity>
 
-          {!hideInputs && (
-            <Card>
-              <CardSection>
-                <Input
-                  label="Nome"
-                  placeholder="Digite o nome da música"
-                  onChangeText={name => this.setState({ name })}
-                  value={name}
-                />
-              </CardSection>
+            {showSongForm && (
+              <SongForm initialSong={selectedSong} onChange={() => {}} />
+            )}
 
-              <CardSection>
-                <Input
-                  label="Artista"
-                  placeholder="Digite o nome do artistaA"
-                  onChangeText={artist => this.setState({ artist })}
-                  value={artist}
-                />
-              </CardSection>
-
-              <CardSection>
-                <Text style={styles.labelStyle}>Gênero</Text>
-                <Picker
-                  mode="dropdown"
-                  iosIcon={<Icon name="ios-arrow-down-outline" />}
-                  style={{
-                    backgroundColor: '#FFFFFF',
-                    marginTop: -6,
-                    marginBottom: -5,
-                  }}
-                  placeholder="Selecione um gênero"
-                  placeholderStyle={{ color: '#bfc6ea' }}
-                  placeholderIconColor="#007aff"
-                  selectedValue={selectedGenre}
-                  onValueChange={this.onGenreSelected.bind(this)}
-                >
-                  {this.renderPickerItems(genres)}
-                </Picker>
-              </CardSection>
-
-              <CardSection>
-                <CheckBox
-                  checked={melodic}
-                  style={styles.checkBoxStyle}
-                  onPress={this.onMelodicSelect.bind(this)}
-                />
-                <Body>
-                  <Text>Melódico</Text>
-                </Body>
-                <CheckBox
-                  checked={harmonic}
-                  style={styles.checkBoxStyle}
-                  onPress={this.onHarmonicSelect.bind(this)}
-                />
-                <Body>
-                  <Text>Harmonico</Text>
-                </Body>
-              </CardSection>
-            </Card>
-          )}
-
-          <Button
-            block
-            iconLeft
-            style={styles.buttonStyle}
-            onPress={() => this.saveInfo()}
-          >
-            <Text style={styles.buttonText}>Adicionar</Text>
-          </Button>
-        </Content>
-      </Container>
+            <Button
+              block
+              iconLeft
+              style={styles.buttonStyle}
+              onPress={() => this.saveInfo()}
+            >
+              <Text style={styles.buttonText}>Adicionar</Text>
+            </Button>
+          </Content>
+        </Container>
+      </KeyboardAwareScrollView>
     )
   }
 }
