@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg version="1.1" width="64px" height="64px" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<!-- <svg width="530px" height="64px" viewBox="0 0 530 " version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"> -->
+    <!-- Generator: Sketch 40.3 (33839) - http://www.bohemiancoding.com/sketch -->
+    <title>guitarra svg</title>
+    <!-- <desc>Created with Sketch.</desc> -->
+    <defs>
+        <rect id="path-1" x="1" y="12" width="14" height="3"></rect>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icn">
+            <g id="color_guitarra" transform="translate(0.000000, -1.000000)">
+                <path d="M6.00482178,17 C5,17 5,16 5,16 L5,12 L1,12 C1,12 3.47010671e-17,12 0,11.0275269 C3.47010671e-17,10.505249 1,10.0293376 1,10 C1,9.99484899 9,6 9,6 L11,6 L11,8 L7,16 C7,16 6.54486084,17 6.00482178,17 Z" id="Path-14" fill="#FF9900"></path>
+                <polygon id="Path-15" fill="#FFFFFF" points="7 14 10 8.00421143 10 7 7 10"></polygon>
+                <path d="M9,9 L14,4 C14,4 14.9268464,3.90845079 15,4 C15.151332,3.68493937 16.1464711,1.19186633 16,1 C15.8055818,0.851946553 13.6019007,1.56361354 13,2 C13.110507,2.05287459 13,3 13,3 L8,8 L9,9 Z" id="Combined-Shape" fill="#3F260F"></path>
+                <polygon id="Path-16" fill="#3F260F" points="4.66939583 10.3656994 6.64141828 12.3377218 7.34852506 11.6306151 5.37650261 9.65859261"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>
