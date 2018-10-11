@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg version="1.1" width="64px" height="64px" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<!-- <svg width="530px" height="64px" viewBox="0 0 530 " version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"> -->
+    <!-- Generator: Sketch 40.3 (33839) - http://www.bohemiancoding.com/sketch -->
+    <title>piano svg</title>
+    <!-- <desc>Created with Sketch.</desc> -->
+    <defs>
+        <rect id="path-1" x="1" y="12" width="14" height="3"></rect>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icn">
+            <g id="color_piano" transform="translate(0.000000, 0.000000)">
+                <g>
+                    <path d="M6.99999996,1.5 C4.99999996,1.5 3.99999996,-1.00000004 1.99694822,0.999999995 C-0.973658918,3.96608134 -2.82827833e-09,6.997378 1.99694824,8.99694824 C3.99389649,10.9965185 6.29338038,13.293878 6.29338038,13.293878 C6.68363562,13.6838584 7.32031476,13.6796852 7.7062149,13.2937851 L15.2937851,5.7062149 C15.6838168,5.31618318 15.6872276,4.68722761 15.2942268,4.29422684 L11.7057731,0.705773161 C11.3159854,0.315985408 10.6354684,0.247694493 10.1589802,0.533067406 C10.1589802,0.533067406 8.99999996,1.5 6.99999996,1.5 Z" id="Teclado" fill="#424242"></path>
+                    <g id="Teclas" transform="translate(5.000000, 3.000000)" fill="#FFFFFF">
+                        <polygon id="Path-18" points="0 7 2 9 3 8 1 6"></polygon>
+                        <polygon id="Path-18" points="2 5 4 7 5 6 3 4"></polygon>
+                        <polygon id="Path-18" points="4 3 6 5 7 4 5 2"></polygon>
+                        <polygon id="Path-18" points="7.30957031 2.29553223 2.00341797 7.58837891 2.00341797 8.987854 9 2 7 0 6 1"></polygon>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
