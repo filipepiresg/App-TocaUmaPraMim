@@ -1,22 +1,26 @@
 import React, { Component } from 'react'
-import { Text, StyleSheet, TouchableOpacity, View, ActivityIndicator } from 'react-native'
+import { StyleSheet, TouchableOpacity } from 'react-native'
 import Card from '../components/Card'
 import CardSection from '../components/CardSection'
 import Input from '../components/Input'
 import {
+  View,
   Container,
   Button,
-  List,
-  ListItem,
-  Header,
   Content,
   Item,
   Picker,
   Icon,
   CheckBox,
   Body,
+  Text,
+  Typography,
 } from 'native-base'
+import _ from 'lodash'
 import DebouncedInputComponent from '../components/DebouncedInput'
+import SelectableSongList from '../components/SelectableSongList'
+import { styles as s } from 'react-native-style-tachyons'
+
 import genres from '../jsons/genres.json'
 
 const styles = StyleSheet.create({
@@ -71,20 +75,14 @@ const styles = StyleSheet.create({
   },
   notFoundText: {
     color: 'blue',
-    marginLeft: '50%',
+    textAlign: 'center',
+    // marginLeft: '50%',
   },
 })
 
-// const instruments = [
-//     'Piano', 'Teclado', 'Guitarra',
-//     'Violão', 'Baixo', 'Violoncelo',
-//     'Clarinete', 'Bateria', 'Flauta',
-//     'Harpa', 'Saxofone', 'Trompete',
-//     'Violino', 'Cavaquinho', 'Sanfona' ];
+const CIFRACLUB_API_URL = 'https://20a4a644.ngrok.io'
 
-const CIFRACLUB_API_URL = 'https://a2db36cb.ngrok.io'
-
-export default class MusicRegistrationScreen extends Component {
+class NewSongScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -98,6 +96,7 @@ export default class MusicRegistrationScreen extends Component {
       selectedGenre: '',
       melodic: false,
       harmonic: false,
+      song: null,
     }
   }
 
@@ -106,22 +105,16 @@ export default class MusicRegistrationScreen extends Component {
   }
 
   searchSong(search) {
-    this.setState({ search })
-    this.setState({ hideInputs: true })
-    this.setState({ loading: true })
-    let url = CIFRACLUB_API_URL + '/songs?name=' + search
+    this.setState({ search, loading: true, hideInputs: true })
+
+    const url = `${CIFRACLUB_API_URL}/songs?name=${search}`
 
     fetch(url, {
       method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
     })
       .then(response => response.json())
       .then(searchResult => {
-        this.setState({ searchResult })
-        this.setState({ loading: false })
+        this.setState({ searchResult, loading: false })
       })
       .catch(error => {
         console.error(error)
@@ -146,7 +139,7 @@ export default class MusicRegistrationScreen extends Component {
     this.setState({ melodic: !this.state.melodic })
   }
 
-  selectSong(selectedSong) {
+  selectSong = selectedSong => {
     this.setState({ hideInputs: true })
     this.setState({ selectedSong })
   }
@@ -162,7 +155,7 @@ export default class MusicRegistrationScreen extends Component {
       search,
       melodic,
       harmonic,
-      selectedSong
+      selectedSong,
     } = this.state
     const { navigation } = this.props
     return (
@@ -177,57 +170,25 @@ export default class MusicRegistrationScreen extends Component {
             />
           </Item>
 
-          <Card>
-            { search == '' ? null : (
-              <View>
-                { selectedSong == null ? null : (
-                    <CardSection>
-                        <View row>
-                            <Text style={[{fontWeight: 'bold', textDecorationLine: 'underline', marginLeft: 15}]}>
-                                Música selecionada
-                            </Text>
-                            <Text style={[{marginLeft: 15}]}>
-                                {selectedSong.artist.name + ' - ' + selectedSong.name}
-                            </Text>
-                        </View>
-                    </CardSection>
-                )}
-                <CardSection>
-                        { loading == true ? (
-                            <View style={{flex: 1}}>
-                                <ActivityIndicator/>
-                            </View>
-                        ) : (
-                            <List
-                                dataArray={searchResult}
-                                renderRow={song => 
-                                    <ListItem key={song.name}>
-                                        <TouchableOpacity onPress={() => this.selectSong.bind(this)(song)}>
-                                        <Text>{song.artist.name + ' - ' + song.name}</Text>
-                                        </TouchableOpacity>
-                                    </ListItem>
-                                }
-                            />
-                        )}
-                  
-                </CardSection>
+          {!!search && (
+            <Card>
+              <SelectableSongList
+                songs={searchResult}
+                onSelect={this.selectSong}
+              />
+            </Card>
+          )}
 
-                <CardSection>
-                  <TouchableOpacity
-                    onPress={() => {
-                        this.setState({ hideInputs: false })
-                        this.setState({ search: '' })
-                        this.searchSong.bind(this)
-                    }
-                }>
-                    <Text style={styles.notFoundText}>Não encontrei!!</Text>
-                  </TouchableOpacity>
-                </CardSection>
-              </View>
-            )}
-          </Card>
+            <TouchableOpacity
+              onPress={() => {
+                this.setState({ hideInputs: false, search: '' })
+                this.searchSong.bind(this)
+              }}
+            >
+              <Text style={[s.tc, s.mt2, s.b]}>Inserir manualmente</Text>
+            </TouchableOpacity>
 
-          { hideInputs ? null : (
+          {!hideInputs && (
             <Card>
               <CardSection>
                 <Input
@@ -301,3 +262,5 @@ export default class MusicRegistrationScreen extends Component {
     )
   }
 }
+
+export default NewSongScreen

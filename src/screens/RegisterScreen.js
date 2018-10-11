@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontWeight: 'bold',
-  },
+  }
 })
 
 class RegisterScreen extends Component {

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import * as firebase from 'firebase'
 import {
   Container,
   Header,
@@ -19,7 +20,7 @@ import { View, Image, StyleSheet, Text, Dimensions } from "react-native";
 import stylesd from '../stylesd';
 import Footer from "../components/Footer";
 import imgDefault from "../img/perfil.png";
-import MusicRegistrationScreen from "./MusicRegistrationScreen";
+import NewSongScreen from "./NewSongScreen";
 import DebouncedInputComponent from "../components/DebouncedInput";
 
 const { width } = Dimensions.get("window");
@@ -52,7 +53,8 @@ const styles = StyleSheet.create({
   containerInfo: {
     flex: 1,
     flexDirection: "row",
-    marginTop: 10
+    marginTop: 10,
+    marginBottom: 38
   },
   imgPerfil: {
     width: width * 0.3,
@@ -69,6 +71,18 @@ const styles = StyleSheet.create({
   txtInfo: {
     textAlign: "center",
     color: "#ccc"
+  },
+  logoutButton: {
+    marginBottom: 10,
+    borderRadius: 10,
+    marginTop: 38,
+    width: '100%',
+    backgroundColor: 'red'
+  },
+  logoutButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    marginLeft: '44%'
   }
 });
 
@@ -132,6 +146,14 @@ export default class ProfileScreen extends Component {
     this.setState({ photoURL, instrument, inventory, name, premium });
   }
 
+  logout() {
+    firebase.auth().signOut().then(() => {
+      this.props.navigation.navigate('Login')
+    }, function(error) {
+      console.log(error)
+    });
+  }
+
   searchSong = (search) => {
     this.setState({ search })
   }
@@ -165,12 +187,18 @@ export default class ProfileScreen extends Component {
               <Text style={styles.txtInfo}>ritmos diferentes</Text>
             </View>
           </View>
+
+          <Button style={styles.logoutButton}
+            onPress={this.logout.bind(this)}>
+            <Text style={styles.logoutButtonText}>Logout</Text>
+          </Button>
+
         </Container>
         <Item>
             <Icon type="FontAwesome"
                   name="plus"
                   style={{ color: "#11841a" }}
-                  onPress={() => navigation.navigate("MusicRegistration")}
+                  onPress={() => navigation.navigate("NewSong")}
             />
             <Item style={styles.itemSearch}>
                 <DebouncedInputComponent

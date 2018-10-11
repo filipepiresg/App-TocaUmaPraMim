@@ -5,8 +5,12 @@ import { createBottomTabNavigator, createStackNavigator } from "react-navigation
 import {
   ExploreScreen,
   ProfileScreen,
+<<<<<<< HEAD
   MusicRegistrationScreen,
   EditProfileScreen
+=======
+  NewSongScreen
+>>>>>>> 5b429d9e1a085c1da2e4c47548572199abe2f83c
 } from "../screens";
 import stylesd from '../stylesd';
 
@@ -47,14 +51,20 @@ const TabNavigator = createBottomTabNavigator({
 
 export default createStackNavigator({
     TabNavigator,
+<<<<<<< HEAD
     MusicRegistration: MusicRegistrationScreen,
     EditProfile: EditProfileScreen
+=======
+    NewSong: NewSongScreen
+
+>>>>>>> 5b429d9e1a085c1da2e4c47548572199abe2f83c
   }, {
     headerMode: 'float',
     initialRouteKey: 'TabNavigator',
     navigationOptions: {
       headerStyle: {
-        backgroundColor: stylesd.corDeFundo
+        backgroundColor: stylesd.corDeFundo,
+        borderBottomColor: 'transparent'
       }
     }
   }
