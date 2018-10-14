@@ -23,6 +23,10 @@ class SongForm extends Component {
   }
 
   componentDidMount() {
+    this.verifyReceivedSong()
+  }
+
+  verifyReceivedSong() {
     const { initialSong } = this.props
     if (initialSong) {
       const song = {
@@ -75,8 +79,6 @@ class SongForm extends Component {
 
   render() {
     const { song } = this.state
-    console.log('render')
-    console.log(song)
 
     const { name, artist, melodic, harmonic, metadata } = song || {}
     return (
@@ -117,12 +119,13 @@ class SongForm extends Component {
           </View>
         </View>
 
+        <Label style={[s.ml3, {fontSize: 15, color: '#777', marginBottom: -5}]}>Informações</Label>
         <Textarea
           rowSpan={5}
-          style={[s.mt3, s.mr2, s.ml2]}
+          style={[s.mt3, s.mr3, s.ml3]}
           onChangeText={this.getHandlerForSong('info')}
           bordered
-          placeholder="Info"
+          placeholder="ex: Tom Original C"
         />
       </Form>
     )

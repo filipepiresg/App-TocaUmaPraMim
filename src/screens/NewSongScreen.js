@@ -2,24 +2,14 @@ import React, { Component } from 'react'
 import { StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
 import Card from '../components/Card'
 import SongForm from '../components/SongForm'
-import {
-  View,
-  Container,
-  Button,
-  Content,
-  Item,
-  Picker,
-  Icon,
-  CheckBox,
-  Body,
-  Text,
-  Typography,
-} from 'native-base'
+import { Container, Button, Content, Item, Picker, Text } from 'native-base'
 import _ from 'lodash'
 import DebouncedInputComponent from '../components/DebouncedInput'
 import SelectableSongList from '../components/SelectableSongList'
 import { styles as s } from 'react-native-style-tachyons'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import SongModeToggler from '../components/SongModeToggler'
+import TupmButton from '../components/tupm/TupmButton'
 
 const styles = StyleSheet.create({
   title: {
@@ -81,28 +71,21 @@ const styles = StyleSheet.create({
 const CIFRACLUB_API_URL = 'https://lais.juniorluciano.com/cifra-club-api'
 
 class NewSongScreen extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      loading: false,
-      searchResult: [],
-      selectedSong: null,
-      showSongForm: false,
-      search: '',
-      name: '',
-      artist: '',
-      selectedGenre: '',
-      melodic: false,
-      harmonic: false,
-      song: null,
-    }
+  state = {
+    loading: false,
+    searchResult: [],
+    selectedSong: null,
+    showSongForm: false,
+    search: '',
+    pristine: true,
+    song: null,
   }
 
   saveInfo() {
-    console.log(this.state)
+    // console.log(this.state)
   }
 
-  searchSong(search) {
+  searchSong = search => {
     this.setState({ search, loading: true, showSongForm: false })
 
     const url = `${CIFRACLUB_API_URL}/songs?name=${search}`
@@ -127,8 +110,12 @@ class NewSongScreen extends Component {
 
   selectSong = selectedSong => {
     this.setState({ selectedSong }, () => {
-      this.setState({ showSongForm: true })
+      this.setState({ showSongForm: true, pristine: false })
     })
+  }
+
+  updateSong = song => {
+    this.setState({ song })
   }
 
   render() {
@@ -138,21 +125,22 @@ class NewSongScreen extends Component {
       showSongForm,
       search,
       selectedSong,
+      pristine,
     } = this.state
     return (
       <KeyboardAwareScrollView>
         <Container style={styles.container}>
           <Content padder>
             <Text style={styles.title}>Nova música</Text>
-            <Item style={styles.itemSearch}>
+            {(!showSongForm) && <Item style={styles.itemSearch}>
               <DebouncedInputComponent
-                updateText={this.searchSong.bind(this)}
-                placeholder="busca por música"
+                updateText={this.searchSong}
+                placeholder="busque online sua música"
                 style={styles.inputSearch}
               />
-            </Item>
+            </Item>}
 
-            {!!search && (
+            {!!search && (pristine || !showSongForm) && (
               <Card>
                 <SelectableSongList
                   songs={searchResult}
@@ -161,27 +149,30 @@ class NewSongScreen extends Component {
               </Card>
             )}
 
-            <TouchableOpacity
-              onPress={() => {
-                this.setState({ showSongForm: true, search: '' })
-                this.searchSong.bind(this)
+            <SongModeToggler
+              showSongForm={showSongForm}
+              pristine={pristine}
+              onToggle={piece => {
+                this.setState(piece)
               }}
-            >
-              <Text style={[s.tc, s.mt2, s.b]}>Inserir manualmente</Text>
-            </TouchableOpacity>
+            />
 
             {showSongForm && (
-              <SongForm initialSong={selectedSong} onChange={() => {}} />
+              <SongForm
+                initialSong={selectedSong}
+                key={(selectedSong && selectedSong.slug) || 'a2esg'}
+                onChange={this.updateSong}
+              />
             )}
 
-            <Button
+            <TupmButton
+              style={[s.mt3]}
               block
-              iconLeft
-              style={styles.buttonStyle}
-              onPress={() => this.saveInfo()}
-            >
-              <Text style={styles.buttonText}>Adicionar</Text>
-            </Button>
+              disabled
+              text="Adicionar"
+              onPress={() => {}}
+            />
+
           </Content>
         </Container>
       </KeyboardAwareScrollView>
