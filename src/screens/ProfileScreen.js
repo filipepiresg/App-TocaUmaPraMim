@@ -13,7 +13,8 @@ import {
   Item,
   Input,
   Icon,
-  Button
+  Button,
+  Fab
 } from "native-base";
 import { View, Image, StyleSheet, Text, Dimensions } from "react-native";
 
@@ -22,6 +23,7 @@ import Footer from "../components/Footer";
 import imgDefault from "../img/perfil.png";
 import NewSongScreen from "./NewSongScreen";
 import DebouncedInputComponent from "../components/DebouncedInput";
+import { styles as s } from 'react-native-style-tachyons'
 
 const { width } = Dimensions.get("window");
 
@@ -194,11 +196,6 @@ export default class ProfileScreen extends Component {
 
         </Container>
         <Item>
-            <Icon type="FontAwesome"
-                  name="plus"
-                  style={{ color: "#11841a" }}
-                  onPress={() => navigation.navigate("NewSong")}
-            />
             <Item style={styles.itemSearch}>
                 <DebouncedInputComponent
                     placeholder="busca por música, ritmo e/ou banda"
@@ -222,6 +219,15 @@ export default class ProfileScreen extends Component {
             )) */}
         </Content>
       </Container>
+      <Fab
+            active={true}
+            direction="up"
+            containerStyle={{ }}
+            style={[{ backgroundColor: 'rgb(97,197,207)', marginRight: -5 }]}
+            position="bottomRight"
+            onPress={() => navigation.navigate("NewSong")}>
+            <Icon name="add"/>
+          </Fab>
     </Container>
     );
   }
