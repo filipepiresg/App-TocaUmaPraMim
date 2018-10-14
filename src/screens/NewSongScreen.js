@@ -70,9 +70,13 @@ const styles = StyleSheet.create({
 
 const CIFRACLUB_API_URL = 'https://lais.juniorluciano.com/cifra-club-api'
 
+// TODO: Retrieve the genre from the API (already implemented)
+// and merge into the song (may be selectable)
 class NewSongScreen extends Component {
   state = {
     loading: false,
+    loadingSongs: false,
+    invalid: true,
     searchResult: [],
     selectedSong: null,
     showSongForm: false,
@@ -81,12 +85,8 @@ class NewSongScreen extends Component {
     song: null,
   }
 
-  saveInfo() {
-    // console.log(this.state)
-  }
-
   searchSong = search => {
-    this.setState({ search, loading: true, showSongForm: false })
+    this.setState({ search, loadingSongs: true, showSongForm: false })
 
     const url = `${CIFRACLUB_API_URL}/songs?name=${search}`
 
@@ -95,7 +95,7 @@ class NewSongScreen extends Component {
     })
       .then(response => response.json())
       .then(searchResult => {
-        this.setState({ searchResult, loading: false })
+        this.setState({ searchResult, loadingSongs: false })
       })
       .catch(error => {
         console.error(error)
@@ -115,12 +115,28 @@ class NewSongScreen extends Component {
   }
 
   updateSong = song => {
+    this.verifySong(song)
     this.setState({ song })
+  }
+
+  verifySong = song => {
+    console.log('VERIFY SONG')
+    console.log(song)
+    if (!song || !song.name || !song.artist) return;
+    this.setState({valid: true})
+  }
+
+  saveSong = () => {
+    const { song } = this.state
+    // Saves the song related to the current user authenticated
+    // May retrieve from the Async Storage the current user id (not its authid)
   }
 
   render() {
     const {
       loading,
+      loadingSongs,
+      invalid,
       searchResult,
       showSongForm,
       search,
@@ -143,6 +159,7 @@ class NewSongScreen extends Component {
             {!!search && (pristine || !showSongForm) && (
               <Card>
                 <SelectableSongList
+                  loading={loadingSongs}
                   songs={searchResult}
                   onSelect={this.selectSong}
                 />
@@ -160,17 +177,18 @@ class NewSongScreen extends Component {
             {showSongForm && (
               <SongForm
                 initialSong={selectedSong}
-                key={(selectedSong && selectedSong.slug) || 'a2esg'}
+                key={(selectedSong && selectedSong.slug) || 'component-id'}
                 onChange={this.updateSong}
               />
             )}
 
             <TupmButton
               style={[s.mt3]}
+              loading={loading}
               block
-              disabled
+              disabled={invalid}
               text="Adicionar"
-              onPress={() => {}}
+              onPress={this.saveSong}
             />
 
           </Content>

@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
-import { List, ListItem, Body, Text } from 'native-base'
+import { ActivityIndicator } from 'react-native'
+import { List, ListItem, Body, Text, View } from 'native-base'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
+import { styles as s } from 'react-native-style-tachyons'
 
 /**
  * Exports an List component that shows an array of songs
  * and allows the use to select one of them
  */
-class SelectableSongList extends Component{
+class SelectableSongList extends Component {
   static proptypes = {
     songs: PropTypes.array.isRequired,
     onSelect: PropTypes.array,
@@ -16,6 +18,14 @@ class SelectableSongList extends Component{
 
   state = {
     selectedSong: null,
+  }
+
+  renderLogin = () => {
+    return (
+      <View style={[s.pa3]}>
+        <ActivityIndicator size="small" color="#ccc" />
+      </View>
+    )
   }
 
   /**
@@ -32,7 +42,8 @@ class SelectableSongList extends Component{
 
     return (
       <List style={{ backgroundColor: 'white' }}>
-        {songs &&
+        {loading && this.renderLogin()}
+        {(!loading && songs) &&
           songs
             .map((a, index, that) => ({
               ...a,
