@@ -24,7 +24,7 @@ const TupmButtom = ({
       s.flx_i,
       !block && s.w4,
       {
-        backgroundColor: loading ? '#bbb' : 'rgb(72,186,196)',
+        backgroundColor: disabled ? '#bbb' : 'rgb(72,186,196)',
       },
       ...style,
     ]}

@@ -76,7 +76,7 @@ class NewSongScreen extends Component {
   state = {
     loading: false,
     loadingSongs: false,
-    invalid: true,
+    valid: false,
     searchResult: [],
     selectedSong: null,
     showSongForm: false,
@@ -114,20 +114,32 @@ class NewSongScreen extends Component {
     })
   }
 
+  verifySong = song => {
+    if (!song || !song.name || !song.artist) return
+    this.setState({ valid: true })
+  }
+
   updateSong = song => {
     this.verifySong(song)
     this.setState({ song })
   }
 
-  verifySong = song => {
-    console.log('VERIFY SONG')
-    console.log(song)
-    if (!song || !song.name || !song.artist) return;
-    this.setState({valid: true})
-  }
-
   saveSong = () => {
     const { song } = this.state
+    /** SHAPE OF THE OBJECT: 
+     * {
+        "artist": "Banda Magníficos",
+        "harmonic": false,
+        "info": "Lindo",
+        "melodic": true,
+        "metadata": Object {
+          "artistSlug": "banda-magnificos",
+          "provider": "cifraclub",
+          "songSlug": "verdadeiro-amor",
+        },
+        "name": "Verdadeiro Amor",
+      } 
+     */
     // Saves the song related to the current user authenticated
     // May retrieve from the Async Storage the current user id (not its authid)
   }
@@ -136,7 +148,7 @@ class NewSongScreen extends Component {
     const {
       loading,
       loadingSongs,
-      invalid,
+      valid,
       searchResult,
       showSongForm,
       search,
@@ -148,23 +160,26 @@ class NewSongScreen extends Component {
         <Container style={styles.container}>
           <Content padder>
             <Text style={styles.title}>Nova música</Text>
-            {(!showSongForm) && <Item style={styles.itemSearch}>
-              <DebouncedInputComponent
-                updateText={this.searchSong}
-                placeholder="busque online sua música"
-                style={styles.inputSearch}
-              />
-            </Item>}
-
-            {!!search && (pristine || !showSongForm) && (
-              <Card>
-                <SelectableSongList
-                  loading={loadingSongs}
-                  songs={searchResult}
-                  onSelect={this.selectSong}
+            {!showSongForm && (
+              <Item style={styles.itemSearch}>
+                <DebouncedInputComponent
+                  updateText={this.searchSong}
+                  placeholder="busque online sua música"
+                  style={styles.inputSearch}
                 />
-              </Card>
+              </Item>
             )}
+
+            {!!search &&
+              (pristine || !showSongForm) && (
+                <Card>
+                  <SelectableSongList
+                    loading={loadingSongs}
+                    songs={searchResult}
+                    onSelect={this.selectSong}
+                  />
+                </Card>
+              )}
 
             <SongModeToggler
               showSongForm={showSongForm}
@@ -186,11 +201,10 @@ class NewSongScreen extends Component {
               style={[s.mt3]}
               loading={loading}
               block
-              disabled={invalid}
+              disabled={!valid}
               text="Adicionar"
               onPress={this.saveSong}
             />
-
           </Content>
         </Container>
       </KeyboardAwareScrollView>

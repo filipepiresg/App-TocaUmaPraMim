@@ -39,7 +39,7 @@ class SongForm extends Component {
         },
         harmonic: true,
       }
-      this.setState({ song })
+      this.setState({ song }, this.updateParent)
     }
   }
 
