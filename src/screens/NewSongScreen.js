@@ -1,15 +1,18 @@
 import React, { Component } from 'react'
-import { StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
-import Card from '../components/Card'
-import SongForm from '../components/SongForm'
-import { Container, Button, Content, Item, Picker, Text } from 'native-base'
+import { StyleSheet, AsyncStorage } from 'react-native'
+import { Container, Toast, Content, Item, Picker, Text } from 'native-base'
 import _ from 'lodash'
-import DebouncedInputComponent from '../components/DebouncedInput'
-import SelectableSongList from '../components/SelectableSongList'
 import { styles as s } from 'react-native-style-tachyons'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import * as firebase from 'firebase'
+require('firebase/firestore')
+
 import SongModeToggler from '../components/SongModeToggler'
 import TupmButton from '../components/tupm/TupmButton'
+import DebouncedInputComponent from '../components/DebouncedInput'
+import SelectableSongList from '../components/SelectableSongList'
+import Card from '../components/Card'
+import SongForm from '../components/SongForm'
 
 const styles = StyleSheet.create({
   title: {
@@ -124,24 +127,29 @@ class NewSongScreen extends Component {
     this.setState({ song })
   }
 
-  saveSong = () => {
-    const { song } = this.state
-    /** SHAPE OF THE OBJECT: 
-     * {
-        "artist": "Banda Magníficos",
-        "harmonic": false,
-        "info": "Lindo",
-        "melodic": true,
-        "metadata": Object {
-          "artistSlug": "banda-magnificos",
-          "provider": "cifraclub",
-          "songSlug": "verdadeiro-amor",
-        },
-        "name": "Verdadeiro Amor",
-      } 
-     */
-    // Saves the song related to the current user authenticated
-    // May retrieve from the Async Storage the current user id (not its authid)
+  saveSong = async () => {
+    this.setState({loading: true})
+    try {
+      const { song } = this.state
+      const userString = await AsyncStorage.getItem('loggedUser')
+      const loggedUser = JSON.parse(userString)
+
+      song.userId = loggedUser.id
+      await firebase
+        .firestore()
+        .collection('songs')
+        .add(song)
+        Toast.show({
+          text: "Música incluída com sucesso!",
+          type: "success",
+          onClose: () => {
+            this.props.navigation.goBack()
+          }
+        })
+    } catch (e) {
+      console.error(e)
+    }
+    this.setState({loading: false})
   }
 
   render() {
