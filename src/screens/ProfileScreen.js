@@ -16,12 +16,10 @@ import {
   Button,
   Fab
 } from "native-base";
-import { View, Image, StyleSheet, Text, Dimensions } from "react-native";
+import { View, Image, StyleSheet, Text, Dimensions, AsyncStorage } from "react-native";
 
 import stylesd from '../stylesd';
-import Footer from "../components/Footer";
 import imgDefault from "../img/perfil.png";
-import NewSongScreen from "./NewSongScreen";
 import DebouncedInputComponent from "../components/DebouncedInput";
 import { styles as s } from 'react-native-style-tachyons'
 
@@ -148,12 +146,11 @@ export default class ProfileScreen extends Component {
     this.setState({ photoURL, instrument, inventory, name, premium });
   }
 
-  logout() {
-    firebase.auth().signOut().then(() => {
-      this.props.navigation.navigate('Login')
-    }, function(error) {
-      console.log(error)
-    });
+  async logout() {
+    await firebase.auth().signOut()
+    await AsyncStorage.removeItem('loggedUser')
+    this.props.navigation.navigate('Login')
+
   }
 
   searchSong = (search) => {
