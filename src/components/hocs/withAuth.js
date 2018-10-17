@@ -41,6 +41,12 @@ export default WrappedComponent => {
       }
     }
 
+    _logout = async () => {
+      await firebase.auth().signOut()
+      await AsyncStorage.removeItem('loggedUser')
+      this.props.navigation.navigate('Login')
+    }
+
     /**
      * Verifies if this uid is registered in the app. If not, redirect the user to the RegisterScreen.
      * If it is, redirects him/her to the Main Screen.
@@ -76,6 +82,7 @@ export default WrappedComponent => {
       return (
         <WrappedComponent
           loginWithFacebook={this._loginWithFacebook}
+          logout={this._logout}
           {...this.props}
         />
       )
