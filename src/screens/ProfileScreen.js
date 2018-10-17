@@ -16,6 +16,7 @@ import stylesd from '../stylesd';
 import imgDefault from "../img/perfil.png";
 import DebouncedInputComponent from "../components/DebouncedInput";
 import { styles as s } from 'react-native-style-tachyons'
+import withAuth from "../components/hocs/withAuth";
 
 const { width } = Dimensions.get("window");
 
@@ -108,7 +109,7 @@ const amountRitmos = (inventory = []) => {
   return amountRitmo;
 };
 
-export default class ProfileScreen extends Component {
+class ProfileScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -140,13 +141,6 @@ export default class ProfileScreen extends Component {
     this.setState({ photoURL, instrument, inventory, name, premium });
   }
 
-  async logout() {
-    await firebase.auth().signOut()
-    await AsyncStorage.removeItem('loggedUser')
-    this.props.navigation.navigate('Login')
-
-  }
-
   searchSong = (search) => {
     this.setState({ search })
   }
@@ -154,6 +148,7 @@ export default class ProfileScreen extends Component {
   render() {
     const { photoURL, instrument, name, inventory, search } = this.state;
     const { navigation } = this.props;
+    const { logout } = this.props;
     return (
       <Container style={styles.container}>
       
@@ -219,7 +214,7 @@ export default class ProfileScreen extends Component {
               <Icon name="md-create" />
             </Button>
             <Button style={{ backgroundColor: '#FE132B' }}
-                    onPress={() => this.logout()}>
+                    onPress={() => logout()}>
               <Icon name="md-exit" />
             </Button>
             
@@ -237,3 +232,5 @@ export default class ProfileScreen extends Component {
     );
   }
 }
+
+export default withAuth(ProfileScreen);
