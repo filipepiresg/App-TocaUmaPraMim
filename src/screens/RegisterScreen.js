@@ -99,6 +99,7 @@ class RegisterScreen extends Component {
           <View style={[s.mt2]}>
             <ProfileForm
               initialUser={user}
+              editMode={false}
               onChange={userData => this.updateUser(userData)}
             />
           </View>

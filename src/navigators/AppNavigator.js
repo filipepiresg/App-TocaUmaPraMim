@@ -5,6 +5,7 @@ import { createBottomTabNavigator, createStackNavigator } from "react-navigation
 import {
   ExploreScreen,
   ProfileScreen,
+  EditProfileScreen,
   NewSongScreen
 } from "../screens";
 import stylesd from '../stylesd';
@@ -46,6 +47,7 @@ const TabNavigator = createBottomTabNavigator({
 
 export default createStackNavigator({
     TabNavigator,
+    EditProfile: EditProfileScreen,
     NewSong: NewSongScreen
 
   }, {
