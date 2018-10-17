@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg version="1.1" width="64px" height="64px" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<!-- <svg width="530px" height="64px" viewBox="0 0 530 " version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"> -->
+    <!-- Generator: Sketch 40.3 (33839) - http://www.bohemiancoding.com/sketch -->
+    <title>violao svg</title>
+    <!-- <desc>Created with Sketch.</desc> -->
+    <defs>
+        <rect id="path-1" x="1" y="12" width="14" height="3"></rect>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icn">
+            <g id="Violao" transform="translate(0.000000, 0.000000)">
+                <path d="M7.29957628,15.2750573 C4.68416058,18.2787896 -2.41881245,11.1547369 0.838552605,8.36910308 C2.59630436,6.86590873 4.46420763,7.2046317 5.31697793,6.36425064 C6.37804033,5.31860359 6.42198443,1.97607734 10.3090277,5.75528745 C8.5871582,8.8125 11.7026367,8.69177246 11.9698788,8.15249244 C12.2841226,9.73401692 10.0499148,10.0958003 9.43716358,10.9717795 C8.50854505,12.2993176 9.09018267,13.2185955 7.29957628,15.2750573 Z" id="Combined-Shape" fill="#E4B242"></path>
+                <path d="M14.0155956,2.9999627 L14.9728394,2.78320312 L16,1.0255127 L14.9728394,-1.11022302e-16 L13.2423706,1.0255127 L13.0216858,1.99389134 L8.4941963,6.52420664 L9.51500928,7.51541758 L14.0155956,2.9999627 Z M3,10.7876949 L5.21230508,13 L6,12.2123051 L3.78769492,10 L3,10.7876949 Z" id="Combined-Shape" fill="#3F260F"></path>
+                <circle id="Oval-6" fill="#3F260F" cx="7.5" cy="8.5" r="1.5"></circle>
+            </g>
+        </g>
+    </g>
+</svg>

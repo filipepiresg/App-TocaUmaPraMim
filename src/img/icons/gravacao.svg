@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg version="1.1" width="64px" height="64px" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<!-- <svg width="530px" height="64px" viewBox="0 0 530 " version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"> -->
+    <!-- Generator: Sketch 40.3 (33839) - http://www.bohemiancoding.com/sketch -->
+    <title>gravacao svg</title>
+    <!-- <desc>Created with Sketch.</desc> -->
+    <defs>
+        <rect id="path-1" x="1" y="12" width="14" height="3"></rect>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icn">
+            <g id="gravacao" transform="translate(0.000000, 0.000000)">
+                <g>
+                    <rect id="Rectangle-1" fill="#185BE2" x="0" y="0" width="16" height="10" rx="1"></rect>
+                    <rect id="Rectangle-2" fill="#558DFF" x="1" y="1" width="14" height="8" rx="0.5"></rect>
+                    <path d="M5,3 L5,7 L4.5,7 C4.22385763,7 4,6.78494263 4,6.50952148 L4,3.49047852 C4,3.21959471 4.23193359,3 4.5,3 L5,3 Z M6,4 L7,4 L7,6 L6,6 L6,4 L6,4 L6,4 L6,4 Z M11,4 L11,6 L10.5,6 C10.2238576,6 10,5.78596497 10,5.49531555 L10,4.50468445 C10,4.22595492 10.2319336,4 10.5,4 L11,4 Z M4,4 L4,6 L3.5,6 C3.22385763,6 3,5.78596497 3,5.49531555 L3,4.50468445 C3,4.22595492 3.23193359,4 3.5,4 L4,4 Z M6,7.50899482 C6,7.78016949 5.76806641,8 5.5,8 L5.5,8 C5.22385763,8 5,7.77211952 5,7.50899482 L5,2.49100518 C5,2.21983051 5.23193359,2 5.5,2 L5.5,2 C5.77614237,2 6,2.22788048 6,2.49100518 L6,7.50899482 Z M8,3 L8,7 L7.5,7 C7.22385763,7 7,6.78494263 7,6.50952148 L7,3.49047852 C7,3.21959471 7.23193359,3 7.5,3 L8,3 Z M9,7.50899482 C9,7.78016949 8.76806641,8 8.5,8 L8.5,8 C8.22385763,8 8,7.77211952 8,7.50899482 L8,2.49100518 C8,2.21983051 8.23193359,2 8.5,2 L8.5,2 C8.77614237,2 9,2.22788048 9,2.49100518 L9,7.50899482 Z M12,3 L12,7 L12.5,7 C12.7761424,7 13,6.78494263 13,6.50952148 L13,3.49047852 C13,3.21959471 12.7680664,3 12.5,3 L12,3 Z M12,7.50899482 C12,7.78016949 11.7680664,8 11.5,8 L11.5,8 C11.2238576,8 11,7.77211952 11,7.50899482 L11,2.49100518 C11,2.21983051 11.2319336,2 11.5,2 L11.5,2 C11.7761424,2 12,2.22788048 12,2.49100518 L12,7.50899482 Z" id="Combined-Shape" fill="#FFFFFF"></path>
+                    <rect id="Rectangle-4" fill="#424242" x="0" y="10" width="16" height="6" rx="1"></rect>
+                    <g id="Rectangle-5">
+                        <use fill="#D8D8D8" xlink:href="#path-1"></use>
+                        <use fill="#FFFFFF" xlink:href="#path-1"></use>
+                    </g>
+                    <rect id="Rectangle-6" fill="#424242" x="2" y="12" width="1" height="2"></rect>
+                    <rect id="Rectangle-6" fill="#424242" x="4" y="12" width="1" height="2"></rect>
+                    <rect id="Rectangle-6" fill="#424242" x="8" y="12" width="1" height="2"></rect>
+                    <rect id="Rectangle-6" fill="#424242" x="10" y="12" width="1" height="2"></rect>
+                    <rect id="Rectangle-6" fill="#424242" x="12" y="12" width="1" height="2"></rect>
+                    <rect id="Rectangle-16" fill="#E0E0E0" x="2" y="14" width="1" height="1"></rect>
+                    <rect id="Rectangle-16" fill="#E0E0E0" x="4" y="14" width="1" height="1"></rect>
+                    <rect id="Rectangle-16" fill="#E0E0E0" x="8" y="14" width="1" height="1"></rect>
+                    <rect id="Rectangle-16" fill="#E0E0E0" x="10" y="14" width="1" height="1"></rect>
+                    <rect id="Rectangle-16" fill="#E0E0E0" x="12" y="14" width="1" height="1"></rect>
+                    <rect id="Rectangle-16" fill="#E0E0E0" x="6" y="12" width="1" height="3"></rect>
+                    <rect id="Rectangle-16" fill="#E0E0E0" x="14" y="12" width="1" height="3"></rect>
+                    <circle id="Oval-1" fill="#61B406" cx="13.5" cy="10.5" r="0.5"></circle>
+                    <circle id="Oval-1" fill="#FF4840" cx="11.5" cy="10.5" r="0.5"></circle>
+                    <circle id="Oval-1" fill="#558DFF" cx="2.5" cy="10.5" r="0.5"></circle>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

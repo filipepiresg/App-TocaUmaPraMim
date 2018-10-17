@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg version="1.1" width="64px" height="64px" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<!-- <svg width="530px" height="64px" viewBox="0 0 530 " version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"> -->
+    <!-- Generator: Sketch 40.3 (33839) - http://www.bohemiancoding.com/sketch -->
+    <title>dj svg</title>
+    <!-- <desc>Created with Sketch.</desc> -->
+    <defs>
+        <rect id="path-1" x="1" y="12" width="14" height="3"></rect>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icn">
+            <g id="color_pickup_dj" transform="translate(0.000000, 0.000000)">
+                <g>
+                    <rect id="corpo" fill="#424242" x="0" y="0" width="16" height="14" rx="1"></rect>
+                    <path d="M14,4.91464715 C14.5825962,4.70872894 15,4.15310941 15,3.5 C15,2.67157288 14.3284271,2 13.5,2 C12.6715729,2 12,2.67157288 12,3.5 C12,4.15310941 12.4174038,4.70872894 13,4.91464715 L13,8.2306428 C13,8.5119709 12.8465341,8.90257219 12.6529442,9.10760822 L11.547068,10.2788708 C11.3553944,10.4818773 11.364014,10.8104484 11.5535656,11 C11.7488277,11.1952621 12.0576338,11.198676 12.2527157,10.9979399 L13.6544033,9.55562573 C13.8452711,9.35922581 14,8.97935049 14,8.69263919 L14,4.91464715 Z M13.5,4 C13.7761424,4 14,3.77614237 14,3.5 C14,3.22385763 13.7761424,3 13.5,3 C13.2238576,3 13,3.22385763 13,3.5 C13,3.77614237 13.2238576,4 13.5,4 Z" id="agulha" fill="#E0E0E0"></path>
+                    <g id="luzes" transform="translate(1.000000, 1.000000)">
+                        <circle id="Oval-6" fill="#61B406" cx="0.5" cy="11.5" r="0.5"></circle>
+                        <circle id="Oval-6" fill="#FFCA00" cx="0.5" cy="0.5" r="0.5"></circle>
+                        <circle id="Oval-6" fill="#FF4840" cx="2.5" cy="0.5" r="0.5"></circle>
+                        <circle id="Oval-6" fill="#9E9E9E" cx="13" cy="11" r="1"></circle>
+                    </g>
+                    <g id="disco" transform="translate(1.000000, 2.000000)">
+                        <circle id="Oval-3" fill="#9E9E9E" cx="5" cy="5" r="5"></circle>
+                        <circle id="Oval-3" fill="#212121" cx="5" cy="5" r="4"></circle>
+                        <circle id="Oval-4" fill="#757575" cx="5" cy="5" r="1"></circle>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

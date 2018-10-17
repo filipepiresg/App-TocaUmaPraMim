@@ -7,13 +7,12 @@ require('firebase/firestore')
 
 export default WrappedComponent => {
   class withAuth extends React.Component {
-
     componentDidMount() {
-      this.props.showLoading();
-      firebase.auth().onAuthStateChanged((user) => {
+      this.props.showLoading()
+      firebase.auth().onAuthStateChanged(user => {
         this._verifyUser(user)
         this.props.hideLoading()
-      });
+      })
     }
 
     _loginWithFacebook = async () => {
@@ -21,7 +20,7 @@ export default WrappedComponent => {
         '2207895276121269',
         { permissions: ['public_profile'] }
       )
-      
+
       if (type === 'success') {
         this.props.showLoading()
         // Build Firebase credential with the Facebook access token.
@@ -51,9 +50,11 @@ export default WrappedComponent => {
     _verifyUser = async user => {
       const db = firebase.firestore()
       db.settings({ timestampsInSnapshots: true })
-      
-      const collection = await db.collection('users').where('authId', '==', user.uid).get()
-      this.props.hideLoading()
+
+      const collection = await db
+        .collection('users')
+        .where('authId', '==', user.uid)
+        .get()
 
       if (collection.empty) {
         const { providerData, uid } = user
@@ -62,8 +63,13 @@ export default WrappedComponent => {
           authId: uid,
         })
       } else {
+        collection.forEach(async user => {
+          const loggedUser = {...user.data(), id: user.id}
+          await AsyncStorage.setItem('loggedUser', JSON.stringify(loggedUser))
+        })
         this.props.navigation.navigate('App')
       }
+      this.props.hideLoading()
     }
 
     render() {
