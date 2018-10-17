@@ -17,7 +17,8 @@ class UsernameInput extends Component {
   }
 
   componentDidMount() {
-    const { initialValue } = this.props
+    const { initialValue } = this.props;
+    console.log(initialValue);
     if (initialValue) {
       this.setState({ value: initialValue })
     }

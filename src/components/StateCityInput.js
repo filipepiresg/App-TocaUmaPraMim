@@ -12,25 +12,54 @@ const styles = StyleSheet.create({
 
 
 class StateCityInput extends Component {
-  state = {
-    stateCode: this.props.stateCode,
-    stateCodeSelected: '',
-    city: this.props.city,
-    states: [],
-    cities: [],
-    isLoading: true,
+  constructor(props) {
+    super(props);
+    this.state = {
+      stateCode: this.props.stateCode,
+      stateCodeSelected: '',
+      city: this.props.city,
+      states: [],
+      cities: [],
+      isLoading: true,
+    }
   }
 
+
   componentDidMount() {
+    const {stateCode} = this.state;
+    
+    console.log(this.state);
     return fetch('http://www.geonames.org/childrenJSON?geonameId=3469034')
       .then(response => response.json())
       .then(responseJson => {
         const states = responseJson.geonames
+        if(stateCode){
+          states.forEach((state) =>{
+            if(state.adminCodes1.ISO3166_2 == stateCode){
+              fetch(
+                'http://www.geonames.org/childrenJSON?geonameId=' + state.geonameId
+              )
+                .then(response => response.json())
+                .then(responseJson => {
+                  const cities = responseJson.geonames
+                  this.setState({stateCodeSelected: state, isLoading: false,
+                    states: states,
+                    cities: cities,
+                  })
+                })
+                .catch(error => {
+                  console.error(error)
+                })
+            }
+          })
+        }
+        else{
         this.setState({
           isLoading: false,
           states: states,
         })
-      })
+      }
+    })
       .catch(error => {
         console.error(error)
       })

@@ -22,11 +22,13 @@ class ProfileForm extends Component {
 
   state = {
     user: null,
+    editMode: true,
+    loading: true
   }
 
   componentDidMount() {
-    const { initialUser } = this.props
-    this.setState({ user: {...initialUser} })
+    const { initialUser,editMode } = this.props
+    this.setState({ user: {...initialUser}, editMode: editMode }, () => this.setState({loading: false}))
   }
 
   getHandlerForUser = field => {
@@ -46,19 +48,23 @@ class ProfileForm extends Component {
   }
 
   updateParent = () => {
+    console.log("updateParent");
+    console.log(this.state)
     this.props.onChange(this.state.user)
   }
   render() {
     const { name, username, stateCode, city } = this.state.user || {}
-
+    const { editMode, loading } = this.state
+    if(loading && editMode) return(null)
     return (
+      
       <Form>
         <Item floatingLabel>
           <Label style={ styles.label }>Nome</Label>
           <Input onChangeText={this.getHandlerForUser('name')} value={name} />
         </Item>
         <UsernameInput
-          username={username}
+          initialValue={username}
           onChange={this.getHandlerForUser('username')}
         />
         <StateCityInput

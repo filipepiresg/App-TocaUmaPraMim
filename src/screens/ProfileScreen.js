@@ -2,20 +2,14 @@ import React, { Component } from "react";
 import * as firebase from 'firebase'
 import {
   Container,
-  Header,
   Content,
   Title,
   Subtitle,
   H1,
-  Right,
-  Body,
-  Left,
+  Fab,
   Item,
-  Input,
   Icon,
-  Button,
-  Fab
-} from "native-base";
+  Button } from "native-base";
 import { View, Image, StyleSheet, Text, Dimensions, AsyncStorage } from "react-native";
 
 import stylesd from '../stylesd';
@@ -186,12 +180,6 @@ export default class ProfileScreen extends Component {
               <Text style={styles.txtInfo}>ritmos diferentes</Text>
             </View>
           </View>
-
-          <Button style={styles.logoutButton}
-            onPress={this.logout.bind(this)}>
-            <Text style={styles.logoutButtonText}>Logout</Text>
-          </Button>
-
         </Container>
         <Item>
             <Item style={styles.itemSearch}>
@@ -202,11 +190,7 @@ export default class ProfileScreen extends Component {
                 />
             </Item>
         </Item>
-        <Button
-      onPress={navigation.navigate("EditProfile")}
-      title="edit"
-      color="#841584">
-      </Button>
+       
         <Content contentContainerStyle={styles.content}>
           {/*inventory
             .filter(
@@ -221,8 +205,25 @@ export default class ProfileScreen extends Component {
               } - ${item.group} - ${item.ritmo}`}</Text>
             )) */}
         </Content>
-        
       </Container>
+      <Fab
+            active={this.state.active}
+            direction="down"
+            containerStyle={{ }}
+            style={{ backgroundColor: '#5067FF' }}
+            position="topRight"
+            onPress={() => this.setState({ active: !this.state.active })}>
+            <Icon name="md-menu" />
+            <Button style={{ backgroundColor: '#34A34F' }}
+                    onPress={()=>navigation.navigate("EditProfile")}>
+              <Icon name="md-create" />
+            </Button>
+            <Button style={{ backgroundColor: '#FE132B' }}
+                    onPress={() => this.logout()}>
+              <Icon name="md-exit" />
+            </Button>
+            
+        </Fab>
       <Fab
             active={true}
             direction="up"
