@@ -59,7 +59,7 @@ export default WrappedComponent => {
 
       const collection = await db
         .collection('users')
-        .where('authId', '==', user.uid)
+        .where('authId', '==', (user && user.uid) || '')
         .get()
 
       if (collection.empty) {
