@@ -10,8 +10,10 @@ import {
   CheckBox,
   Textarea,
   Text,
+  Picker,
+  Icon
 } from 'native-base'
-
+import data from '../jsons/genres.json';
 class SongForm extends Component {
   static propTypes = {
     initialSong: PropTypes.object,
@@ -37,14 +39,17 @@ class SongForm extends Component {
           songSlug: initialSong.slug,
           artistSlug: initialSong.artist.slug,
         },
-        harmonic: true,
+        genre: initialSong.genre,
+        harmonic: true
       }
+      
       this.setState({ song }, this.updateParent)
     }
   }
 
   getHandlerForSong = field => {
     return value => {
+      console.log(value);
       this.setState(
         { song: { ...this.state.song, [field]: value } },
         this.updateParent
@@ -73,6 +78,18 @@ class SongForm extends Component {
     )
   }
 
+  loadGenres() {
+    let genres = [...data];
+    if(!genres.includes(this.state.genre)) genres.push(this.state.genre)
+    return genres.map(genre => (
+      <Picker.Item
+        label={genre}
+        key={genre}
+        value={genre}
+      />
+    ))
+  }
+
   updateParent = () => {
     this.props.onChange(this.state.song)
   }
@@ -80,7 +97,8 @@ class SongForm extends Component {
   render() {
     const { song } = this.state
 
-    const { name, artist, melodic, harmonic, metadata } = song || {}
+    const { name, artist, melodic, harmonic, metadata, genre } = song || {}
+    
     return (
       <Form>
         <Item floatingLabel>
@@ -101,7 +119,7 @@ class SongForm extends Component {
         </Item>
 
         <View style={[s.flx_i, s.jcsb, s.flx_row, s.mt4, s.mb3]}>
-          <View style={[{ width: '50%' }, s.flx_i, s.flx_row]}>
+          <View style={[{ width: '30%' }, s.flx_i, s.flx_row]}>
             <CheckBox
               checked={melodic}
               style={[s.mr3, s.ml1]}
@@ -109,13 +127,26 @@ class SongForm extends Component {
             />
             <Text>Melódico</Text>
           </View>
-          <View style={[{ width: '50%' }, s.flx_i, s.flx_row]}>
+          <View style={[{ width: '30%' }, s.flx_i, s.flx_row]}>
             <CheckBox
               checked={harmonic}
               style={[s.mr3, s.ml1]}
               onPress={this.getTogglerForSong('harmonic')}
             />
             <Text>Harmônico</Text>
+          </View>
+          <View style={[{ width: '40%' }, s.flx_i, s.flx_row]}>
+          <Picker
+              mode="dropdown"
+              iosIcon={<Icon name="ios-arrow-down-outline" />}
+              placeholder="Selecione um estilo musical"
+              placeholderStyle={{ color: "#777" }}
+              placeholderIconColor="#777"
+              selectedValue={genre}
+              onValueChange={this.getHandlerForSong('genre')}
+            >
+              {this.loadGenres()}
+            </Picker>
           </View>
         </View>
 
