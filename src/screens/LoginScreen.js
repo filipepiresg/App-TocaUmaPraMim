@@ -14,7 +14,7 @@ import {
 import firebase from 'firebase';
 require('firebase/firestore')
 import { compose } from "redux";
-
+import SearchButton from '../components/SearchButton';
 import stylesd from '../stylesd';
 import Logo from "../img/logo.png";
 import withAuth from "../components/hocs/withAuth";
@@ -72,17 +72,19 @@ const styles = StyleSheet.create({
 
 class LoginScreen extends Component {
   state = {
+    loading: false,
     search: ''
   }
 
   async lookingForArtist(search) {
-
+    this.setState({loading: true})
     const db = firebase.firestore()
     db.settings({ timestampsInSnapshots: true })
     const usersRef = await db.collection('users')
     usersRef.where('username','==',search)
       .get()
       .then( value => {
+        this.setState({loading: false})
         if (value.empty) {
           Alert.alert('Usuário não foi encontrado','', [{text: 'Voltar', style:'destructive'}])
         } else {
@@ -91,12 +93,13 @@ class LoginScreen extends Component {
         this.setState({ search: '' })
       })
       .catch((err) => {
+        this.setState({loading: false})
         console.error(err)
       })
   }
 
   render() {
-    const { search } = this.state;
+    const { search, loading } = this.state;
     const { loginWithFacebook } = this.props;
     return (
       <Container style={styles.container}>
@@ -123,7 +126,7 @@ class LoginScreen extends Component {
                   <Icon type="FontAwesome" name="camera" />
                   <Text>Tag Friend</Text>
                 </Button>
-                <Item>
+                <Item style={{borderBottomColor: 'transparent'}}>
                   <Input
                     value={search}
                     autoCorrect={false}
@@ -132,8 +135,11 @@ class LoginScreen extends Component {
                     style={styles.inputBusca}
                     placeholder="Digite o usuario"
                     onChangeText={txt => this.setState({ search: txt })}
-                    onSubmitEditing={() => this.lookingForArtist(search)}
                   />
+                  <SearchButton loading={loading}
+                                onPress={() => this.lookingForArtist(search)}
+                                style={{marginLeft: 7, marginRight: -8, color: stylesd.segundaCor}}>
+                  </SearchButton>
                 </Item>
               </View>
               <View style={styles.containerCadastro}>

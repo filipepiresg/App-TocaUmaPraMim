@@ -59,7 +59,7 @@ class SelectableSongList extends Component {
               >
                 <Body>
                   <Text style={{ fontWeight: 'bold' }}>{song.name}</Text>
-                  <Text note>{song.artist.name}</Text>
+                  <Text note>{song.artist.name ? song.artist.name : song.artist}</Text>
                 </Body>
               </ListItem>
             ))}

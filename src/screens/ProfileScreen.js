@@ -2,26 +2,22 @@ import React, { Component } from "react";
 import * as firebase from 'firebase'
 import {
   Container,
-  Header,
   Content,
   Title,
   Subtitle,
   H1,
-  Right,
-  Body,
-  Left,
+  Fab,
   Item,
-  Input,
   Icon,
-  Button,
-  Fab
-} from "native-base";
-import { View, Image, StyleSheet, Text, Dimensions, AsyncStorage } from "react-native";
-
+  Button } from "native-base";
+import { View, Image, StyleSheet, Text, Dimensions, AsyncStorage, ScrollView } from "react-native";
+import SelectableSongList from '../components/SelectableSongList';
 import stylesd from '../stylesd';
 import imgDefault from "../img/perfil.png";
 import DebouncedInputComponent from "../components/DebouncedInput";
 import { styles as s } from 'react-native-style-tachyons'
+import withAuth from "../components/hocs/withAuth";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 const { width } = Dimensions.get("window");
 
@@ -64,7 +60,7 @@ const styles = StyleSheet.create({
   containerPerfil: {
     backgroundColor: "#fff",
     alignItems: "center",
-    flex: 0.7,
+    flex: 0.5,
     paddingVertical: 10,
     paddingHorizontal: 20
   },
@@ -114,85 +110,83 @@ const amountRitmos = (inventory = []) => {
   return amountRitmo;
 };
 
-export default class ProfileScreen extends Component {
+class ProfileScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
+      user: "",
       inventory: [],
       instrument: "",
       premium: false,
       picture: "",
-      search: ""
+      search: "",
+      didFocusSubscription: ""
     };
     // this.receiveUser(this.props.navigation);
   }
 
-  componentWillMount() {
-    const { navigation } = this.props;
-    const {
-      name,
-      inventory,
-      instrument,
-      premium,
-      photoURL
-    } = navigation.getParam("user", {
-      name: "",
-      inventory: "",
-      instrument: "",
-      premiun: false,
-      photoURL: ""
-    });
-    this.setState({ photoURL, instrument, inventory, name, premium });
+  componentDidMount() {
+    console.log('wow')
+    const didFocusSubscription = this.props.navigation.addListener(
+      'willFocus', () => this.fetchUser());
+    this.setState({didFocusSubscription})
   }
 
-  async logout() {
-    await firebase.auth().signOut()
-    await AsyncStorage.removeItem('loggedUser')
-    this.props.navigation.navigate('Login')
-
+  componentWillUnmount() {
+    this.state.didFocusSubscription.remove();
   }
 
   searchSong = (search) => {
     this.setState({ search })
   }
 
+  fetchUser = async () => {
+    const username = JSON.parse(await AsyncStorage.getItem('loggedUser')).username
+    const url = 'https://us-central1-tupm-app.cloudfunctions.net/getUserFromUsername?username=' + username
+    fetch(url, {
+      method: 'GET',
+    })
+      .then(response => response.json())
+      .then(user => {
+        this.setState({ user })
+      })
+      .catch(error => {
+        console.error(error)
+      })
+  }
+
   render() {
-    const { photoURL, instrument, name, inventory, search } = this.state;
+    const { photoURL, instrument, user, inventory, loading, search } = this.state;
     const { navigation } = this.props;
+    const { logout } = this.props;
     return (
       <Container style={styles.container}>
-      <Container style={styles.subContainer}>
-        <Container style={styles.containerPerfil}>
-          <Image
-            source={photoURL ? { uri: photoURL } : imgDefault}
-            style={styles.imgPerfil}
-            resizeMode="cover"
-          />
-          <Title>{name}</Title>
-          <Subtitle>{instrument}</Subtitle>
-          <View style={styles.containerInfo}>
-            <View style={styles.typeInfo}>
-              <H1>{inventory ? inventory.length : 0}</H1>
-              <Text style={styles.txtInfo}>músicas diferentes</Text>
+        <Container style={styles.subContainer}>
+          <Container style={styles.containerPerfil}>
+            <Image
+              source={photoURL ? { uri: photoURL } : imgDefault}
+              style={styles.imgPerfil}
+              resizeMode="cover"
+            />
+            <Title>{user.name}</Title>
+            <Subtitle>{instrument}</Subtitle>
+            <View style={styles.containerInfo}>
+              <View style={styles.typeInfo}>
+                <H1>{inventory ? inventory.length : 0}</H1>
+                <Text style={styles.txtInfo}>músicas diferentes</Text>
+              </View>
+              <View style={styles.typeInfo}>
+                <H1>{ amountArtists(inventory) }</H1>
+                <Text style={styles.txtInfo}>artistas diferentes</Text>
+              </View>
+              <View style={styles.typeInfo}>
+                <H1>{ amountRitmos(inventory) }</H1>
+                <Text style={styles.txtInfo}>ritmos diferentes</Text>
+              </View>
             </View>
-            <View style={styles.typeInfo}>
-              <H1>{ amountArtists(inventory) }</H1>
-              <Text style={styles.txtInfo}>artistas diferentes</Text>
-            </View>
-            <View style={styles.typeInfo}>
-              <H1>{ amountRitmos(inventory) }</H1>
-              <Text style={styles.txtInfo}>ritmos diferentes</Text>
-            </View>
-          </View>
-
-          <Button style={styles.logoutButton}
-            onPress={this.logout.bind(this)}>
-            <Text style={styles.logoutButtonText}>Logout</Text>
-          </Button>
-
-        </Container>
-        <Item>
+          </Container>
+          
+          <Item>
             <Item style={styles.itemSearch}>
                 <DebouncedInputComponent
                     placeholder="busca por música, ritmo e/ou banda"
@@ -200,32 +194,63 @@ export default class ProfileScreen extends Component {
                     style={styles.inputSearch}
                 />
             </Item>
-        </Item>
-        <Content contentContainerStyle={styles.content}>
-          {/*inventory
-            .filter(
-              value =>
-                value.music.toLowerCase().includes(search.toLowerCase()) ||
-                value.group.toLowerCase().includes(search.toLowerCase()) ||
-                value.ritmo.toLowerCase().includes(search.toLowerCase())
-            )
-            .map(item => (
-              <Text key={item.music} style={{ padding: 5 }}>{`${
-                item.music
-              } - ${item.group} - ${item.ritmo}`}</Text>
-            )) */}
-        </Content>
-      </Container>
-      <Fab
-            active={true}
-            direction="up"
-            containerStyle={{ }}
-            style={[{ backgroundColor: 'rgb(97,197,207)', marginRight: -5 }]}
-            position="bottomRight"
-            onPress={() => navigation.navigate("NewSong")}>
-            <Icon name="add"/>
+          </Item>
+
+          <Container style={{height: '60%'}}>
+            <ScrollView>
+              <SelectableSongList
+                          loading={loading}
+                          songs={user ? user.songs : []}
+                          //onSelect={this.selectSong}
+                        />
+            </ScrollView>
+          </Container>
+          
+          <Content contentContainerStyle={styles.content}>
+            {/*inventory
+              .filter(
+                value =>
+                  value.music.toLowerCase().includes(search.toLowerCase()) ||
+                  value.group.toLowerCase().includes(search.toLowerCase()) ||
+                  value.ritmo.toLowerCase().includes(search.toLowerCase())
+              )
+              .map(item => (
+                <Text key={item.music} style={{ padding: 5 }}>{`${
+                  item.music
+                } - ${item.group} - ${item.ritmo}`}</Text>
+              )) */}
+          </Content>
+        </Container>
+        <Fab
+              active={this.state.active}
+              direction="down"
+              containerStyle={{ }}
+              style={{ backgroundColor: '#5067FF' }}
+              position="topRight"
+              onPress={() => this.setState({ active: !this.state.active })}>
+              <Icon name="md-menu" />
+              <Button style={{ backgroundColor: '#34A34F' }}
+                      onPress={()=>navigation.navigate("EditProfile")}>
+                <Icon name="md-create" />
+              </Button>
+              <Button style={{ backgroundColor: '#FE132B' }}
+                      onPress={() => logout()}>
+                <Icon name="md-exit" />
+              </Button>
+              
           </Fab>
+        <Fab
+              active={true}
+              direction="up"
+              containerStyle={{ }}
+              style={[{ backgroundColor: 'rgb(97,197,207)', marginRight: -5 }]}
+              position="bottomRight"
+              onPress={() => navigation.navigate("NewSong")}>
+              <Icon name="add"/>
+            </Fab>
     </Container>
     );
   }
 }
+
+export default withAuth(ProfileScreen);
