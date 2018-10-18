@@ -1,0 +1,52 @@
+[user]
+	name = Luciano Júnior
+	email = luciannojunior@gmail.com
+    username = luciannojunior
+[color]
+	branch = auto
+	diff = auto
+	status = auto
+	ui = auto
+[color "branch"]
+	current = yellow reverse
+	local = yellow
+	remote = green
+[color "diff"]
+	meta = yellow bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
+[color "status"]
+	added = yellow
+	changed = green
+	untracked = cyan
+[alias]
+	sync = !git tag -l | xargs git tag -d && git fetch -t
+	st = status
+	re = rebase -i HEAD~
+	caa = commit -a --amend -C HEAD
+	co = checkout
+	cc = checkout -b
+	ci = commit -am
+	lg = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+	lt = describe --tags --abbrev=0
+	## Aliases for PR's
+	preparepr = "!f() { BRANCH=$(git rev-parse --abbrev-ref HEAD);git checkout master; git fetch && git rebase; git checkout \"$BRANCH\";git rebase master; }; f"
+	updatepr = "!f() { BRANCH=$(git rev-parse --abbrev-ref HEAD);git push origin \"$BRANCH\":\"$BRANCH\";}; f"
+	openpr = "!f() { BRANCH=$(git rev-parse --abbrev-ref HEAD); REPO=$(git ls-remote --get-url | cut -d / -f2 | cut -d . -f1) ;git push --set-upstream origin \"$BRANCH\":\"$BRANCH\"; echo -e \"https://github.com/vtex-apps/$REPO/compare/$BRANCH?expand=1\";}; f"
+	## Aliases that match the hg in / out commands
+	in = "!f() { BRANCH=$(git rev-parse --abbrev-ref HEAD);git fetch && git log ..origin/\"$BRANCH\"; }; f"
+	out = "!f() { BRANCH=$(git rev-parse --abbrev-ref HEAD);git fetch && git whatchanged origin/\"$BRANCH\"..; }; f"
+[merge]
+	tool = vscode
+	rebase = true
+[pull]
+	rebase = true
+[branch]
+	autosetuprebase = always
+[branch "master"]
+	rebase = true
+[mergetool "vscode"]
+	cmd = code --wait $MERGED
+[url "git@github.com:vtex-apps/"]
+	insteadOf = vtex-apps:
