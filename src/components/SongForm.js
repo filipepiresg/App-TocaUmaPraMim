@@ -30,7 +30,6 @@ class SongForm extends Component {
 
   verifyReceivedSong() {
     const { initialSong } = this.props
-    console.log("entrou2" + initialSong.genre);
     if (initialSong) {
       const song = {
         name: initialSong.name,
@@ -50,7 +49,6 @@ class SongForm extends Component {
 
   getHandlerForSong = field => {
     return value => {
-      console.log(value);
       this.setState(
         { song: { ...this.state.song, [field]: value } },
         this.updateParent
