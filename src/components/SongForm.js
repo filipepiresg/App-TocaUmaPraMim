@@ -30,6 +30,7 @@ class SongForm extends Component {
 
   verifyReceivedSong() {
     const { initialSong } = this.props
+    console.log("entrou2" + initialSong.genre);
     if (initialSong) {
       const song = {
         name: initialSong.name,
@@ -80,7 +81,9 @@ class SongForm extends Component {
 
   loadGenres() {
     let genres = [...data];
-    if(!genres.includes(this.state.genre)) genres.push(this.state.genre)
+    if(this.state.song && !genres.includes(this.state.song.genre)) {
+      genres.push(this.state.song.genre);
+    }
     return genres.map(genre => (
       <Picker.Item
         label={genre}
@@ -135,15 +138,13 @@ class SongForm extends Component {
             />
             <Text>Harmônico</Text>
           </View>
-          <View style={[{ width: '40%' }, s.flx_i, s.flx_row]}>
+          <View style={[{ width: '40%',marginTop:-5 }, s.flx_i, s.flx_row]}>
           <Picker
               mode="dropdown"
               iosIcon={<Icon name="ios-arrow-down-outline" />}
-              placeholder="Selecione um estilo musical"
-              placeholderStyle={{ color: "#777" }}
-              placeholderIconColor="#777"
               selectedValue={genre}
               onValueChange={this.getHandlerForSong('genre')}
+              style={[{paddingBottom:20}]}
             >
               {this.loadGenres()}
             </Picker>
