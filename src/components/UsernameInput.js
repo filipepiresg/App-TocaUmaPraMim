@@ -25,13 +25,11 @@ class UsernameInput extends Component {
     this.onChangeText = debounce(this.onChangeText, 1000)
   }
 
-  checkUsername = username => {
-    // TODO: Replace this with an actual ajax call for our cloud functions
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve({ exists: Math.random() > 0.2 })
-      }, 300)
+  checkUsername = async username => {
+    return fetch(`https://us-central1-tupm-app.cloudfunctions.net/verifyUsername?username=${username}`, {
+      method: 'GET',
     })
+    .then(response => (response.json()))
   }
 
   onChangeText = async text => {
