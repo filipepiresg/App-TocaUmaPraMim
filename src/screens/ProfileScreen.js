@@ -186,7 +186,7 @@ class ProfileScreen extends Component {
             </View>
           </Container>
           
-          {/* <Item>
+          <Item>
             <Item style={styles.itemSearch}>
                 <DebouncedInputComponent
                     placeholder={translate("nameOrRhythmOrBandSearch")}
@@ -196,7 +196,7 @@ class ProfileScreen extends Component {
             </Item>
           </Item> */}
 
-          {/* <Container style={{height: '60%'}}>
+          <Container style={{height: '60%'}}>
             <ScrollView>
               <SelectableSongList
                           loading={loading}
@@ -204,7 +204,7 @@ class ProfileScreen extends Component {
                           //onSelect={this.selectSong}
                         />
             </ScrollView>
-          </Container> */}
+          </Container>
           
           <Content contentContainerStyle={styles.content}>
             {/*inventory

@@ -35,6 +35,7 @@
     "prop-types": "^15.6.2",
     "react-native": "~0.55.2",
     "react-native-i18n": "^2.0.15",
+    "react-native-material-dropdown": "^0.11.1",
     "react-native-style-tachyons": "^4.0.0",
     "react-native-svg-animated-linear-gradient": "^0.1.9",
     "react-navigation": "^2.12.1"

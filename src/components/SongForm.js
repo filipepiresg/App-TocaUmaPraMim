@@ -51,7 +51,6 @@ class SongForm extends Component {
 
   getHandlerForSong = field => {
     return value => {
-      console.log(value);
       this.setState(
         { song: { ...this.state.song, [field]: value } },
         this.updateParent
@@ -82,7 +81,9 @@ class SongForm extends Component {
 
   loadGenres() {
     let genres = [...data];
-    if(!genres.includes(this.state.genre)) genres.push(this.state.genre)
+    if(this.state.song && !genres.includes(this.state.song.genre)) {
+      genres.push(this.state.song.genre);
+    }
     return genres.map(genre => (
       <Picker.Item
         label={genre}
@@ -137,7 +138,7 @@ class SongForm extends Component {
             />
             <Text>{translate("harmonic")}</Text>
           </View>
-          <View style={[{ width: '40%' }, s.flx_i, s.flx_row]}>
+          <View style={[{ width: '40%',marginTop:-5 }, s.flx_i, s.flx_row]}>
           <Picker
               mode="dropdown"
               iosIcon={<Icon name="ios-arrow-down-outline" />}
@@ -146,6 +147,7 @@ class SongForm extends Component {
               placeholderIconColor="#777"
               selectedValue={genre}
               onValueChange={this.getHandlerForSong('genre')}
+              style={[{paddingBottom:20}]}
             >
               {this.loadGenres()}
             </Picker>
