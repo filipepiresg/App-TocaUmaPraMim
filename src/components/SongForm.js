@@ -84,10 +84,10 @@ class SongForm extends Component {
     if(this.state.song && !genres.includes(this.state.song.genre)) {
       genres.push(this.state.song.genre);
     }
-    return genres.map(genre => (
+    return genres.map((genre, id) => (
       <Picker.Item
         label={genre}
-        key={genre}
+        key={id}
         value={genre}
       />
     ))
