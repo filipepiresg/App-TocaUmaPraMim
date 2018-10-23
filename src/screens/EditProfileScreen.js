@@ -14,6 +14,7 @@ import * as firebase from 'firebase';
 import stylesd from '../stylesd';
 import UsernameInput from '../components/UsernameInput';
 import ProfileForm from '../components/ProfileForm';
+import translate from '../i18n/src/locales';
 
 require('firebase/firestore')
 
@@ -136,7 +137,7 @@ export default class EditProfileScreen extends Component {
     return (
     <Container style={styles.container}>
       <Content padder>
-        <Text style={styles.title}>Editar Perfil</Text>
+        <Text style={styles.title}>{translate("editProfile")}</Text>
         <ProfileForm initialUser = {user} 
                      editMode={true}
                      onChange={updatedUser => this.updateUser(updatedUser)}/>
@@ -148,7 +149,7 @@ export default class EditProfileScreen extends Component {
               disabled={!valid}
               onPress={() => this.updateInfo()}
         >
-        <Text style={styles.buttonText}>Salvar</Text>
+        <Text style={styles.buttonText}>{translate("save")}</Text>
         
         </Button>
 

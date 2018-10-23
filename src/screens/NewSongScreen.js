@@ -13,6 +13,7 @@ import DebouncedInputComponent from '../components/DebouncedInput'
 import SelectableSongList from '../components/SelectableSongList'
 import Card from '../components/Card'
 import SongForm from '../components/SongForm'
+import translate from '../i18n/src/locales';
 
 const styles = StyleSheet.create({
   title: {
@@ -140,7 +141,7 @@ class NewSongScreen extends Component {
         .collection('songs')
         .add(song)
         Toast.show({
-          text: "Música incluída com sucesso!",
+          text: translate("newSongSuccess"),
           type: "success",
           onClose: () => {
             this.props.navigation.goBack()
@@ -167,12 +168,12 @@ class NewSongScreen extends Component {
       <KeyboardAwareScrollView>
         <Container style={styles.container}>
           <Content padder>
-            <Text style={styles.title}>Nova música</Text>
+            <Text style={styles.title}>{translate("newSong")}</Text>
             {!showSongForm && (
               <Item style={styles.itemSearch}>
                 <DebouncedInputComponent
                   updateText={this.searchSong}
-                  placeholder="busque online sua música"
+                  placeholder={translate("searchSongOnline")}
                   style={styles.inputSearch}
                 />
               </Item>
@@ -210,7 +211,7 @@ class NewSongScreen extends Component {
               loading={loading}
               block
               disabled={!valid}
-              text="Adicionar"
+              text={translate("add")}
               onPress={this.saveSong}
             />
           </Content>

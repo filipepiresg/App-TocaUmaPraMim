@@ -18,6 +18,7 @@ import DebouncedInputComponent from "../components/DebouncedInput";
 import { styles as s } from 'react-native-style-tachyons'
 import withAuth from "../components/hocs/withAuth";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import translate from '../i18n/src/locales'
 
 const { width } = Dimensions.get("window");
 
@@ -126,7 +127,6 @@ class ProfileScreen extends Component {
   }
 
   componentDidMount() {
-    console.log('wow')
     const didFocusSubscription = this.props.navigation.addListener(
       'willFocus', () => this.fetchUser());
     this.setState({didFocusSubscription})
@@ -173,30 +173,30 @@ class ProfileScreen extends Component {
             <View style={styles.containerInfo}>
               <View style={styles.typeInfo}>
                 <H1>{inventory ? inventory.length : 0}</H1>
-                <Text style={styles.txtInfo}>músicas diferentes</Text>
+                <Text style={styles.txtInfo}>{translate("diferentSongs")}</Text>
               </View>
               <View style={styles.typeInfo}>
                 <H1>{ amountArtists(inventory) }</H1>
-                <Text style={styles.txtInfo}>artistas diferentes</Text>
+                <Text style={styles.txtInfo}>{translate("diferentArtists")}</Text>
               </View>
               <View style={styles.typeInfo}>
                 <H1>{ amountRitmos(inventory) }</H1>
-                <Text style={styles.txtInfo}>ritmos diferentes</Text>
+                <Text style={styles.txtInfo}>{translate("diferentRhythms")}</Text>
               </View>
             </View>
           </Container>
           
-          <Item>
+          {/* <Item>
             <Item style={styles.itemSearch}>
                 <DebouncedInputComponent
-                    placeholder="busca por música, ritmo e/ou banda"
+                    placeholder={translate("nameOrRhythmOrBandSearch")}
                     updateText={this.searchSong}
                     style={styles.inputSearch}
                 />
             </Item>
-          </Item>
+          </Item> */}
 
-          <Container style={{height: '60%'}}>
+          {/* <Container style={{height: '60%'}}>
             <ScrollView>
               <SelectableSongList
                           loading={loading}
@@ -204,7 +204,7 @@ class ProfileScreen extends Component {
                           //onSelect={this.selectSong}
                         />
             </ScrollView>
-          </Container>
+          </Container> */}
           
           <Content contentContainerStyle={styles.content}>
             {/*inventory

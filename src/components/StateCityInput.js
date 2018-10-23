@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, ActivityIndicator, StyleSheet } from 'react-native'
 import { Item, Label, Input, Picker } from 'native-base'
 import {styles as s} from "react-native-style-tachyons";
+import translate from '../i18n/src/locales';
 
 const styles = StyleSheet.create({
   picker:{
@@ -127,7 +128,7 @@ class StateCityInput extends Component {
           }}
         >
           <Picker
-            placeholder="UF"
+            placeholder={translate("state")}
             mode="dropdown"
             selectedValue={stateCodeSelected}
             onValueChange={itemValue => this.handleStateCodeChange(itemValue)}
@@ -142,7 +143,7 @@ class StateCityInput extends Component {
           }}
         >
           <Picker
-            placeholder="Cidade"
+            placeholder={translate("city")}
             mode="dropdown"
             enabled={stateCodeSelected}
             selectedValue={city}

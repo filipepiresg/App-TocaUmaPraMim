@@ -6,6 +6,7 @@ import { styles as s } from 'react-native-style-tachyons'
 
 import stylesd from '../stylesd'
 import ProfileForm from '../components/ProfileForm'
+import translate from '../i18n/src/locales';
 
 require('firebase/firestore')
 
@@ -94,8 +95,8 @@ class RegisterScreen extends Component {
     return (
       <Container style={styles.container}>
         <Content padder>
-          <Text style={styles.title}>Só mais um pouco...</Text>
-          <Text style={styles.subtitle}>Complete seus dados cadastrais</Text>
+          <Text style={styles.title}>{translate("justALittleMore")}</Text>
+          <Text style={styles.subtitle}>{translate("completeRegistrationInfo")}</Text>
           <View style={[s.mt2]}>
             <ProfileForm
               initialUser={user}
@@ -111,7 +112,7 @@ class RegisterScreen extends Component {
             disabled={!valid}
             onPress={() => this.saveInfo()}
           >
-            <Text style={styles.buttonText}>Finalizar Cadastro</Text>
+            <Text style={styles.buttonText}>{translate("finishRegistration")}</Text>
           </Button>
         </Content>
       </Container>
