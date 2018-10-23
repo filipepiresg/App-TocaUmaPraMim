@@ -14,7 +14,8 @@ import {
   Picker,
   Icon
 } from 'native-base'
-import data from '../jsons/genres.json';
+import data from '../jsons/genres-PT.json';
+
 class SongForm extends Component {
   static propTypes = {
     initialSong: PropTypes.object,
