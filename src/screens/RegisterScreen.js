@@ -39,6 +39,8 @@ const styles = StyleSheet.create({
   }
 })
 
+const DEFAULT_LANGUAGE = 'pt-BR'
+
 class RegisterScreen extends Component {
   state = {
     user: null,
@@ -68,7 +70,7 @@ class RegisterScreen extends Component {
 
     const authId = getParam('authId')
 
-    this.setState({ user: { authId, photoURL, name, email, providerId } })
+    this.setState({ user: { authId, photoURL, name, email, providerId, language: DEFAULT_LANGUAGE  } })
   }
 
   updateUser = userData => {
@@ -109,7 +111,6 @@ class RegisterScreen extends Component {
             block
             iconLeft
             style={[styles.buttonStyle, valid && styles.bgOurBlue]}
-            disabled={!valid}
             onPress={() => this.saveInfo()}
           >
             <Text style={styles.buttonText}>{translate("finishRegistration")}</Text>

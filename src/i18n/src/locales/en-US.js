@@ -34,5 +34,8 @@ export default {
     nameOrRhythmOrBandSearch: "search for song, rhythm and/or band",
     justALittleMore: "Just a little more...",
     completeRegistrationInfo: "Complete your registration information",
-    finishRegistration: "Finish Registration"
+    finishRegistration: "Finish Registration",
+    defaultLanguage: "Default language",
+    english: "English",
+    portuguese: "Portuguese"
 }

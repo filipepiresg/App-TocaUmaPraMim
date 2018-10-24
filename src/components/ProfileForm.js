@@ -5,8 +5,9 @@ import { styles as s } from 'react-native-style-tachyons'
 import translate from '../i18n/src/locales'
 import UsernameInput from './UsernameInput'
 import StateCityInput from './StateCityInput'
-
+import I18n from 'react-native-i18n'
 import { Form, Item, Label, Input } from 'native-base'
+import LanguageSelect from './LanguageSelect';
 
 const styles = StyleSheet.create({
   label:{
@@ -58,6 +59,7 @@ class ProfileForm extends Component {
     return (
       
       <Form>
+        <LanguageSelect onChange={this.getHandlerForUser('language')}/>
         <Item floatingLabel>
           <Label style={ styles.label }>{translate("name")}</Label>
           <Input onChangeText={this.getHandlerForUser('name')} value={name} />
@@ -66,12 +68,12 @@ class ProfileForm extends Component {
           initialValue={username}
           onChange={this.getHandlerForUser('username')}
         />
-        <StateCityInput
+        {/* <StateCityInput
           style={[s.mt2]}
           stateCode={stateCode}
           city={city}
           onChange={location => this.setLocation(location)}
-        />
+        /> */}
       </Form>
     )
   }
