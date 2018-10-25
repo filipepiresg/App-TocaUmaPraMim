@@ -15,6 +15,8 @@ const styles = StyleSheet.create({
   }
 })
 
+const DEFAULT_LANGUAGE = 'pt-BR';
+
 class ProfileForm extends Component {
   static propTypes = {
     initialUser: PropTypes.object,
@@ -59,7 +61,9 @@ class ProfileForm extends Component {
     return (
       
       <Form>
-        <LanguageSelect onChange={this.getHandlerForUser('language')}/>
+        <LanguageSelect 
+          selectedLanguage={this.DEFAULT_LANGUAGE}
+          onChange={this.getHandlerForUser('language')}/>
         <Item floatingLabel>
           <Label style={ styles.label }>{translate("name")}</Label>
           <Input onChangeText={this.getHandlerForUser('name')} value={name} />

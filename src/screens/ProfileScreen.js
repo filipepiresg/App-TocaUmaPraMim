@@ -20,6 +20,7 @@ import { styles as s, wrap } from 'react-native-style-tachyons'
 import withAuth from "../components/hocs/withAuth";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import translate from '../i18n/src/locales'
+import I18n from 'react-native-i18n'
 
 const { width } = Dimensions.get("window");
 
@@ -152,7 +153,8 @@ class ProfileScreen extends Component {
     })
       .then(response => response.json())
       .then(user => {
-        this.setState({ user },()=> console.log(this.state))
+        I18n.locale = user.language
+        this.setState({ user })
       })
       .catch(error => {
         console.error(error)
@@ -200,7 +202,7 @@ class ProfileScreen extends Component {
                     style={styles.inputSearch}
                 />
             </Item>
-          </Item> */}
+          </Item>
 
           <Container style={{flex: 1}}>
             <ScrollView>
@@ -244,7 +246,6 @@ class ProfileScreen extends Component {
                       onPress={() => logout()}>
                 <Icon name="md-exit" />
               </Button>
-              
           </Fab>
         <Fab
               active={true}

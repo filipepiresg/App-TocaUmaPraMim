@@ -9,6 +9,7 @@ import {
   NewSongScreen
 } from "../screens";
 import stylesd from '../stylesd';
+import ConfigurationScreen from '../screens/ConfigurationScreen';
 
 const TabNavigator = createBottomTabNavigator({ 
   Explore:{
@@ -28,10 +29,19 @@ const TabNavigator = createBottomTabNavigator({
         <Icon name="ios-person" style={{color:tintColor}} size={24}/>
       )
     }
+  },
+  Configurations:{
+    screen: ConfigurationScreen,
+    navigationOptions:{
+      tabBarLabel: 'Configurations',
+      tabBarIcon: ({ tintColor }) => (
+        <Icon name="settings" style={{color:tintColor}} size={24}/>
+      )
+    }
   }
 },{//router cconfig
   initialRouteName: 'Profile',
-  order: ['Explore','Profile'],
+  order: ['Explore','Profile','Configurations'],
   navigationOptions:{
     tabBarVisible: true
   },

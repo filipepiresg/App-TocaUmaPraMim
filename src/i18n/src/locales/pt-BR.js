@@ -37,5 +37,6 @@ export default {
     finishRegistration: "Finalizar Cadastro",
     defaultLanguage: "Idioma padrão",
     english: "Inglês",
-    portuguese: "Português"
+    portuguese: "Português",
+    configurations: "Configurações"
 }

@@ -22,7 +22,7 @@ class LanguageSelect extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedLanguage: PORTUGUES_LANGUAGE,
+      selectedLanguage: this.props.selectedLanguage,
     }
   }
 

@@ -93,8 +93,6 @@ export default class EditProfileScreen extends Component {
         batch.commit().catch(err => console.error(err));
         this.props.navigation.navigate('App')
       })
-     
-      
     });
   }
 
@@ -106,13 +104,10 @@ export default class EditProfileScreen extends Component {
       .then( user => {
         this.setState({user: user.docs[0].data()}, () => this.setState({loading: false}));
       })
-     
-      
     });
   }
 
   updateUser = userData => {
-
     this.setState({ user: { ...userData } }, () => this.validateUser())
   }
 
