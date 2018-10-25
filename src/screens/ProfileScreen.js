@@ -19,6 +19,7 @@ import DebouncedInputComponent from "../components/DebouncedInput";
 import { styles as s, wrap } from 'react-native-style-tachyons'
 import withAuth from "../components/hocs/withAuth";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import translate from '../i18n/src/locales'
 
 const { width } = Dimensions.get("window");
 
@@ -129,7 +130,7 @@ class ProfileScreen extends Component {
     // this.receiveUser(this.props.navigation);
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const didFocusSubscription = this.props.navigation.addListener(
       'willFocus', () => this.fetchUser());
     this.setState({didFocusSubscription})
@@ -178,15 +179,15 @@ class ProfileScreen extends Component {
             <View style={styles.containerInfo}>
               <View style={styles.typeInfo}>
                 <H1>{songs ? songs.length : 0}</H1>
-                <Text style={styles.txtInfo}>músicas diferentes</Text>
+                <Text style={styles.txtInfo}>{translate("diferentSongs")}</Text>
               </View>
               <View style={styles.typeInfo}>
-                <H1>{ amountArtists(songs) }</H1>
-                <Text style={styles.txtInfo}>artistas diferentes</Text>
+              <H1>{ amountArtists(songs) }</H1>
+                <Text style={styles.txtInfo}>{translate("diferentArtists")}</Text>
               </View>
               <View style={styles.typeInfo}>
-                <H1>{ amountGenres(songs) }</H1>
-                <Text style={styles.txtInfo}>gêneros diferentes</Text>
+              <H1>{ amountGenres(songs) }</H1>
+                <Text style={styles.txtInfo}>{translate("diferentRhythms")}</Text>
               </View>
             </View>
           </Container>
@@ -194,12 +195,12 @@ class ProfileScreen extends Component {
           <Item>
             <Item style={styles.itemSearch}>
                 <DebouncedInputComponent
-                    placeholder="busca por música, ritmo e/ou banda"
+                    placeholder={translate("nameOrRhythmOrBandSearch")}
                     updateText={this.searchSong}
                     style={styles.inputSearch}
                 />
             </Item>
-          </Item>
+          </Item> */}
 
           <Container style={{flex: 1}}>
             <ScrollView>

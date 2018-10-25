@@ -2,6 +2,7 @@ import React from 'react'
 import { Alert, AsyncStorage } from 'react-native'
 import * as firebase from 'firebase'
 import withLoading from './withLoading'
+import translate from '../../i18n/src/locales';
 
 require('firebase/firestore')
 
@@ -33,11 +34,11 @@ export default WrappedComponent => {
             this._verifyUser(user)
           })
           .catch(error => {
-            Alert.alert('Houve um erro ao tentar logar')
+            Alert.alert(translate("loginErrorMessage"))
             console.log(error)
           })
       } else {
-        Alert.alert('Houve um erro ao tentar logar')
+        Alert.alert(translate("loginErrorMessage"))
       }
     }
 

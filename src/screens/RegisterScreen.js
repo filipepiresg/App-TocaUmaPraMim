@@ -6,6 +6,7 @@ import { styles as s } from 'react-native-style-tachyons'
 
 import stylesd from '../stylesd'
 import ProfileForm from '../components/ProfileForm'
+import translate from '../i18n/src/locales';
 
 require('firebase/firestore')
 
@@ -38,6 +39,8 @@ const styles = StyleSheet.create({
   }
 })
 
+const DEFAULT_LANGUAGE = 'pt-BR'
+
 class RegisterScreen extends Component {
   state = {
     user: null,
@@ -67,7 +70,7 @@ class RegisterScreen extends Component {
 
     const authId = getParam('authId')
 
-    this.setState({ user: { authId, photoURL, name, email, providerId } })
+    this.setState({ user: { authId, photoURL, name, email, providerId, language: DEFAULT_LANGUAGE  } })
   }
 
   updateUser = userData => {
@@ -94,8 +97,8 @@ class RegisterScreen extends Component {
     return (
       <Container style={styles.container}>
         <Content padder>
-          <Text style={styles.title}>Só mais um pouco...</Text>
-          <Text style={styles.subtitle}>Complete seus dados cadastrais</Text>
+          <Text style={styles.title}>{translate("justALittleMore")}</Text>
+          <Text style={styles.subtitle}>{translate("completeRegistrationInfo")}</Text>
           <View style={[s.mt2]}>
             <ProfileForm
               initialUser={user}
@@ -108,10 +111,9 @@ class RegisterScreen extends Component {
             block
             iconLeft
             style={[styles.buttonStyle, valid && styles.bgOurBlue]}
-            disabled={!valid}
             onPress={() => this.saveInfo()}
           >
-            <Text style={styles.buttonText}>Finalizar Cadastro</Text>
+            <Text style={styles.buttonText}>{translate("finishRegistration")}</Text>
           </Button>
         </Content>
       </Container>

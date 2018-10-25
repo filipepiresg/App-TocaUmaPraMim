@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { Input, Label, Item, Icon } from 'native-base'
 import { StyleSheet } from 'react-native'
-
 import debounce from 'lodash/debounce'
+import translate from '../i18n/src/locales'
+
 const styles = StyleSheet.create({
   label:{
     color: 'gray'
@@ -67,7 +68,7 @@ class UsernameInput extends Component {
 
     return (
       <Item floatingLabel>
-        <Label  style={ styles.label }>{label || 'Nome de Usuário'}</Label>
+        <Label  style={ styles.label }>{label || translate("username")}</Label>
         <Input
           placeholder={placeholder}
           autoCapitalize="none"

@@ -5,6 +5,7 @@ import { Container, Content, Title, Subtitle, H1, } from 'native-base';
 
 import stylesd from '../stylesd';
 import imgDefault from "../img/perfil.png";
+import translate from '../i18n/src/locales';
 
 const { width } = Dimensions.get("window");
 
@@ -75,15 +76,15 @@ export default class InfoScreen extends Component {
             <View style={styles.containerInfo}>
               <View style={styles.typeInfo}>
                 <H1>{inventory ? inventory.length : 0}</H1>
-                <Text style={styles.txtInfo}>músicas diferentes</Text>
+                <Text style={styles.txtInfo}>{translate("diferentSongs")}</Text>
               </View>
               <View style={styles.typeInfo}>
                 <H1>{ amountArtists(inventory) }</H1>
-                <Text style={styles.txtInfo}>artistas diferentes</Text>
+                <Text style={styles.txtInfo}>{translate("diferentArtists")}</Text>
               </View>
               <View style={styles.typeInfo}>
                 <H1>{ amountRitmos(inventory) }</H1>
-                <Text style={styles.txtInfo}>ritmos diferentes</Text>
+                <Text style={styles.txtInfo}>{translate("diferentRhythms")}</Text>
               </View>
             </View>
           </Container>

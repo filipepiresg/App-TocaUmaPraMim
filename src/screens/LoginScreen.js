@@ -18,6 +18,7 @@ import SearchButton from '../components/SearchButton';
 import stylesd from '../stylesd';
 import Logo from "../img/logo.png";
 import withAuth from "../components/hocs/withAuth";
+import translate from "../i18n/src/locales";
 
 const { width } = Dimensions.get("window");
 
@@ -86,7 +87,7 @@ class LoginScreen extends Component {
       .then( value => {
         this.setState({loading: false})
         if (value.empty) {
-          Alert.alert('Usuário não foi encontrado','', [{text: 'Voltar', style:'destructive'}])
+          Alert.alert(translate("userNotFoundMessage"),'', [{text: 'Voltar', style:'destructive'}])
         } else {
           this.props.navigation.navigate('Info', {user:value.docs[0].data()})
         }
@@ -107,13 +108,12 @@ class LoginScreen extends Component {
           <Body>
             <Thumbnail source={Logo} style={styles.thumbnailLogo} square />
             <Text style={[styles.txt, styles.txtSobreApp]}>
-              Compartilhe as músicas que você sabe e descubra quais seus amigos
-              tocam!
+              {translate("aboutAppMessage")}
             </Text>
             <View style={styles.subContainer}>
               <View style={styles.containerBusca}>
                 <Text style={[styles.txt, styles.txtSobreContainer]}>
-                  Veja o repertório de alguém
+                {translate("seeSomeonesRepertoire")}
                 </Text>
                 <Button
                   block
@@ -124,7 +124,7 @@ class LoginScreen extends Component {
                   ]}
                 >
                   <Icon type="FontAwesome" name="camera" />
-                  <Text>Tag Friend</Text>
+                  <Text>{translate("tagFriend")}</Text>
                 </Button>
                 <Item style={{borderBottomColor: 'transparent'}}>
                   <Input
@@ -133,7 +133,7 @@ class LoginScreen extends Component {
                     autoCapitalize="none"
                     returnKeyType="search"
                     style={styles.inputBusca}
-                    placeholder="Digite o usuario"
+                    placeholder={translate("typeTheUser")}
                     onChangeText={txt => this.setState({ search: txt })}
                   />
                   <SearchButton loading={loading}
@@ -144,7 +144,7 @@ class LoginScreen extends Component {
               </View>
               <View style={styles.containerCadastro}>
                 <Text style={[styles.txt, styles.txtSobreContainer]}>
-                  Você é músico?
+                {translate("areYouAMusician")}
                 </Text>
                 <Button
                   block
@@ -153,7 +153,7 @@ class LoginScreen extends Component {
                   style={[styles.btn, { backgroundColor: "rgb(80,114,166)" }]}
                 >
                   <Icon type="FontAwesome" name="facebook" />
-                  <Text style={{ fontSize: 14 }}>login com facebook</Text>
+                  <Text style={{ fontSize: 14 }}>{translate("loginWithFacebook")}</Text>
                 </Button>
                 <Button
                   block
@@ -161,7 +161,7 @@ class LoginScreen extends Component {
                   style={[styles.btn, { backgroundColor: "rgb(28,117,202)" }]}
                 >
                   <Icon type="FontAwesome" name="google" />
-                  <Text style={{ fontSize: 14 }}>login com google</Text>
+                  <Text style={{ fontSize: 14 }}>{translate("loginWithGoogle")}</Text>
                 </Button>
               </View>
             </View>

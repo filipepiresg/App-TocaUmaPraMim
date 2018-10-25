@@ -10,6 +10,7 @@ import { Container, Content, Icon, Input, Item, Spinner, View } from 'native-bas
 
 import stylesd from '../stylesd'
 import User from '../components/User'
+import translate from '../i18n/src/locales';
 
 const { width, height } = Dimensions.get("window");
 
@@ -78,7 +79,7 @@ class ExploreScreen extends Component {
             autoCorrect={false}
             autoCapitalize="none"
             keyboardType="name-phone-pad"
-            placeholder="busca por nome e/ou instrumento"
+            placeholder={translate("nameOrInstrumentSearch")}
             onChangeText={text => this.setState({ search: text })}
           />
         </Item>

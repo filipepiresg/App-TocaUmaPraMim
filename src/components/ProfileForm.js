@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { styles as s } from 'react-native-style-tachyons'
-
+import translate from '../i18n/src/locales'
 import UsernameInput from './UsernameInput'
 import StateCityInput from './StateCityInput'
-
+import I18n from 'react-native-i18n'
 import { Form, Item, Label, Input } from 'native-base'
+import LanguageSelect from './LanguageSelect';
 
 const styles = StyleSheet.create({
   label:{
@@ -48,10 +49,9 @@ class ProfileForm extends Component {
   }
 
   updateParent = () => {
-    console.log("updateParent");
-    console.log(this.state)
     this.props.onChange(this.state.user)
   }
+  
   render() {
     const { name, username, stateCode, city } = this.state.user || {}
     const { editMode, loading } = this.state
@@ -59,20 +59,21 @@ class ProfileForm extends Component {
     return (
       
       <Form>
+        <LanguageSelect onChange={this.getHandlerForUser('language')}/>
         <Item floatingLabel>
-          <Label style={ styles.label }>Nome</Label>
+          <Label style={ styles.label }>{translate("name")}</Label>
           <Input onChangeText={this.getHandlerForUser('name')} value={name} />
         </Item>
         <UsernameInput
           initialValue={username}
           onChange={this.getHandlerForUser('username')}
         />
-        <StateCityInput
+        {/* <StateCityInput
           style={[s.mt2]}
           stateCode={stateCode}
           city={city}
           onChange={location => this.setLocation(location)}
-        />
+        /> */}
       </Form>
     )
   }
