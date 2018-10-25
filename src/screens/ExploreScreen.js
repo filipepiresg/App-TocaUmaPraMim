@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Dimensions} from 'react-native'
+import { StyleSheet, Dimensions, Platform } from 'react-native'
 import firebase from 'firebase'
 require('firebase/firestore')
 import SvgAnimatedLinearGradient from 'react-native-svg-animated-linear-gradient'
@@ -98,6 +98,7 @@ class ExploreScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: stylesd.corDeFundo,
+    paddingTop: (Platform.OS) ? 20 : 0
   },
   itemInput: {
     backgroundColor: '#fff',

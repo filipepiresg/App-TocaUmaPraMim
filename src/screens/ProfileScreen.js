@@ -11,7 +11,7 @@ import {
   Icon,
   Button,
   Thumbnail } from "native-base";
-import { View, Image, StyleSheet, Text, Dimensions, AsyncStorage, ScrollView } from "react-native";
+import { View, StyleSheet, Text, Dimensions, AsyncStorage, ScrollView, Platform } from "react-native";
 import SelectableSongList from '../components/SelectableSongList';
 import stylesd from '../stylesd';
 import imgDefault from "../img/perfil.png";
@@ -26,14 +26,17 @@ const { width } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: stylesd.corDeFundo
+    backgroundColor: stylesd.corDeFundo,
+    paddingTop: (Platform.OS) ? 20 : 0
   },
   content: {
     backgroundColor: "#fff"
   },
   inputSearch: {
-    textAlign: "center",
-    fontSize: 16
+    // textAlign: "center",
+    // alignSelf:'center',
+    // paddingVertical: 5,
+    fontSize: 14
   },
   subContainer: {
     backgroundColor: "transparent",
@@ -50,13 +53,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 20,
     marginVertical: 10,
-    flex: 1
+    // flex: 1
   },
   containerInfo: {
-    flex: 1,
+    // flex: 1,
     flexDirection: "row",
-    marginTop: 10,
-    marginBottom: 38
+    paddingBottom:10
   },
   imgPerfil: {
     width: width * 0.3,
@@ -66,13 +68,14 @@ const styles = StyleSheet.create({
   containerPerfil: {
     backgroundColor: "#fff",
     alignItems: "center",
-    flex: 1,
+    // flex: 1,
     paddingVertical: 10,
     paddingHorizontal: 20
   },
   txtInfo: {
     textAlign: "center",
     color: "#ccc",
+    // fontSize: 12,
     flexWrap: 'wrap'
   },
   logoutButton: {
@@ -170,11 +173,11 @@ class ProfileScreen extends Component {
       <Container style={styles.container}>
         <Container style={styles.subContainer}>
           <Container style={styles.containerPerfil}>
-          <Thumbnail
-        source={photoURL ? { uri: photoURL + '?type=large' } : imgDefault}
-        large
-        style={styles.imgPerfil}
-      />
+            <Thumbnail
+              source={photoURL ? { uri: photoURL + '?type=large' } : imgDefault}
+              large
+              style={styles.imgPerfil}
+            />
 
             <Title>{user.name}</Title>
             <Subtitle>{instrument}</Subtitle>
@@ -194,7 +197,6 @@ class ProfileScreen extends Component {
             </View>
           </Container>
           
-          <Item>
             <Item style={styles.itemSearch}>
                 <DebouncedInputComponent
                     placeholder={translate("nameOrRhythmOrBandSearch")}
@@ -202,7 +204,6 @@ class ProfileScreen extends Component {
                     style={styles.inputSearch}
                 />
             </Item>
-          </Item>
 
           <Container style={{flex: 1}}>
             <ScrollView>
