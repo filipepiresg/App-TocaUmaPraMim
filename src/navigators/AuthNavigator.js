@@ -9,7 +9,12 @@ import stylesd from '../stylesd';
 export default createStackNavigator(
   {
     Info: InfoScreen,
-    Login: LoginScreen,
+    Login: {
+      screen: LoginScreen,
+      navigationOptions: {
+        header: null
+      }
+    },
     Register: RegisterScreen  
   },
   {

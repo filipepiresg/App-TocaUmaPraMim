@@ -56,7 +56,12 @@ const TabNavigator = createBottomTabNavigator({
 });
 
 export default createStackNavigator({
-    TabNavigator,
+    TabNavigator:{
+      screen: TabNavigator,
+      navigationOptions: {
+        header: null
+      }
+    },
     EditProfile: EditProfileScreen,
     NewSong: NewSongScreen
 
