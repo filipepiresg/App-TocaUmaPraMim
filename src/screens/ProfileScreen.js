@@ -9,13 +9,14 @@ import {
   Fab,
   Item,
   Icon,
-  Button } from "native-base";
+  Button,
+  Thumbnail } from "native-base";
 import { View, Image, StyleSheet, Text, Dimensions, AsyncStorage, ScrollView } from "react-native";
 import SelectableSongList from '../components/SelectableSongList';
 import stylesd from '../stylesd';
 import imgDefault from "../img/perfil.png";
 import DebouncedInputComponent from "../components/DebouncedInput";
-import { styles as s } from 'react-native-style-tachyons'
+import { styles as s, wrap } from 'react-native-style-tachyons'
 import withAuth from "../components/hocs/withAuth";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
@@ -34,10 +35,13 @@ const styles = StyleSheet.create({
   },
   subContainer: {
     backgroundColor: "transparent",
-    marginHorizontal: 30
+    marginHorizontal: 30,
+    marginBottom: 20,
+    flex: 3
   },
   typeInfo: {
     flex: 1,
+    paddingHorizontal: 5,
     alignItems: "center"
   },
   itemSearch: {
@@ -60,13 +64,14 @@ const styles = StyleSheet.create({
   containerPerfil: {
     backgroundColor: "#fff",
     alignItems: "center",
-    flex: 0.5,
+    flex: 1,
     paddingVertical: 10,
     paddingHorizontal: 20
   },
   txtInfo: {
     textAlign: "center",
-    color: "#ccc"
+    color: "#ccc",
+    flexWrap: 'wrap'
   },
   logoutButton: {
     marginBottom: 10,
@@ -82,13 +87,13 @@ const styles = StyleSheet.create({
   }
 });
 
-const amountArtists = (inventory = []) => {
+const amountArtists = (songs = []) => {
   let qtdBandas = 0;
-  if (inventory.length > 0) {
+  if (songs.length > 0) {
     const groups = [];
-    inventory.forEach(item => {
-      if (item.group && !groups.includes(item.group)) {
-        groups.push(item.group);
+    songs.forEach(song => {
+      if (song.artist && !groups.includes(song.artist)) {
+        groups.push(song.artist);
       }
     });
     qtdBandas = groups.length;
@@ -96,18 +101,18 @@ const amountArtists = (inventory = []) => {
   return qtdBandas;
 };
 
-const amountRitmos = (inventory = []) => {
-  let amountRitmo = 0;
-  if (inventory.length > 0) {
-    const ritmos = [];
-    inventory.forEach(item => {
-      if (item.ritmo && !ritmos.includes(item.ritmo)) {
-        ritmos.push(item.ritmo);
+const amountGenres = (songs = []) => {
+  let amountGenre = 0;
+  if (songs.length > 0) {
+    const genres = [];
+    songs.forEach(song => {
+      if (song.genre && !genres.includes(song.genre)) {
+        genres.push(song.genre);
       }
     });
-    amountRitmo = ritmos.length;
+    amountGenre = genres.length;
   }
-  return amountRitmo;
+  return amountGenre;
 };
 
 class ProfileScreen extends Component {
@@ -115,7 +120,6 @@ class ProfileScreen extends Component {
     super(props);
     this.state = {
       user: "",
-      inventory: [],
       instrument: "",
       premium: false,
       picture: "",
@@ -125,8 +129,7 @@ class ProfileScreen extends Component {
     // this.receiveUser(this.props.navigation);
   }
 
-  componentDidMount() {
-    console.log('wow')
+  componentDidMount () {
     const didFocusSubscription = this.props.navigation.addListener(
       'willFocus', () => this.fetchUser());
     this.setState({didFocusSubscription})
@@ -148,7 +151,7 @@ class ProfileScreen extends Component {
     })
       .then(response => response.json())
       .then(user => {
-        this.setState({ user })
+        this.setState({ user },()=> console.log(this.state))
       })
       .catch(error => {
         console.error(error)
@@ -156,32 +159,34 @@ class ProfileScreen extends Component {
   }
 
   render() {
-    const { photoURL, instrument, user, inventory, loading, search } = this.state;
+    const { instrument, user, loading, search } = this.state;
+    const { photoURL,songs } = user;
     const { navigation } = this.props;
     const { logout } = this.props;
     return (
       <Container style={styles.container}>
         <Container style={styles.subContainer}>
           <Container style={styles.containerPerfil}>
-            <Image
-              source={photoURL ? { uri: photoURL } : imgDefault}
-              style={styles.imgPerfil}
-              resizeMode="cover"
-            />
+          <Thumbnail
+        source={photoURL ? { uri: photoURL + '?type=large' } : imgDefault}
+        large
+        style={styles.imgPerfil}
+      />
+
             <Title>{user.name}</Title>
             <Subtitle>{instrument}</Subtitle>
             <View style={styles.containerInfo}>
               <View style={styles.typeInfo}>
-                <H1>{inventory ? inventory.length : 0}</H1>
+                <H1>{songs ? songs.length : 0}</H1>
                 <Text style={styles.txtInfo}>músicas diferentes</Text>
               </View>
               <View style={styles.typeInfo}>
-                <H1>{ amountArtists(inventory) }</H1>
+                <H1>{ amountArtists(songs) }</H1>
                 <Text style={styles.txtInfo}>artistas diferentes</Text>
               </View>
               <View style={styles.typeInfo}>
-                <H1>{ amountRitmos(inventory) }</H1>
-                <Text style={styles.txtInfo}>ritmos diferentes</Text>
+                <H1>{ amountGenres(songs) }</H1>
+                <Text style={styles.txtInfo}>gêneros diferentes</Text>
               </View>
             </View>
           </Container>
@@ -196,7 +201,7 @@ class ProfileScreen extends Component {
             </Item>
           </Item>
 
-          <Container style={{height: '60%'}}>
+          <Container style={{flex: 1}}>
             <ScrollView>
               <SelectableSongList
                           loading={loading}
@@ -206,8 +211,8 @@ class ProfileScreen extends Component {
             </ScrollView>
           </Container>
           
-          <Content contentContainerStyle={styles.content}>
-            {/*inventory
+          {/* <Content contentContainerStyle={styles.content}>
+            {inventory
               .filter(
                 value =>
                   value.music.toLowerCase().includes(search.toLowerCase()) ||
@@ -218,8 +223,9 @@ class ProfileScreen extends Component {
                 <Text key={item.music} style={{ padding: 5 }}>{`${
                   item.music
                 } - ${item.group} - ${item.ritmo}`}</Text>
-              )) */}
-          </Content>
+              )) }
+          </Content> */}
+          
         </Container>
         <Fab
               active={this.state.active}

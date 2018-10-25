@@ -139,6 +139,7 @@ class SongForm extends Component {
           <View style={[{ width: '40%',marginTop:-5 }, s.flx_i, s.flx_row]}>
           <Picker
               mode="dropdown"
+              placeholder="Gênero"
               iosIcon={<Icon name="ios-arrow-down-outline" />}
               selectedValue={genre}
               onValueChange={this.getHandlerForSong('genre')}

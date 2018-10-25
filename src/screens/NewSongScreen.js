@@ -118,7 +118,7 @@ class NewSongScreen extends Component {
   }
 
   verifySong = song => {
-    if (!song || !song.name || !song.artist) return
+    if (!song || !song.name || !song.artist || !song.genre) return
     this.setState({ valid: true })
   }
 
