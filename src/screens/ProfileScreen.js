@@ -208,27 +208,13 @@ class ProfileScreen extends Component {
           <Container style={{flex: 1}}>
             <ScrollView>
               <SelectableSongList
-                          loading={loading}
-                          songs={user ? user.songs : []}
-                          //onSelect={this.selectSong}
-                        />
+                loading={loading}
+                songs={user ? user.songs : []}
+                search={ search }
+                //onSelect={this.selectSong}
+              />
             </ScrollView>
           </Container>
-          
-          {/* <Content contentContainerStyle={styles.content}>
-            {inventory
-              .filter(
-                value =>
-                  value.music.toLowerCase().includes(search.toLowerCase()) ||
-                  value.group.toLowerCase().includes(search.toLowerCase()) ||
-                  value.ritmo.toLowerCase().includes(search.toLowerCase())
-              )
-              .map(item => (
-                <Text key={item.music} style={{ padding: 5 }}>{`${
-                  item.music
-                } - ${item.group} - ${item.ritmo}`}</Text>
-              )) }
-          </Content> */}
           
         </Container>
         <Fab

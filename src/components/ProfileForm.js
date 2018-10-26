@@ -72,12 +72,12 @@ class ProfileForm extends Component {
           initialValue={username}
           onChange={this.getHandlerForUser('username')}
         />
-        {/* <StateCityInput
+        <StateCityInput
           style={[s.mt2]}
           stateCode={stateCode}
           city={city}
           onChange={location => this.setLocation(location)}
-        /> */}
+        />
       </Form>
     )
   }
