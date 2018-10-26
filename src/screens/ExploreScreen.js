@@ -86,9 +86,17 @@ class ExploreScreen extends Component {
         <Content contentContainerStyle={styles.content}>
           {loading && this.renderLoader()}
           {!loading &&
-            users.map(user => (
-              <User key={user.username} user={user} navigation={navigation} />
-            ))}
+            users.map(user => {
+              if(user && user.name.toLowerCase().includes(search.toLowerCase())
+                // busca pelos instrumentos do usuario
+                // || user.instruments.contains(search.toLowerCase()) 
+              ){
+                return (
+                  <User key={user.username} user={user} navigation={navigation} />
+                )
+              }
+            })
+          }
         </Content>
       </Container>
     )
