@@ -6,7 +6,8 @@ import {
   ExploreScreen,
   ProfileScreen,
   EditProfileScreen,
-  NewSongScreen
+  NewSongScreen,
+  UserScreen
 } from "../screens";
 import stylesd from '../stylesd';
 import ConfigurationScreen from '../screens/ConfigurationScreen';
@@ -35,7 +36,7 @@ const TabNavigator = createBottomTabNavigator({
     navigationOptions:{
       tabBarLabel: 'Configurations',
       tabBarIcon: ({ tintColor }) => (
-        <Icon name="settings" style={{color:tintColor}} size={24}/>
+        <Icon active name="settings" style={{color:tintColor}} size={24}/>
       )
     }
   }
@@ -63,8 +64,8 @@ export default createStackNavigator({
       }
     },
     EditProfile: EditProfileScreen,
-    NewSong: NewSongScreen
-
+    NewSong: NewSongScreen,
+    UserProfile: UserScreen,
   }, {
     headerMode: 'float',
     initialRouteKey: 'TabNavigator',
