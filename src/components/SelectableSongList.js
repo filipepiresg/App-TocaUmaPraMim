@@ -37,7 +37,7 @@ class SelectableSongList extends Component {
   }
   
   render() {
-    const { songs, loading, search } = this.props
+    const { songs, loading, search = '' } = this.props
     const { selectedSong } = this.state
     
     return (
