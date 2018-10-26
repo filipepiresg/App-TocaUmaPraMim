@@ -8,7 +8,7 @@ const { width, height } = Dimensions.get("window");
 
 const User = ({ user, navigation }) => (
   <TouchableOpacity
-    onPress={() => navigation.navigate("Profile", { user, back: true })}
+    onPress={() => navigation.navigate("UserProfile", { user, back: true })}
   >
     <View
       style={[
