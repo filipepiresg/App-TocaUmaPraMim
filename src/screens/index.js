@@ -6,6 +6,7 @@ import InfoScreen from "./InfoScreen";
 import RegisterScreen from "./RegisterScreen";
 import EditProfileScreen from './EditProfileScreen';
 import NewSongScreen from './NewSongScreen'
+import UserScreen from './UserScreen';
 
 export {
   ExploreScreen,
@@ -15,5 +16,6 @@ export {
   InfoScreen,
   RegisterScreen,
   EditProfileScreen,
-  NewSongScreen
+  NewSongScreen,
+  UserScreen
 };
