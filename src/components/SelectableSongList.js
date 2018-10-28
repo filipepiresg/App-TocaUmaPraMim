@@ -12,6 +12,7 @@ import { styles as s } from 'react-native-style-tachyons'
 class SelectableSongList extends Component {
   static proptypes = {
     songs: PropTypes.array.isRequired,
+    isSelectable: PropTypes.boolean,
     onSelect: PropTypes.array,
     loading: PropTypes.boolean,
     search: PropTypes.string
@@ -21,7 +22,7 @@ class SelectableSongList extends Component {
     selectedSong: null,
   }
   
-  renderLogin = () => {
+  renderLoading = () => {
     return (
       <View style={[s.pa3]}>
         <ActivityIndicator size="small" color="#ccc" />
@@ -37,12 +38,12 @@ class SelectableSongList extends Component {
   }
   
   render() {
-    const { songs, loading, search = '' } = this.props
+    const { songs, loading, search = '', isSelectable } = this.props
     const { selectedSong } = this.state
     
     return (
       <List style={{ backgroundColor: 'white' }}>
-      {loading && this.renderLogin()}
+      {loading && this.renderLoading()}
       {
         (!loading && songs) &&
         songs
@@ -50,22 +51,22 @@ class SelectableSongList extends Component {
           ...a,
           last: index + 1 === that.length,
         }))
-        .map(song => {
+        .map((song, id) => {
           if(song.name.toLowerCase().includes(search.toLowerCase())
             || song.artist.toLowerCase().includes(search.toLowerCase())
             || song.genre.toLowerCase().includes(search.toLowerCase())
           ){
             return (
               <ListItem
-                onPress={() => this.selectSong(song)}
-                key={`${song.artist.slug}${song.slug}`}
+                onPress={() => isSelectable && this.selectSong(song)}
+                key={id}
                 style={[song.last && { borderColor: 'white' }]}
                 noIndent
                 selected={_.isEqual(song, selectedSong)}
               >
                 <Body>
                   <Text style={{ fontWeight: 'bold' }}>{song.name}</Text>
-                  <Text note>{song.artist.name ? song.artist.name : song.artist}</Text>
+                  <Text note>{song.artist.name || song.artist}</Text>
                 </Body>
               </ListItem>
               )
