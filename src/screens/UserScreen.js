@@ -38,7 +38,7 @@ const amountGenres = (inventory = []) => {
   return amountGenres;
 };
 
-export default class InfoScreen extends Component {
+export default class UserScreen extends Component {
   state = {
     authId:'',
     city:'',

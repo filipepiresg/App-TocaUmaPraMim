@@ -7,10 +7,14 @@ import {
   ExploreScreen,
   ProfileScreen,
   EditProfileScreen,
-  NewSongScreen
+  NewSongScreen,
+  UserScreen
 } from "../screens";
 import stylesd from '../stylesd';
 import ConfigurationScreen from '../screens/ConfigurationScreen';
+
+const ACTIVE_COLOR = '#fff'
+const INACTIVE_COLOR = stylesd.corDeFundo
 
 const TabNavigator = createBottomTabNavigator({ 
   Explore:{
@@ -36,7 +40,7 @@ const TabNavigator = createBottomTabNavigator({
     navigationOptions:{
       tabBarLabel: translate("configurations"),
       tabBarIcon: ({ tintColor }) => (
-        <Icon name="settings" style={{color:tintColor}} size={24}/>
+        <Icon active name="settings" style={{color:tintColor}} size={24}/>
       )
     }
   }
@@ -47,8 +51,8 @@ const TabNavigator = createBottomTabNavigator({
     tabBarVisible: true
   },
   tabBarOptions:{
-    activeTintColor: "#FFF",
-    inactiveTintColor: "#CCC",
+    activeTintColor: ACTIVE_COLOR,
+    inactiveTintColor: INACTIVE_COLOR,
     style: {
       backgroundColor: stylesd.segundaCor
     }
@@ -57,10 +61,15 @@ const TabNavigator = createBottomTabNavigator({
 });
 
 export default createStackNavigator({
-    TabNavigator,
+    TabNavigator:{
+      screen: TabNavigator,
+      navigationOptions: {
+        header: null
+      }
+    },
     EditProfile: EditProfileScreen,
-    NewSong: NewSongScreen
-
+    NewSong: NewSongScreen,
+    UserProfile: UserScreen,
   }, {
     headerMode: 'float',
     initialRouteKey: 'TabNavigator',

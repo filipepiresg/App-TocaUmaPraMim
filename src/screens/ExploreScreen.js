@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Dimensions} from 'react-native'
+import { StyleSheet, Dimensions, Platform } from 'react-native'
 import firebase from 'firebase'
 require('firebase/firestore')
 import SvgAnimatedLinearGradient from 'react-native-svg-animated-linear-gradient'
@@ -86,9 +86,17 @@ class ExploreScreen extends Component {
         <Content contentContainerStyle={styles.content}>
           {loading && this.renderLoader()}
           {!loading &&
-            users.map(user => (
-              <User key={user.username} user={user} navigation={navigation} />
-            ))}
+            users.map(user => {
+              if(user && user.name.toLowerCase().includes(search.toLowerCase())
+                // busca pelos instrumentos do usuario
+                // || user.instruments.contains(search.toLowerCase()) 
+              ){
+                return (
+                  <User key={user.username} user={user} navigation={navigation} />
+                )
+              }
+            })
+          }
         </Content>
       </Container>
     )
@@ -98,6 +106,7 @@ class ExploreScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: stylesd.corDeFundo,
+    paddingTop: (Platform.OS) ? 20 : 0
   },
   itemInput: {
     backgroundColor: '#fff',
