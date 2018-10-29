@@ -13,6 +13,14 @@ NativeTachyons.build(
   {
     // rem: screenWidth > 340 ? 18 : 16,
     fontRem: 20,
+    colors: {
+      palette: {
+         primary: "rgb(97,197,207)",
+         secondary: "rgb(255,239,215)",
+         white:'#fff',
+         black: '#000'
+      }
+   }
   },
   StyleSheet
 )
