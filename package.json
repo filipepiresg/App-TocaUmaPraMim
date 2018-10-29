@@ -28,6 +28,8 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@lingui/macro": "^2.7.0",
+    "@lingui/react": "^2.7.0",
     "expo": "^27.0.1",
     "firebase": "^5.4.2",
     "lodash": "^4.17.11",

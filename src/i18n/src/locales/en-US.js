@@ -38,5 +38,7 @@ export default {
     defaultLanguage: "Default language",
     english: "English",
     portuguese: "Portuguese",
-    configurations: "Configurations"
+    configurations: "Configurations",
+    explore: "Explore",
+    profile: "Profile"
 }

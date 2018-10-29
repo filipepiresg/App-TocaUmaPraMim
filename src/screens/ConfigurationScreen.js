@@ -55,6 +55,7 @@ class ConfigurationScreen extends Component {
         batch.update(userLogged.docs[0].ref, user);
         batch.commit().catch(err => console.error(err));
         this.props.navigation.navigate('App')
+        this.forceUpdate()
       })
     });
   }
@@ -72,15 +73,12 @@ class ConfigurationScreen extends Component {
   }
 
   async save() {
-    console.log(this.state.user.language)
     const { user } = this.state
     I18n.locale = user.language
-    
     this.updateInfo()
   }
 
   onLanguageChange = language => {
-      console.log(language)
       const updatedUser = this.state.user
       updatedUser.language = language
       this.setState({ user: updatedUser })

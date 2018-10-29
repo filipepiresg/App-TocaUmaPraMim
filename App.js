@@ -3,7 +3,7 @@ import * as firebase from 'firebase'
 import NativeTachyons from 'react-native-style-tachyons'
 import { StyleSheet } from 'react-native'
 import { Root } from 'native-base'
-
+import { I18nProvider } from '@lingui/react'
 import './ReactotronConfig'
 import { MainNavigator } from './src/navigators'
 import { LoadingProvider } from './src/components/contexts/LoadingContext'

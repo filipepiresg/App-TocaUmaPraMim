@@ -1,6 +1,7 @@
 import React from 'react';
 import { Icon } from "native-base";
 import { createBottomTabNavigator, createStackNavigator } from "react-navigation";
+import translate from '../i18n/src/locales';
 
 import {
   ExploreScreen,
@@ -15,7 +16,7 @@ const TabNavigator = createBottomTabNavigator({
   Explore:{
     screen: ExploreScreen,
     navigationOptions:{
-      tarBarLabel: 'Explore',
+      tarBarLabel: translate("explore"),
       tabBarIcon:({ tintColor }) => (
         <Icon name="globe" style={{color:tintColor}} size={24}/>
       )
@@ -24,7 +25,7 @@ const TabNavigator = createBottomTabNavigator({
   Profile:{
     screen: ProfileScreen,
     navigationOptions:{
-      tabBarLabel: 'Profile',
+      tabBarLabel: translate("profile"),
       tabBarIcon: ({ tintColor }) => (
         <Icon name="ios-person" style={{color:tintColor}} size={24}/>
       )
@@ -33,7 +34,7 @@ const TabNavigator = createBottomTabNavigator({
   Configurations:{
     screen: ConfigurationScreen,
     navigationOptions:{
-      tabBarLabel: 'Configurations',
+      tabBarLabel: translate("configurations"),
       tabBarIcon: ({ tintColor }) => (
         <Icon name="settings" style={{color:tintColor}} size={24}/>
       )
