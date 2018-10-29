@@ -12,6 +12,9 @@ import {
 import stylesd from '../stylesd';
 import ConfigurationScreen from '../screens/ConfigurationScreen';
 
+const ACTIVE_COLOR = '#fff'
+const INACTIVE_COLOR = stylesd.corDeFundo
+
 const TabNavigator = createBottomTabNavigator({ 
   Explore:{
     screen: ExploreScreen,
@@ -47,8 +50,8 @@ const TabNavigator = createBottomTabNavigator({
     tabBarVisible: true
   },
   tabBarOptions:{
-    activeTintColor: "#FFF",
-    inactiveTintColor: "#CCC",
+    activeTintColor: ACTIVE_COLOR,
+    inactiveTintColor: INACTIVE_COLOR,
     style: {
       backgroundColor: stylesd.segundaCor
     }
