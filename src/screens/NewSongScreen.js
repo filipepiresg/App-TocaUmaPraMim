@@ -128,25 +128,45 @@ class NewSongScreen extends Component {
     this.setState({ song })
   }
 
+  songEquals = (s1, s2) => {
+    return (s1.name + s1.artist) === (s2.name + s2.artist)
+  }
+
   saveSong = async () => {
     this.setState({loading: true})
     try {
       const { song } = this.state
       const userString = await AsyncStorage.getItem('loggedUser')
       const loggedUser = JSON.parse(userString)
-
+      
       song.userId = loggedUser.id
-      await firebase
+
+      dbSongs = await firebase
         .firestore()
         .collection('songs')
-        .add(song)
+        .where('name', '==', song.name)
+        .where('artist', '==', song.artist)
+        .get() 
+        
+      if(dbSongs.empty) {
+        await firebase
+          .firestore()
+          .collection('songs')        
+          .add(song)
+          Toast.show({
+            text: translate("newSongSuccess"),
+            type: "success",
+            onClose: () => {
+              this.props.navigation.goBack()
+            }
+          })
+      }
+      else {
         Toast.show({
-          text: translate("newSongSuccess"),
-          type: "success",
-          onClose: () => {
-            this.props.navigation.goBack()
-          }
+          text: translate("duplicateSongsError"),
+          type: "danger"
         })
+      }
     } catch (e) {
       console.error(e)
     }

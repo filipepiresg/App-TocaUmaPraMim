@@ -40,5 +40,6 @@ export default {
     portuguese: "Portuguese",
     configurations: "Configurations",
     explore: "Explore",
-    profile: "Profile"
+    profile: "Profile",
+    duplicateSongsError: "Song already added"
 }

@@ -40,5 +40,6 @@ export default {
     portuguese: "Português",
     configurations: "Configurações",
     explore: "Explorar",
-    profile: "Perfil"
+    profile: "Perfil",
+    duplicateSongsError: "Música já adicionada"
 }
