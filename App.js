@@ -18,7 +18,9 @@ NativeTachyons.build(
          primary: "rgb(97,197,207)",
          secondary: "rgb(255,239,215)",
          white:'#fff',
-         black: '#000'
+         black: '#000',
+         grey: '#ccc',
+         transparent: 'transparent' // '-' sorry, coul
       }
    }
   },

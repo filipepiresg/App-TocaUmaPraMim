@@ -41,5 +41,6 @@ export default {
     configurations: "Configurações",
     explore: "Explorar",
     profile: "Perfil",
-    duplicateSongsError: "Música já existente"
+    duplicateSongsError: "Música já existente",
+    logout: "Sair"
 }

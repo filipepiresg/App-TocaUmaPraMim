@@ -1,24 +1,19 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 import {
   Container,
   Title,
-  Subtitle,
   H1,
   Fab,
   Item,
   Icon,
-  Button,
   Thumbnail,
 } from 'native-base'
 import {
   View,
-  StyleSheet,
   Text,
   Dimensions,
-  AsyncStorage,
   ScrollView,
-  Platform,
   Image,
 } from 'react-native'
 import { withNavigation } from 'react-navigation'
@@ -28,60 +23,11 @@ import stylesd from '../stylesd'
 import imgDefault from '../img/perfil.png'
 import DebouncedInputComponent from './DebouncedInput'
 import { styles as s, wrap } from 'react-native-style-tachyons'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import translate from '../i18n/src/locales'
-import I18n from 'react-native-i18n'
 import withUser from './hocs/withUser'
 
 const { width } = Dimensions.get('window')
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: stylesd.corDeFundo,
-    paddingTop: Platform.OS ? 40 : 0,
-    flex: 1,
-    backgroundColor: 'transparent',
-  },
-  content: {
-    backgroundColor: 'transparent',
-  },
-  inputSearch: {
-    fontSize: 14,
-  },
-  subContainer: {
-    marginHorizontal: 30,
-    marginBottom: 130,
-    backgroundColor: 'transparent',
-  },
-  typeInfo: {
-    flex: 1,
-    paddingHorizontal: 5,
-    alignItems: 'center',
-  },
-  containerInfo: {
-    flexDirection: 'row',
-    backgroundColor: 'rgba(255, 255, 255, 0.7)',
-    borderRadius: 5,
-    padding: 10,
-  },
-  imgPerfil: {
-    width: width * 0.3,
-    height: width * 0.3,
-    borderRadius: (width * 0.3) / 2,
-  },
-  containerPerfil: {
-    backgroundColor: 'rgba(255, 255, 255, 0.4)',
-    borderRadius: (width * 0.3) / 2,
-    alignItems: 'center',
-    paddingTop: 10,
-    paddingHorizontal: 20,
-  },
-  txtInfo: {
-    textAlign: 'center',
-    color: '#ccc',
-    flexWrap: 'wrap',
-  },
-})
 
 const ArtistInfo = ({ user, hasOptions, navigation}) => {
   if (!user) return null
@@ -96,50 +42,44 @@ const ArtistInfo = ({ user, hasOptions, navigation}) => {
       }}
     >
       <View
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
+        style={[s.absolute, s.top_0, s.left_0, {
           width,
           height: '100%',
-        }}
+        }]}
       >
         <Image
-          style={{
+          style={[s.ass, s.rm_contain, s.top_0, {
             width: '100%',
             height: '100%',
-            alignSelf: 'stretch',
-            resizeMode: 'contain',
             marginTop: -280,
-            top: 0,
-          }}
+          }]}
           source={require('../img/bg_profile.png')}
         />
       </View>
-      <Container style={styles.container}>
-        <Container style={styles.subContainer}>
-          <Container style={styles.containerPerfil}>
+      <Container style={[s.flx_i, s.bg_transparent, s.pt4]}>
+        <Container style={[s.bg_transparent, s.mb6, s.mt2, s.mh3, s.ph2]}>
+          <Container style={[s.bg_white_40, s.br5, s.aic, s.pt2, s.ph3]}>
             <Thumbnail
               source={photoURL ? { uri: photoURL + '?type=large' } : imgDefault}
               large
-              style={styles.imgPerfil}
+              style={[s.w4, s.h4, { borderRadius: 60}]}
             />
 
             <Title style={[s.mt2, s.mb2, s.f4, s.primary]}>{name}</Title>
-            <View style={styles.containerInfo}>
-              <View style={styles.typeInfo}>
+            <View style={[s.flx_row, s.bg_white_70, s.br2, s.pa2, s.mh3]}>
+              <View style={[s.flx_i, s.ph1, s.aic]}>
                 <H1>{songsCount}</H1>
-                <Text style={styles.txtInfo}>{translate('diferentSongs')}</Text>
+                <Text style={[s.tc, s.grey]}>{translate('diferentSongs')}</Text>
               </View>
-              <View style={styles.typeInfo}>
+              <View style={[s.flx_i, s.ph1, s.aic]}>
                 <H1>{differentArtists}</H1>
-                <Text style={styles.txtInfo}>
+                <Text style={[s.tc, s.grey]}>
                   {translate('diferentArtists')}
                 </Text>
               </View>
-              <View style={styles.typeInfo}>
+              <View style={[s.flx_i, s.ph1, s.aic]}>
                 <H1>{differentGenres}</H1>
-                <Text style={styles.txtInfo}>
+                <Text style={[s.tc, s.grey]}>
                   {translate('diferentGenres')}
                 </Text>
               </View>
@@ -150,13 +90,13 @@ const ArtistInfo = ({ user, hasOptions, navigation}) => {
             <DebouncedInputComponent
               placeholder={translate('nameOrGenreOrBandSearch')}
               updateText={() => {}}
-              style={styles.inputSearch}
+              style={[s.f6]}
             />
           </Item>
 
           <Container style={[s.br3]}>
             <ScrollView style={[s.br3]}>
-              <SelectableSongList loading={false} songs={songs} search={''} />
+              <SelectableSongList loading={false} songs={songs} search={''} showGenres = {true} />
             </ScrollView>
           </Container>
         </Container>
@@ -177,7 +117,7 @@ const ArtistInfo = ({ user, hasOptions, navigation}) => {
             active={true}
             direction="up"
             containerStyle={{}}
-            style={[{ backgroundColor: 'rgb(97,197,207)', marginRight: -5 }]}
+            style={[s.bg_primary, {marginRight: -5 }]}
             position="bottomRight"
             onPress={() => navigation.navigate('NewSong')}
           >

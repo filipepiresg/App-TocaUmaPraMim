@@ -17,6 +17,7 @@ export default WrappedComponent => {
     }
 
     _loginWithFacebook = async () => {
+      this.props.showLoading()
       const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(
         '2207895276121269',
         { permissions: ['public_profile'] }
@@ -34,10 +35,12 @@ export default WrappedComponent => {
             this._verifyUser(user)
           })
           .catch(error => {
+            this.props.hideLoading()
             Alert.alert(translate("loginErrorMessage"))
             console.log(error)
           })
       } else {
+        this.props.hideLoading()
         Alert.alert(translate("loginErrorMessage"))
       }
     }
