@@ -41,5 +41,5 @@ export default {
     configurations: "Configurations",
     explore: "Explore",
     profile: "Profile",
-    duplicateSongsError: "Song already added"
+    duplicateSongsError: "Song has already been added"
 }
