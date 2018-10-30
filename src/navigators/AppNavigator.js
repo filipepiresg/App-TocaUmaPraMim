@@ -8,10 +8,10 @@ import {
   ProfileScreen,
   EditProfileScreen,
   NewSongScreen,
-  ArtistScreen
+  ArtistScreen,
+  ConfigurationScreen
 } from "../screens";
 import stylesd from '../stylesd';
-import ConfigurationScreen from '../screens/ConfigurationScreen';
 
 const ACTIVE_COLOR = '#fff'
 const INACTIVE_COLOR = stylesd.corDeFundo
@@ -74,10 +74,7 @@ export default createStackNavigator({
     headerMode: 'float',
     initialRouteKey: 'TabNavigator',
     navigationOptions: {
-      headerStyle: {
-        backgroundColor: stylesd.corDeFundo,
-        borderBottomColor: 'transparent'
-      }
+      headerTransparent: true,
     }
   }
 )
