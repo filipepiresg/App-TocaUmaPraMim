@@ -1,7 +1,7 @@
 import React from 'react'
 import * as firebase from 'firebase'
-import NativeTachyons from 'react-native-style-tachyons'
-import { StyleSheet } from 'react-native'
+import NativeTachyons, { styles as s } from 'react-native-style-tachyons'
+import { StyleSheet, SafeAreaView } from 'react-native'
 import { Root } from 'native-base'
 // import { I18nProvider } from '@lingui/react'
 import { MainNavigator } from './src/navigators'
@@ -48,12 +48,14 @@ class App extends React.Component {
 
   render() {
     return (
-      <LoadingProvider>
-        <Root>
-          <MainNavigator />
-        </Root>
-        <Loading />
-      </LoadingProvider>
+      <SafeAreaView style={[ s.flx_i, s.bg_secondary ]}>
+        <LoadingProvider>
+          <Root>
+            <MainNavigator />
+          </Root>
+          <Loading />
+        </LoadingProvider>
+      </SafeAreaView>
     )
   }
 }
