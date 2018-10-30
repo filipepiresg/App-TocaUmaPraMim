@@ -156,7 +156,7 @@ const ArtistInfo = ({ user, hasOptions, navigation}) => {
 
           <Container style={[s.br3]}>
             <ScrollView style={[s.br3]}>
-              <SelectableSongList loading={false} songs={songs} search={''} />
+              <SelectableSongList loading={false} songs={songs} search={''} showGenres = {true} />
             </ScrollView>
           </Container>
         </Container>

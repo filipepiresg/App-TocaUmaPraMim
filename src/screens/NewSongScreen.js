@@ -206,6 +206,7 @@ class NewSongScreen extends Component {
                     loading={loadingSongs}
                     songs={searchResult}
                     onSelect={this.selectSong}
+                    showGenres = {false}
                     isSelectable
                   />
                 </Card>
