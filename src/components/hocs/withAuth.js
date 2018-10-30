@@ -12,10 +12,12 @@ export default WrappedComponent => {
       this.props.showLoading()
       firebase.auth().onAuthStateChanged(user => {
         this._verifyUser(user)
+        this.props.hideLoading()
       })
     }
 
     _loginWithFacebook = async () => {
+      this.props.showLoading()
       const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(
         '2207895276121269',
         { permissions: ['public_profile'] }
