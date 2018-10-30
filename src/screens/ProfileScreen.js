@@ -3,7 +3,7 @@ import { AsyncStorage } from 'react-native'
 import withAuth from '../components/hocs/withAuth'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
-import UserProfile from '../components/UserProfile'
+import ArtistInfo from '../components/ArtistInfo'
 
 class ProfileScreen extends Component {
   state = {
@@ -39,7 +39,7 @@ class ProfileScreen extends Component {
 
     if (!username) return null
 
-    return <UserProfile username={username} hasOptions />
+    return <ArtistInfo username={username} hasOptions />
   }
 }
 

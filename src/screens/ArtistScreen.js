@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import UserProfile from '../components/UserProfile'
+import ArtistInfo from '../components/ArtistInfo'
 
 /**
  * Shows the data for a specifid user (artist).
@@ -20,6 +20,6 @@ export default class ArtistScreen extends Component {
   render() {
     const { username } = this.state;
     if (!username) return null
-    return <UserProfile username={username} />
+    return <ArtistInfo username={username} />
   }
 }

@@ -23,10 +23,10 @@ import {
 } from 'react-native'
 import { withNavigation } from 'react-navigation'
 
-import SelectableSongList from '../components/SelectableSongList'
+import SelectableSongList from './SelectableSongList'
 import stylesd from '../stylesd'
 import imgDefault from '../img/perfil.png'
-import DebouncedInputComponent from '../components/DebouncedInput'
+import DebouncedInputComponent from './DebouncedInput'
 import { styles as s, wrap } from 'react-native-style-tachyons'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import translate from '../i18n/src/locales'
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   },
 })
 
-const UserProfile = ({ user, hasOptions, navigation}) => {
+const ArtistInfo = ({ user, hasOptions, navigation}) => {
   if (!user) return null
   const { name, photoURL, songs, stats } = user
   const { songsCount, differentArtists, differentGenres } = stats
@@ -189,4 +189,4 @@ const UserProfile = ({ user, hasOptions, navigation}) => {
   )
 }
 
-export default withNavigation(withUser(UserProfile))
+export default withNavigation(withUser(ArtistInfo))
