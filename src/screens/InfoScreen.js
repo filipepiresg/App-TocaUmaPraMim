@@ -94,7 +94,7 @@ export default class InfoScreen extends Component {
               </View>
               <View style={styles.typeInfo}>
                 <H1>{ amountGenres(songs)  }</H1>
-                <Text style={styles.txtInfo}>{translate("diferentRhythms")}</Text>
+                <Text style={styles.txtInfo}>{translate("diferentGenres")}</Text>
               </View>
             </View>
           </Container>

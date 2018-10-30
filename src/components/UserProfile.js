@@ -140,7 +140,7 @@ const UserProfile = ({ user, hasOptions, navigation}) => {
               <View style={styles.typeInfo}>
                 <H1>{differentGenres}</H1>
                 <Text style={styles.txtInfo}>
-                  {translate('diferentRhythms')}
+                  {translate('diferentGenres')}
                 </Text>
               </View>
             </View>
@@ -148,7 +148,7 @@ const UserProfile = ({ user, hasOptions, navigation}) => {
 
           <Item style={[s.bg_white, s.br3, s.mb3, s.mt3, s.pl2]}>
             <DebouncedInputComponent
-              placeholder={translate('nameOrRhythmOrBandSearch')}
+              placeholder={translate('nameOrGenreOrBandSearch')}
               updateText={() => {}}
               style={styles.inputSearch}
             />
