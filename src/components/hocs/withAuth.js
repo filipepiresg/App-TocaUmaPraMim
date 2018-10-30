@@ -12,7 +12,6 @@ export default WrappedComponent => {
       this.props.showLoading()
       firebase.auth().onAuthStateChanged(user => {
         this._verifyUser(user)
-        this.props.hideLoading()
       })
     }
 
@@ -34,10 +33,12 @@ export default WrappedComponent => {
             this._verifyUser(user)
           })
           .catch(error => {
+            this.props.hideLoading()
             Alert.alert(translate("loginErrorMessage"))
             console.log(error)
           })
       } else {
+        this.props.hideLoading()
         Alert.alert(translate("loginErrorMessage"))
       }
     }
