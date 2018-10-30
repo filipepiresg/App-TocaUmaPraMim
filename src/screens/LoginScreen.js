@@ -81,22 +81,16 @@ class LoginScreen extends Component {
     this.setState({loading: true})
     const db = firebase.firestore()
     db.settings({ timestampsInSnapshots: true })
-    const usersRef = await db.collection('users')
-    usersRef.where('username','==',search)
+    const users = await db.collection('users')
+    .where('username','==',search)
       .get()
-      .then( value => {
-        this.setState({loading: false})
-        if (value.empty) {
-          Alert.alert(translate("userNotFoundMessage"),'', [{text: 'Voltar', style:'destructive'}])
-        } else {
-          this.props.navigation.navigate('Info', {user:value.docs[0].data()})
-        }
-        this.setState({ search: '' })
-      })
-      .catch((err) => {
-        this.setState({loading: false})
-        console.error(err)
-      })
+    if (users.empty){
+      this.setState({ loading: false })
+      return Alert.alert(translate("userNotFoundMessage"),'', [{text: 'Voltar', style:'destructive'}])
+    }
+    const { username } = users.docs[0].data()
+    this.props.navigation.navigate("Artist", { username, back: true })
+    this.setState({ search: '' })
   }
 
   render() {

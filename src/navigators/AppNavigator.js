@@ -8,7 +8,7 @@ import {
   ProfileScreen,
   EditProfileScreen,
   NewSongScreen,
-  UserScreen
+  ArtistScreen
 } from "../screens";
 import stylesd from '../stylesd';
 import ConfigurationScreen from '../screens/ConfigurationScreen';
@@ -69,7 +69,7 @@ export default createStackNavigator({
     },
     EditProfile: EditProfileScreen,
     NewSong: NewSongScreen,
-    UserProfile: UserScreen,
+    Artist: ArtistScreen,
   }, {
     headerMode: 'float',
     initialRouteKey: 'TabNavigator',
