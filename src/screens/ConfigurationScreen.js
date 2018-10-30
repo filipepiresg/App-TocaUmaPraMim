@@ -9,6 +9,7 @@ import LanguageSelect from '../components/LanguageSelect';
 import SvgAnimatedLinearGradient from 'react-native-svg-animated-linear-gradient'
 import { Svg } from 'expo'
 import I18n from 'react-native-i18n'
+import withAuth from "../components/hocs/withAuth";
 
 require('firebase/firestore')
 
@@ -21,10 +22,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: stylesd.corDeFundo,
   },
-  bgOurBlue: {
-    backgroundColor: stylesd.segundaCor,
-  },
-  buttonStyle: {
+  logoutButtonStyle: {
+    backgroundColor: 'red',
     marginBottom: 10,
     borderRadius: 10,
     marginTop: 25,
@@ -36,10 +35,8 @@ const styles = StyleSheet.create({
   }
 })
 
-
 class ConfigurationScreen extends Component {
   state = {
-    valid: true,
     loading: true,
     user: null
   }
@@ -58,6 +55,10 @@ class ConfigurationScreen extends Component {
         this.forceUpdate()
       })
     });
+  }
+
+  logout = () => {
+
   }
 
   componentDidMount() {
@@ -82,6 +83,7 @@ class ConfigurationScreen extends Component {
       const updatedUser = this.state.user
       updatedUser.language = language
       this.setState({ user: updatedUser })
+      this.save()
   }
 
   renderLoader = () => {
@@ -89,7 +91,7 @@ class ConfigurationScreen extends Component {
   }
 
   render() {
-    const { loading, valid, user } = this.state
+    const { loading, user } = this.state
     if (loading) return (this.renderLoader())
     return (
       <Container style={styles.container}>
@@ -100,13 +102,14 @@ class ConfigurationScreen extends Component {
                 selectedLanguage={user.language}
                 onChange={(language) => this.onLanguageChange(language)} />
           </View>
+
           <Button
             block
             iconLeft
-            style={[styles.buttonStyle, valid && styles.bgOurBlue]}
-            onPress={() => this.save()}
+            style={styles.logoutButtonStyle}
+            onPress={() => this.props.logout()}
           >
-            <Text style={styles.buttonText}>{translate("save")}</Text>
+            <Text style={styles.buttonText}>{translate("logout")}</Text>
           </Button>
         </Content>
       </Container>
@@ -114,4 +117,4 @@ class ConfigurationScreen extends Component {
   }
 }
 
-export default ConfigurationScreen
+export default withAuth(ConfigurationScreen)
