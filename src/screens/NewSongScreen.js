@@ -165,7 +165,7 @@ class NewSongScreen extends Component {
       pristine,
     } = this.state
     return (
-      <KeyboardAwareScrollView>
+      <KeyboardAwareScrollView keyboardShouldPersistTaps={true}>
         <Container style={styles.container}>
           <Content padder>
             <Text style={styles.title}>{translate("newSong")}</Text>
