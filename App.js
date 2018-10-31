@@ -48,14 +48,12 @@ class App extends React.Component {
 
   render() {
     return (
-      <SafeAreaView style={[ s.flx_i, s.bg_secondary ]}>
-        <LoadingProvider>
-          <Root>
-            <MainNavigator />
-          </Root>
-          <Loading />
-        </LoadingProvider>
-      </SafeAreaView>
+      <LoadingProvider>
+        <Root>
+          <MainNavigator />
+        </Root>
+        <Loading />
+      </LoadingProvider>
     )
   }
 }
