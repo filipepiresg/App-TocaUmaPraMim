@@ -89,7 +89,7 @@ class LoginScreen extends Component {
       return Alert.alert(translate("userNotFoundMessage"),'', [{text: 'Voltar', style:'destructive'}])
     }
     const { username } = users.docs[0].data()
-    this.props.navigation.navigate("Artist", { username, back: true })
+    this.props.navigation.navigate("LookingArtist", { username, back: true })
     this.setState({ search: '' })
   }
 
