@@ -8,47 +8,53 @@ require('firebase/firestore')
 
 export default WrappedComponent => {
   class withAuth extends React.Component {
-    componentDidMount() {
-      this.props.showLoading()
-      firebase.auth().onAuthStateChanged(user => {
-        this._verifyUser(user)
-        this.props.hideLoading()
-      })
+    async componentDidMount() {
+      const { showLoading, hideLoading } = this.props;
+      showLoading();
+      await firebase.auth().onAuthStateChanged(user => {
+        this._verifyUser(user);
+      });
+      hideLoading();
     }
 
     _loginWithFacebook = async () => {
-      this.props.showLoading()
+      const { showLoading, hideLoading } = this.props;
       const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(
         '2207895276121269',
         { permissions: ['public_profile'] }
       )
 
       if (type === 'success') {
-        this.props.showLoading()
         // Build Firebase credential with the Facebook access token.
         const credential = firebase.auth.FacebookAuthProvider.credential(token)
         // Sign in with credential from the Facebook user.
+        showLoading()
         firebase
           .auth()
           .signInAndRetrieveDataWithCredential(credential)
           .then(({ user }) => {
             this._verifyUser(user)
+            hideLoading()
           })
           .catch(error => {
-            this.props.hideLoading()
-            Alert.alert(translate("loginErrorMessage"))
+            hideLoading()
             console.log(error)
+            Alert.alert(translate("loginErrorMessage"))
           })
       } else {
-        this.props.hideLoading()
         Alert.alert(translate("loginErrorMessage"))
       }
     }
 
     _logout = async () => {
-      await firebase.auth().signOut()
+      const { showLoading, hideLoading } = this.props;
+      showLoading();
       await AsyncStorage.removeItem('loggedUser')
-      this.props.navigation.navigate('Login')
+        .then( () => {
+          this.props.navigation.navigate('AuthLoading')
+          firebase.auth().signOut();
+        });
+      hideLoading();
     }
 
     /**
@@ -79,7 +85,6 @@ export default WrappedComponent => {
         })
         this.props.navigation.navigate('App')
       }
-      this.props.hideLoading()
     }
 
     render() {
