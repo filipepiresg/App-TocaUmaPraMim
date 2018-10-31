@@ -33,8 +33,9 @@ export default WrappedComponent => {
           .auth()
           .signInAndRetrieveDataWithCredential(credential)
           .then(({ user }) => {
-            this._verifyUser(user)
-            hideLoading()
+            this._verifyUser(user).then(() => {
+              hideLoading()
+            })
           })
           .catch(error => {
             hideLoading()
