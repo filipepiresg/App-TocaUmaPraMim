@@ -81,17 +81,19 @@ export default class EditProfileScreen extends Component {
   }
   async updateInfo() {
     const { user } = this.state
+    this.setState({valid:false});
     const db = firebase.firestore()
     const dbUsers = db.collection('users')
     firebase.auth().onAuthStateChanged((currentUser) => {
       dbUsers.where("authId", "==", currentUser.uid).get()
       .then( userLogged => {
-        console.log(userLogged.docs[0].ref);
-        console.log(user);
         let batch = db.batch();
         batch.update(userLogged.docs[0].ref, user);
         batch.commit().catch(err => console.error(err));
-        this.props.navigation.navigate('App')
+        this.props.navigation.navigate('Profile')
+      }).catch((e)=>{
+        console.log(e);
+        this.setState({valid:true});
       })
     });
   }
@@ -102,7 +104,11 @@ export default class EditProfileScreen extends Component {
     firebase.auth().onAuthStateChanged((currentUser) => {
       dbUsers.where("authId", "==", currentUser.uid).get()
       .then( user => {
-        this.setState({user: user.docs[0].data()}, () => this.setState({loading: false}));
+        this.setState({user: user.docs[0].data()}, () => {
+          this.validateUser()
+          this.setState({loading: false})
+        }
+      );
       })
     });
   }
@@ -122,6 +128,7 @@ export default class EditProfileScreen extends Component {
       if (user.name.length < 10) isValid = false
       if (user.username.length < 10) isValid = false
     }
+    console.log(user);
     this.setState({ valid: isValid })
   }
   
