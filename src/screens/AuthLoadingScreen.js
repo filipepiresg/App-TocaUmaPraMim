@@ -20,7 +20,7 @@ export default class AuthLoadingScreen extends Component {
    * Caso esteja, redireciona para o aplicativo. Senão, direciona para a página de login
    */
   _bootstrapAsync = async () => {
-    const userToken = await AsyncStorage.getItem('firebaseAuthToken')
+    const userToken = await AsyncStorage.getItem('loggedUser')
 
     this.props.navigation.navigate(userToken ? 'App' : 'Auth')
   }

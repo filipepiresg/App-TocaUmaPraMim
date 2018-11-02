@@ -2,6 +2,7 @@ import { createStackNavigator } from "react-navigation";
 import { 
   LoginScreen,
   RegisterScreen,
+  ArtistScreen,
 } from "../screens";
 import stylesd from '../stylesd';
 
@@ -10,19 +11,33 @@ export default createStackNavigator(
     Login: {
       screen: LoginScreen,
       navigationOptions: {
-        header: null
+        // header: null
+        headerTransparent: true,
+        // headerStyle: {
+        //   headerTransparent: true
+        // }
       }
     },
-    Register: RegisterScreen  
+    Register: RegisterScreen,
+    LookingArtist: {
+      screen: ArtistScreen,
+      navigationOptions: {
+        headerTransparent: true,
+        // headerStyle:{
+        //   headerTransparent: true
+        // }
+      }
+    }
   },
   {
     headerMode: 'float',
     initialRouteName: "Login",
-    navigationOptions: {
-      headerStyle: {
-        backgroundColor: stylesd.corDeFundo,
-        borderBottomColor:'transparent'
-      },
-    }
+    // navigationOptions: {
+    //   header: null,
+    //   headerStyle: {
+    //     backgroundColor: stylesd.corDeFundo,
+    //     borderBottomColor:'transparent'
+    //   },
+    // }
   }
 );

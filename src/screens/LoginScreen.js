@@ -86,11 +86,12 @@ class LoginScreen extends Component {
       .get()
     if (users.empty){
       this.setState({ loading: false })
-      return Alert.alert(translate("userNotFoundMessage"),'', [{text: 'Voltar', style:'destructive'}])
+      return Alert.alert(translate("userNotFoundMessage"),'', [{text: 'Ok', style:'destructive'}])
+    } else {
+      const { username } = users.docs[0].data()
+      this.setState({ search: '', loading: false })
+      this.props.navigation.navigate("LookingArtist", { username, back: true })
     }
-    const { username } = users.docs[0].data()
-    this.props.navigation.navigate("Artist", { username, back: true })
-    this.setState({ search: '' })
   }
 
   render() {
@@ -129,11 +130,13 @@ class LoginScreen extends Component {
                     style={styles.inputBusca}
                     placeholder={translate("typeTheUser")}
                     onChangeText={txt => this.setState({ search: txt })}
+                    onSubmitEditing={ () => this.lookingForArtist(search) }
                   />
-                  <SearchButton loading={loading}
-                                onPress={() => this.lookingForArtist(search)}
-                                style={{marginLeft: 7, marginRight: -8, color: stylesd.segundaCor}}>
-                  </SearchButton>
+                  <SearchButton 
+                    loading={loading}
+                    onPress={() => this.lookingForArtist(search)}
+                    style={{marginLeft: 7, marginRight: -8, color: stylesd.segundaCor}} 
+                  />
                 </Item>
               </View>
               <View style={styles.containerCadastro}>

@@ -28,18 +28,14 @@ import QRCodeGenerator from './QRCodeGenerator';
 
 const { width } = Dimensions.get('window')
 
-
-const ArtistInfo = ({ user, hasOptions, navigation}) => {
-  if (!user) return null
+const ArtistInfo = ({ user, hasOptions, navigation }) => {
+  if (!user) return <View style={[ s.flx_i, s.bg_secondary ]} />
   const { name, photoURL, songs, stats } = user
   const { songsCount, differentArtists, differentGenres } = stats
   
   return (
     <View
-      style={{
-        flex: 1,
-        backgroundColor: stylesd.corDeFundo,
-      }}
+      style={[ s.flx_i, s.bg_secondary ]}
     >
       <View
         style={[s.absolute, s.top_0, s.left_0, {
@@ -85,12 +81,25 @@ const ArtistInfo = ({ user, hasOptions, navigation}) => {
                 </Text>
               </View>
             </View>
+
+            {hasOptions && (
+              <Fab
+                active={true}
+                direction="down"
+                containerStyle={{}}
+                style={{ backgroundColor: 'red' }}
+                position="topRight"
+                onPress={() => navigation.navigate('EditProfile')}
+              >
+                <Icon name="md-create" />
+              </Fab>
+            )}
           </Container>
 
           <Item style={[s.bg_white, s.br3, s.mb3, s.mt3, s.pl2]}>
             <DebouncedInputComponent
               placeholder={translate('nameOrGenreOrBandSearch')}
-              updateText={() => {}}
+              updateText={ () => {} }
               style={[s.f6]}
             />
           </Item>
@@ -100,8 +109,7 @@ const ArtistInfo = ({ user, hasOptions, navigation}) => {
               <SelectableSongList loading={false} songs={songs} search={''} showGenres = {true} />
             </ScrollView>
           </Container>
-        </Container>
-        
+        </Container>        
         {hasOptions && (
           <Fab
             active={true}
@@ -127,6 +135,19 @@ const ArtistInfo = ({ user, hasOptions, navigation}) => {
           </Fab>
         )}
       </Container>
+      
+      {hasOptions && (
+        <Fab
+          active={true}
+          direction="up"
+          containerStyle={{}}
+          style={[s.bg_primary, {marginRight: -5 }]}
+          position="bottomRight"
+          onPress={() => navigation.navigate('NewSong')}
+        >
+          <Icon name="add" />
+        </Fab>
+      )}
     </View>
   )
 }
