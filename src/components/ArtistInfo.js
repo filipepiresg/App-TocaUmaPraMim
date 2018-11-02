@@ -17,7 +17,6 @@ import {
   Image,
 } from 'react-native'
 import { withNavigation } from 'react-navigation'
-
 import SelectableSongList from './SelectableSongList'
 import stylesd from '../stylesd'
 import imgDefault from '../img/perfil.png'
@@ -25,6 +24,7 @@ import DebouncedInputComponent from './DebouncedInput'
 import { styles as s, wrap } from 'react-native-style-tachyons'
 import translate from '../i18n/src/locales'
 import withUser from './hocs/withUser'
+import QRCodeGenerator from './QRCodeGenerator';
 
 const { width } = Dimensions.get('window')
 
@@ -33,7 +33,7 @@ const ArtistInfo = ({ user, hasOptions, navigation}) => {
   if (!user) return null
   const { name, photoURL, songs, stats } = user
   const { songsCount, differentArtists, differentGenres } = stats
-
+  
   return (
     <View
       style={{
@@ -56,6 +56,7 @@ const ArtistInfo = ({ user, hasOptions, navigation}) => {
           source={require('../img/bg_profile.png')}
         />
       </View>
+      
       <Container style={[s.flx_i, s.bg_transparent, s.pt4]}>
         <Container style={[s.bg_transparent, s.mb6, s.mt2, s.mh3, s.ph2]}>
           <Container style={[s.bg_white_40, s.br5, s.aic, s.pt2, s.ph3]}>
@@ -100,6 +101,7 @@ const ArtistInfo = ({ user, hasOptions, navigation}) => {
             </ScrollView>
           </Container>
         </Container>
+        
         {hasOptions && (
           <Fab
             active={true}
