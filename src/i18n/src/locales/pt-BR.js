@@ -31,7 +31,7 @@ export default {
     newSong: "Nova música",
     searchSongOnline: "busque online sua música",
     add: "Adicionar",
-    nameOrGenreOrBandSearch: "busca por música, ritmo e/ou banda",
+    nameOrGenreOrBandSearch: "busque por música/ritmo/banda",
     justALittleMore: "Só mais um pouco...",
     completeRegistrationInfo: "Complete seus dados cadastrais",
     finishRegistration: "Finalizar Cadastro",

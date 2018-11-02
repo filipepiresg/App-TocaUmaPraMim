@@ -31,6 +31,7 @@
     "@lingui/react": "^2.7.0",
     "expo": "^27.0.1",
     "firebase": "^5.4.2",
+    "fuse.js": "^3.3.0",
     "lodash": "^4.17.11",
     "native-base": "^2.8.0",
     "prop-types": "^15.6.2",

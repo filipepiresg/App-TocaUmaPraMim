@@ -1,43 +1,41 @@
-import React, { Component } from 'react';
-import debounce from 'lodash/debounce';
-import PropTypes from 'prop-types';
-import { Input } from 'native-base';
+import React, { Component } from 'react'
+import debounce from 'lodash/debounce'
+import PropTypes from 'prop-types'
+import { Input } from 'native-base'
 
-class DebouncedInputComponent extends Component {
+class DebouncedInput extends Component {
+  state = {
+    text: this.props.text,
+  }
+  static propTypes = {
+    updateText: PropTypes.func.isRequired,
+    placeholder: PropTypes.string,
+    style: PropTypes.string,
+  }
 
-    static propTypes = {
-        updateText: PropTypes.func.isRequired
-    };
+  componentDidMount() {
+    this.sendTextChange = debounce(this.sendTextChange, 500)
+  }
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            text: ''
-        };
-    }
+  handleTextChange = text => {
+    this.setState({ text })
+    this.sendTextChange(text.trim())
+  }
 
-    componentDidMount() {
-        this.sendTextChange = debounce(this.sendTextChange, 500);
-        this.setState({text:this.props.text});
-    }
+  sendTextChange = text => {
+    this.props.updateText(text)
+  }
 
-    render() {
-        return (
-            <Input style={this.props.style}
-                   placeholder={this.props.placeholder}
-                   onChangeText={ txt => this.handleTextChange(txt)}
-                   value={this.state.text}/>
-        );
-    }
-
-    handleTextChange = (text) => {
-        this.setState({text: text});
-        this.sendTextChange(text.trim())
-    };
-
-    sendTextChange = (text) => {
-        this.props.updateText(text);
-    };
+  render() {
+    return (
+      <Input
+        style={this.props.style}
+        placeholder={this.props.placeholder}
+        onChangeText={txt => this.handleTextChange(txt)}
+        value={this.state.text}
+      />
+    )
+  }
 }
 
-export default DebouncedInputComponent;
+export default DebouncedInput

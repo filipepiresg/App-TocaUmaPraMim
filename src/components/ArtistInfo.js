@@ -18,13 +18,11 @@ import {
 } from 'react-native'
 import { withNavigation } from 'react-navigation'
 import SelectableSongList from './SelectableSongList'
-import stylesd from '../stylesd'
 import imgDefault from '../img/perfil.png'
 import DebouncedInputComponent from './DebouncedInput'
 import { styles as s, wrap } from 'react-native-style-tachyons'
 import translate from '../i18n/src/locales'
 import withUser from './hocs/withUser'
-import QRCodeGenerator from './QRCodeGenerator';
 
 const { width } = Dimensions.get('window')
 
