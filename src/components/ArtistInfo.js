@@ -81,6 +81,19 @@ const ArtistInfo = ({ user, hasOptions, navigation }) => {
                 </Text>
               </View>
             </View>
+
+            {hasOptions && (
+              <Fab
+                active={true}
+                direction="down"
+                containerStyle={{}}
+                style={{ backgroundColor: 'red' }}
+                position="topRight"
+                onPress={() => navigation.navigate('EditProfile')}
+              >
+                <Icon name="md-create" />
+              </Fab>
+            )}
           </Container>
 
           <Item style={[s.bg_white, s.br3, s.mb3, s.mt3, s.pl2]}>
@@ -96,33 +109,9 @@ const ArtistInfo = ({ user, hasOptions, navigation }) => {
               <SelectableSongList loading={false} songs={songs} search={''} showGenres = {true} />
             </ScrollView>
           </Container>
-        </Container>        
-        {hasOptions && (
-          <Fab
-            active={true}
-            direction="down"
-            containerStyle={{}}
-            style={{ backgroundColor: 'red' }}
-            position="topRight"
-            onPress={() => navigation.navigate('EditProfile')}
-          >
-            <Icon name="md-create" />
-          </Fab>
-        )}
-        {hasOptions && (
-          <Fab
-            active={true}
-            direction="up"
-            containerStyle={{}}
-            style={[s.bg_primary, {marginRight: -5 }]}
-            position="bottomRight"
-            onPress={() => navigation.navigate('NewSong')}
-          >
-            <Icon name="add" />
-          </Fab>
-        )}
+        </Container>
       </Container>
-
+      
       {hasOptions && (
         <Fab
           active={true}
