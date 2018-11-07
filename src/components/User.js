@@ -4,7 +4,7 @@ import { Thumbnail, Text } from "native-base";
 
 import perfil from "../img/perfil.png";
 
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 const User = ({ user, navigation }) => (
   <TouchableOpacity
@@ -47,8 +47,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 20,
     margin: 10,
-    width: width / 2 - 20,
-    height: height / 4
+    width: (width / 2) - 20,
+    flex:1
   },
   txt: {
     textAlign: "center"
