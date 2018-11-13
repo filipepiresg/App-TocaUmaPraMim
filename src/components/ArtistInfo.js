@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Container, Title, H1, Fab, Item, Icon, Thumbnail } from 'native-base'
-import { View, Text, Dimensions, ScrollView, Image } from 'react-native'
+import { View, Text, Dimensions, ScrollView, Image, ImageBackground } from 'react-native'
 import { withNavigation } from 'react-navigation'
 
 import SelectableSongList from './SelectableSongList'
@@ -12,6 +12,7 @@ import { styles as s, wrap } from 'react-native-style-tachyons'
 import translate from '../i18n/src/locales'
 import withUser from './hocs/withUser'
 import SongListWithSearch from './SongListWithSearch'
+import bg_profile from '../img/bg_profile.png';
 
 const { width } = Dimensions.get('window')
 
@@ -32,8 +33,14 @@ class ArtistInfo extends React.Component {
     const { songsCount, differentArtists, differentGenres } = stats
 
     return (
-      <View style={[s.flx_i, s.bg_secondary]}>
-        <View
+      <ImageBackground 
+        source={bg_profile} 
+        style={[s.flx_i, s.bg_secondary]} 
+        resizeMode='cover'
+      >
+      
+      {/* <View style={[s.flx_i, s.bg_secondary]}> */}
+        {/* <View
           style={[
             s.absolute,
             s.top_0,
@@ -57,7 +64,7 @@ class ArtistInfo extends React.Component {
             ]}
             source={require('../img/bg_profile.png')}
           />
-        </View>
+        </View> */}
         <View style={[s.flx_i, s.bg_transparent, s.pt4]}>
           <View style={[s.bg_transparent, s.mb6, s.mt2, s.mh3, s.ph2]}>
             <View style={[s.bg_white_40, s.br5, s.aic, s.pt2, s.ph3, s.pb3]}>
@@ -118,7 +125,8 @@ class ArtistInfo extends React.Component {
             <Icon name="add" />
           </Fab>
         )}
-      </View>
+        {/* </View> */}
+      </ImageBackground>
     )
   }
 }
