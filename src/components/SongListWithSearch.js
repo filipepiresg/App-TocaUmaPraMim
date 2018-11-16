@@ -18,6 +18,7 @@ class SongListWithSearch extends Component {
 
   searchOptions = {
     keys: ['name', 'artist', 'genre'],
+    threshold: 0.3
   }
 
   search = searchQuery => {
