@@ -4,7 +4,7 @@ export default {
     artist: "Artista",
     melodic: "Melódico",
     harmonic: "Hamônico",
-    selectGenre: "Selecione um estilo musical",
+    selectGenre: "Selecione um gênero",
     infoExample: "Ex: Tom Original C",
     info: "Informações",
     insertManually: "Inserir manualmente",

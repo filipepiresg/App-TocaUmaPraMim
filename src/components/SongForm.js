@@ -15,6 +15,7 @@ import {
   Icon
 } from 'native-base'
 import data from '../jsons/genres-PT.json';
+import GenreSelect from './GenreSelect';
 
 class SongForm extends Component {
   static propTypes = {
@@ -120,6 +121,13 @@ class SongForm extends Component {
             value={artist}
           />
         </Item>
+        
+        <GenreSelect 
+          selectedGenre={genre}
+          genres={this.loadGenres()} 
+          onChange={this.getHandlerForSong('genre')} 
+          >
+        </GenreSelect>
 
         <View style={[s.flx_i, s.jcsb, s.flx_row, s.mt4, s.mb3]}>
           <View style={[{ width: '30%' }, s.flx_i, s.flx_row]}>
@@ -137,21 +145,6 @@ class SongForm extends Component {
               onPress={this.getTogglerForSong('harmonic')}
             />
             <Text>{translate("harmonic")}</Text>
-          </View>
-          <View style={[{ width: '40%',marginTop:-5 }, s.flx_i, s.flx_row]}>
-          <Picker
-              mode="dropdown"
-              placeholder="Gênero"
-              iosIcon={<Icon name="ios-arrow-down-outline" />}
-              placeholder={translate("selectGenre")}
-              placeholderStyle={{ color: "#777" }}
-              placeholderIconColor="#777"
-              selectedValue={genre}
-              onValueChange={this.getHandlerForSong('genre')}
-              style={[{paddingBottom:20}]}
-            >
-              {this.loadGenres()}
-            </Picker>
           </View>
         </View>
 
