@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { styles as s } from 'react-native-style-tachyons'
 import translate from '../i18n/src/locales'
-import { View, ScrollView } from 'react-native'
+import { View, ScrollView, Dimensions } from 'react-native'
 import Fuse from 'fuse.js'
 import { Container, Input, Item } from 'native-base'
 import SelectableSongList from './SelectableSongList'
+
+const {height, width} = Dimensions.get('window');
 
 /**
  * Implements a search for songs
@@ -42,7 +44,7 @@ class SongListWithSearch extends Component {
           />
         </Item>
 
-        <ScrollView style={{height: '60%', borderWidth: 0.25}}>
+        <ScrollView style={{height: height-430}}>
           <SelectableSongList loading={loading} songs={songs} showGenres />
         </ScrollView>
       </View>
