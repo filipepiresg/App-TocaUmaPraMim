@@ -106,7 +106,7 @@ class ArtistInfo extends React.Component {
             active={true}
             direction="down"
             containerStyle={{}}
-            style={{ backgroundColor: 'red' }}
+            style={{ backgroundColor: 'red', marginBottom: -20 }}
             position="topRight"
             onPress={() => navigation.navigate('EditProfile')}
           >

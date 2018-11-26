@@ -72,31 +72,33 @@ class ExploreScreen extends Component {
 
     return (
       <Container style={styles.container}>
-        <Item style={styles.itemInput} rounded>
-          <Icon name="search" />
-          <Input
-            value={search}
-            autoCorrect={false}
-            autoCapitalize="none"
-            keyboardType="name-phone-pad"
-            placeholder={translate("nameOrInstrumentSearch")}
-            onChangeText={text => this.setState({ search: text })}
-          />
-        </Item>
-        <Content contentContainerStyle={styles.content}>
-          {loading && this.renderLoader()}
-          {!loading &&
-            users.map(user => {
-              if(user && user.name.toLowerCase().includes(search.toLowerCase())
-                // busca pelos instrumentos do usuario
-                // || user.instruments.contains(search.toLowerCase()) 
-              ){
-                return (
-                  <User key={user.username} user={user} navigation={navigation} />
-                )
-              }
-            })
-          }
+        <Content style={styles.subcontainer}>
+          <Item style={styles.itemInput} rounded>
+            <Icon name="search" />
+            <Input
+              value={search}
+              autoCorrect={false}
+              autoCapitalize="none"
+              keyboardType="name-phone-pad"
+              placeholder={translate("nameOrInstrumentSearch")}
+              onChangeText={text => this.setState({ search: text })}
+            />
+          </Item>
+          <Content contentContainerStyle={styles.content}>
+            {loading && this.renderLoader()}
+            {!loading &&
+              users.map(user => {
+                if(user && user.name.toLowerCase().includes(search.toLowerCase())
+                  // busca pelos instrumentos do usuario
+                  // || user.instruments.contains(search.toLowerCase()) 
+                ){
+                  return (
+                    <User key={user.username} user={user} navigation={navigation} />
+                  )
+                }
+              })
+            }
+          </Content>
         </Content>
       </Container>
     )
@@ -108,6 +110,9 @@ const styles = StyleSheet.create({
     backgroundColor: stylesd.corDeFundo,
     paddingTop: (Platform.OS) ? 20 : 0
   },
+  subcontainer: {
+    marginTop: 20
+  },
   itemInput: {
     backgroundColor: '#fff',
   },
@@ -118,7 +123,7 @@ const styles = StyleSheet.create({
   spinner: {
     flex: 1,
     alignItems: 'center',
-  },
+  }
 })
 
 export default ExploreScreen
