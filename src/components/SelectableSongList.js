@@ -96,16 +96,19 @@ class SelectableSongList extends Component {
     userRef.get().then(user => {
       if (user.exists) {
         const { requestedSongs = [] } = user.data();
-        userRef.set(
-          {
-            requestedSongs: [...requestedSongs, name]
-          },
-          { merge: true }
-        );
-        Toast.show({
-          text: translate("songRequest"),
-          type: "success"
-        });
+        userRef
+          .set(
+            {
+              requestedSongs: [...requestedSongs, name]
+            },
+            { merge: true }
+          )
+          .then(() => {
+            Toast.show({
+              text: translate("songRequest"),
+              type: "success"
+            });
+          });
       }
     });
   };
