@@ -42,5 +42,6 @@ export default {
     explore: "Explorar",
     profile: "Perfil",
     duplicateSongsError: "Música já existente",
-    logout: "Sair"
+    logout: "Sair",
+    songDeleted: "Música removida!"
 }

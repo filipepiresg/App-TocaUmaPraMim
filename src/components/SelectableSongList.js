@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
-import { ActivityIndicator } from 'react-native'
-import { List, ListItem, Body, Text, View } from 'native-base'
+import { ActivityIndicator, ListView } from 'react-native'
+import { List, ListItem, Body, Text, View, Button, Icon, Toast } from 'native-base'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 import { styles as s } from 'react-native-style-tachyons'
 import data from '../jsons/genres.json'
 import colorsData from '../jsons/genresColors.json'
+import * as firebase from 'firebase'
+import translate from '../i18n/src/locales';
+require('firebase/firestore')
 
 /**
  * Exports an List component that shows an array of songs
@@ -19,8 +22,13 @@ class SelectableSongList extends Component {
     loading: PropTypes.boolean,
   }
 
-  state = {
-    selectedSong: null,
+  constructor(props) {
+    super(props);
+    this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+    this.state = {
+      basic: true,
+      selectedSong: null
+    };
   }
 
   renderLoading = () => {
@@ -56,42 +64,64 @@ class SelectableSongList extends Component {
     this.props.onSelect && this.props.onSelect(song)
   }
 
+  deleteSong = async (song) => {
+    await firebase
+          .firestore()
+          .collection('songs')
+          .doc(song.id)        
+          .delete()
+          .then( () => {
+            Toast.show({
+              text: translate("songDeleted"),
+              type: "success"
+            })
+          })
+  }
+
+  renderRow = (song) => {
+    const { isSelectable, showGenres } = this.props
+    return (
+      <ListItem
+        onPress={() => isSelectable && this.selectSong(song)}
+        key={song.songSlug + song.artistSlug}
+        style={[song.last && { borderColor: 'white' }]}
+        noIndent
+        selected={_.isEqual(song, this.state.selectedSong)}
+      >
+        <Body style={[s.flx_row, s.flx_i, s.jcsb]}>
+          <View style={[s.aifs, s.w4]}>
+            <Text style={{ fontWeight: 'bold' }}>{song.name}</Text>
+            <Text note>{song.artist.name || song.artist}</Text>
+          </View>
+          {showGenres &&
+            song.genre &&
+            this.renderGender(song.genre)}
+        </Body>
+      </ListItem>
+    )
+  }
+
+  renderRowButton = (rowId) => {
+    return (
+      <Button full danger onPress={() => this.deleteSong(rowId)}>
+        <Icon active name="trash" />
+      </Button>
+    )
+  }
+
   render() {
-    const { songs, loading, isSelectable, showGenres } = this.props
-    const { selectedSong } = this.state
+    const { songs, loading } = this.props
 
     return (
-      <List style={{ backgroundColor: 'white' }}>
+      <List 
+          style={{ backgroundColor: 'white' }}
+          dataSource={this.ds.cloneWithRows(songs)}
+          disableRightSwipe={true}
+          renderRow={data => this.renderRow(data)}
+          renderRightHiddenRow={data => this.renderRowButton(data)}
+          rightOpenValue={-75}
+      >
         {loading && this.renderLoading()}
-        {!loading &&
-          songs &&
-          songs.length &&
-          songs
-            .map((a, index, that) => ({
-              ...a,
-              last: index + 1 === that.length,
-            }))
-            .map((song, id) => {
-                return (
-                  <ListItem
-                    onPress={() => isSelectable && this.selectSong(song)}
-                    key={id}
-                    style={[song.last && { borderColor: 'white' }]}
-                    noIndent
-                    selected={_.isEqual(song, selectedSong)}
-                  >
-                    <Body style={[s.flx_row, s.flx_i, s.jcsb]}>
-                      <View style={[s.aifs, s.w4]}>
-                        <Text style={{ fontWeight: 'bold' }}>{song.name}</Text>
-                        <Text note>{song.artist.name || song.artist}</Text>
-                      </View>
-                      {showGenres &&
-                        song.genre &&
-                        this.renderGender(song.genre)}
-                    </Body>
-                  </ListItem>
-                )
-            })}
       </List>
     )
   }
