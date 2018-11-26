@@ -118,9 +118,9 @@ class ArtistInfo extends React.Component {
             active={true}
             direction="down"
             containerStyle={{}}
-            style={[s.bg_primary]}
+            style={[s.bg_primary,{marginBottom: -20 }]}
             position="topLeft"
-            onPress={() => navigation.navigate('EditProfile')}
+            onPress={() => navigation.navigate('Share')}
           >
             <Icon name="md-share" />
           </Fab>

@@ -9,7 +9,8 @@ import {
   EditProfileScreen,
   NewSongScreen,
   ArtistScreen,
-  ConfigurationScreen
+  ConfigurationScreen,
+  ShareScreen
 } from "../screens";
 import stylesd from '../stylesd';
 
@@ -74,6 +75,7 @@ const ProfileStack = createStackNavigator({
   Profile: ProfileScreen,
   EditProfile: EditProfileScreen,
   NewSong: NewSongScreen,
+  Share: ShareScreen
   }, {
     initialRouteKey:'Profile',
     navigationOptions: {
