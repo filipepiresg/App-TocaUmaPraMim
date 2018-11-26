@@ -115,6 +115,18 @@ class ArtistInfo extends React.Component {
         )}
         {hasOptions && (
           <Fab
+            active={true}
+            direction="down"
+            containerStyle={{}}
+            style={[s.bg_primary,{marginBottom: -20 }]}
+            position="topLeft"
+            onPress={() => navigation.navigate('Share')}
+          >
+            <Icon name="md-share" />
+          </Fab>
+        )}
+        {hasOptions && (
+          <Fab
             active
             direction="up"
             containerStyle={{}}
@@ -125,6 +137,7 @@ class ArtistInfo extends React.Component {
             <Icon name="add" />
           </Fab>
         )}
+        
         {/* </View> */}
       </ImageBackground>
     )
