@@ -44,7 +44,7 @@ class SongListWithSearch extends Component {
           />
         </Item>
 
-        <ScrollView style={{height: height/2, borderWidth: 0.25}}>
+        <ScrollView style={{height: height-430}}>
           <SelectableSongList loading={loading} songs={songs} showGenres />
         </ScrollView>
       </View>
