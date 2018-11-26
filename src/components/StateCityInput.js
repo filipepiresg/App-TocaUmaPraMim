@@ -145,7 +145,6 @@ class StateCityInput extends Component {
           <Picker
             placeholder={translate("city")}
             mode="dropdown"
-            enabled={stateCodeSelected}
             selectedValue={city}
             onValueChange={itemValue => this.handleCityChange(itemValue)}
             pickerStyle ={{ color: "black", placeholderTextColor:"gray" }}

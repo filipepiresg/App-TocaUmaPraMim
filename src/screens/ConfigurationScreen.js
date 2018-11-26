@@ -20,7 +20,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   container: {
-    backgroundColor: stylesd.corDeFundo,
+    backgroundColor: stylesd.corDeFundo
+  },
+  subcontainer: {
+    marginTop: 30
   },
   logoutButtonStyle: {
     backgroundColor: 'red',
@@ -95,7 +98,7 @@ class ConfigurationScreen extends Component {
     if (loading) return (this.renderLoader())
     return (
       <Container style={styles.container}>
-        <Content padder>
+        <Content padder style={styles.subcontainer}>
           <Text style={styles.title}>{translate("configurations")}</Text>
           <View style={[s.mt2]}>
             <LanguageSelect 
