@@ -41,13 +41,24 @@ const styles = StyleSheet.create({
 class SectionScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = { name:'', date: new Date(), valid: false };
-
-    this.setDate = this.setDate.bind(this);
+    this.state = { name:'', date: null, valid: false };
   }
 
-  setDate(newDate) {
-    this.setState({date: newDate})
+  updateSection = (name, value) => {
+    this.setState({ [name]: value }, () => this.validateUser())
+  }
+
+  // Enhacement: Verify which one of the erros and send a proper message
+  validateUser = () => {
+    const { name,date } = this.state
+    let isValid = true
+    // Removing location's validation because @caiofelipeam is still fixing it
+    // (it's not returning correctly)
+    if (!name || !date || new Date() > date) isValid = false
+    else {
+      if (name < 3) isValid = false
+    }
+    this.setState({ valid: isValid })
   }
 
   saveSection() {
@@ -55,7 +66,7 @@ class SectionScreen extends Component {
   }
 
   render() {
-    const {name,date} = this.state;
+    const {name,date, valid} = this.state;
     return (
       <Container style={styles.container}>
         <Content padder style={styles.subcontainer}>
@@ -64,14 +75,14 @@ class SectionScreen extends Component {
             <Item floatingLabel>
               <Label style={ styles.label }>Nome da seção</Label>
               <Input
-                onChangeText={name => this.setState({name})}
+                onChangeText={name => this.updateSection("name",name)}
                 value={name}/>
             </Item>
             <DatePicker
               style={{width: 200}}
               date={date}
               mode="date"
-              placeholder="Select date"
+              placeholder="Selecione uma data"
               format="YYYY-MM-DD"
               minDate="2018-11-28"
               maxDate="2019-12-31"
@@ -91,13 +102,14 @@ class SectionScreen extends Component {
                 }
                 // ... You can check the source to find the other keys.
               }}
-              onDateChange={(date) => {this.setState({date: date})}}
+              onDateChange={(date) =>  this.updateSection("date",date)}
             />
           </Form>
           <Button
               block
               iconLeft
-              style={[styles.buttonStyle, styles.bgOurBlue]}
+              style={[styles.buttonStyle, valid && styles.bgOurBlue]}
+              disabled={!valid}
                 onPress={() => this.saveSection()}
           >
           <Text style={styles.buttonText}>Salvar</Text>
