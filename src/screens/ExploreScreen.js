@@ -73,7 +73,7 @@ class ExploreScreen extends Component {
     return (
       <Container style={styles.container}>
         <Content style={styles.subcontainer}>
-        <Text style={styles.title}>Section</Text>
+        <Text style={styles.title}>Seções</Text>
         <Content contentContainerStyle={styles.section} scrollEnabled={false}>
           { section ? (
           <ListItem style= {styles.sectionStyle} underlayColor={"#000"}   onPress={() => navigation.navigate("Profile")} icon>
@@ -87,7 +87,7 @@ class ExploreScreen extends Component {
             <Text style = {styles.warningText} >Não existe seção cadastrada.*</Text>
             <Button
               block
-              
+
               style={styles.addButton}
               onPress={() => navigation.navigate("Section")}
             >
@@ -151,10 +151,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title:{
-    fontSize: 40,
+    fontSize: 24,
     marginLeft: 20,
     marginBottom: 10,
-    textAlign: 'center'
+    fontWeight: 'bold',
+    paddingVertical: 10
   },
   section:{
     alignItems: 'center'
@@ -165,7 +166,9 @@ const styles = StyleSheet.create({
   },
   addButton: {
     marginBottom: 10,
-    borderRadius: 10
+    borderRadius: 10,
+    width: '100%',
+    backgroundColor: stylesd.segundaCor
   },
   sectionStyle:{ 
     backgroundColor: "#ccc",
@@ -179,7 +182,8 @@ const styles = StyleSheet.create({
   warningText:{
     color: 'red',
     fontWeight: 'bold',
-    marginBottom: 5
+    marginBottom: 5,
+    fontSize: 12
   }
 })
 
