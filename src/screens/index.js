@@ -8,6 +8,7 @@ import NewSongScreen from './NewSongScreen'
 import ArtistScreen from './ArtistScreen';
 import ConfigurationScreen from '../screens/ConfigurationScreen';
 import ShareScreen from '../screens/ShareScreen';
+import SectionScreen from '../screens/SectionScreen';
 
 export {
   ExploreScreen,
@@ -19,5 +20,6 @@ export {
   NewSongScreen,
   ArtistScreen,
   ConfigurationScreen,
-  ShareScreen
+  ShareScreen,
+  SectionScreen
 };

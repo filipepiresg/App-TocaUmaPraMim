@@ -13,7 +13,7 @@ const Footers = ({ navigation }) => (
     </FooterTab>
     <FooterTab>
       <Button full onPress={() => navigation.navigate("Explore")}>
-        <Icon type="FontAwesome" name="globe" style={{ color: "#FFF" }} />
+        <Icon type="FontAwesome" name="home" style={{ color: "#FFF" }} />
       </Button>
     </FooterTab>
     <FooterTab>

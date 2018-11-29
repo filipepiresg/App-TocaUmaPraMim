@@ -42,5 +42,6 @@ export default {
     explore: "Explore",
     profile: "Profile",
     duplicateSongsError: "Song has already been added",
-    logout: "Logout"
+    logout: "Logout",
+    home: "Home"
 }

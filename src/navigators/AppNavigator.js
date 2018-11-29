@@ -10,7 +10,8 @@ import {
   NewSongScreen,
   ArtistScreen,
   ConfigurationScreen,
-  ShareScreen
+  ShareScreen,
+  SectionScreen
 } from "../screens";
 import stylesd from '../stylesd';
 
@@ -62,10 +63,11 @@ const INACTIVE_COLOR = stylesd.corDeFundo
 // });
 
 const ExploreStack = createStackNavigator({
-  Explore: ExploreScreen,
+  Home: ExploreScreen,
   Artist: ArtistScreen,
+  Section: SectionScreen
   }, {
-    initialRouteKey: 'Exlore',
+    initialRouteKey: 'Home',
     navigationOptions: {
       headerTransparent: true
     }
@@ -93,12 +95,12 @@ const SettingsStack = createStackNavigator({
 });
 
 export default createBottomTabNavigator({
-  Explore: {
+  Home: {
     screen: ExploreStack,
     navigationOptions:{
-      tarBarLabel: translate("explore"),
+      tarBarLabel: translate("home"),
       tabBarIcon:({ tintColor }) => (
-        <Icon name="globe" style={{color:tintColor}} size={24}/>
+        <Icon name="home" style={{color:tintColor}} size={24}/>
       )
     }
   },
@@ -122,7 +124,7 @@ export default createBottomTabNavigator({
   }
 }, {//router cconfig
     initialRouteName: 'Profile',
-    order: ['Explore','Profile','Configurations'],
+    order: ['Home','Profile','Configurations'],
     navigationOptions:{
       tabBarVisible: true
     },
