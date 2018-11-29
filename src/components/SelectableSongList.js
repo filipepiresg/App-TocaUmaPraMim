@@ -76,20 +76,20 @@ class SelectableSongList extends Component {
 
   updateSongs = async () => {
     const url =
-        'https://us-central1-tupm-app.cloudfunctions.net/getUserFromUsername?username=' +
-        this.props.username
-      fetch(url, {
-        method: 'GET',
+      "https://us-central1-tupm-app.cloudfunctions.net/getUserFromUsername?username=" +
+      this.props.username;
+    fetch(url, {
+      method: "GET"
+    })
+      .then(response => response.json())
+      .then(this.fillUserStats)
+      .then(user => {
+        this.setState({ songs: user.songs });
       })
-        .then(response => response.json())
-        .then(this.fillUserStats)
-        .then(user => {
-          this.setState({ songs: user.songs})
-        })
-        .catch(error => {
-          console.error(error)
-        })
-  }
+      .catch(error => {
+        console.error(error);
+      });
+  };
 
   deleteSong = async song => {
     await firebase
@@ -98,7 +98,7 @@ class SelectableSongList extends Component {
       .doc(song.id)
       .delete()
       .then(() => {
-        this.updateSongs()
+        this.updateSongs();
         Toast.show({
           text: translate("songDeleted"),
           type: "success"
@@ -106,7 +106,8 @@ class SelectableSongList extends Component {
       });
   };
 
-  askSong = async ({ name, userId }) => {
+  askSong = async ({ name, userId, genre, ...rest }) => {
+    console.log(rest);
     const userRef = firebase
       .firestore()
       .collection("users")
@@ -118,7 +119,7 @@ class SelectableSongList extends Component {
         userRef
           .set(
             {
-              requestedSongs: [...requestedSongs, name]
+              requestedSongs: [...requestedSongs, { name, genre }]
             },
             { merge: true }
           )
@@ -133,23 +134,25 @@ class SelectableSongList extends Component {
   };
 
   renderRow = song => {
-    const { isSelectable, showGenres } = this.props;
+    const { isSelectable, showGenres, search = String } = this.props;
     return (
-      <ListItem
-        onPress={() => isSelectable && this.selectSong(song)}
-        key={song.songSlug + song.artistSlug}
-        style={[song.last && { borderColor: "white" }]}
-        noIndent
-        selected={_.isEqual(song, this.state.selectedSong)}
-      >
-        <Body style={[s.flx_row, s.flx_i, s.jcsb]}>
-          <View style={[s.aifs, s.w4]}>
-            <Text style={{ fontWeight: "bold" }}>{song.name}</Text>
-            <Text note>{song.artist.name || song.artist}</Text>
-          </View>
-          {showGenres && song.genre && this.renderGender(song.genre)}
-        </Body>
-      </ListItem>
+      (song.artist.includes(search) || song.name.includes(search)) && (
+        <ListItem
+          onPress={() => isSelectable && this.selectSong(song)}
+          key={song.songSlug + song.artistSlug}
+          style={[song.last && { borderColor: "white" }]}
+          noIndent
+          selected={_.isEqual(song, this.state.selectedSong)}
+        >
+          <Body style={[s.flx_row, s.flx_i, s.jcsb]}>
+            <View style={[s.aifs, s.w4]}>
+              <Text style={{ fontWeight: "bold" }}>{song.name}</Text>
+              <Text note>{song.artist.name || song.artist}</Text>
+            </View>
+            {showGenres && song.genre && this.renderGender(song.genre)}
+          </Body>
+        </ListItem>
+      )
     );
   };
 

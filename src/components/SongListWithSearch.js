@@ -13,7 +13,7 @@ const { height, width } = Dimensions.get("window");
  */
 class SongListWithSearch extends Component {
   state = {
-    searchQuery: null,
+    searchQuery: "",
     allSongs: [...this.props.songs],
     songs: [...this.props.songs]
   };
@@ -50,6 +50,7 @@ class SongListWithSearch extends Component {
             username={username}
             songs={songs}
             showGenres
+            search={searchQuery}
             isHiddenAdd={canRequestMusic}
             isHiddenDelete={canDeleteSong}
           />
