@@ -1,45 +1,59 @@
-import React from 'react'
+import React from "react";
 
-import { Container, Title, H1, Fab, Item, Icon, Thumbnail } from 'native-base'
-import { View, Text, Dimensions, ScrollView, Image, ImageBackground } from 'react-native'
-import { withNavigation } from 'react-navigation'
+import { Container, Title, H1, Fab, Item, Icon, Thumbnail } from "native-base";
+import {
+  View,
+  Text,
+  Dimensions,
+  ScrollView,
+  Image,
+  ImageBackground
+} from "react-native";
+import { withNavigation } from "react-navigation";
 
-import SelectableSongList from './SelectableSongList'
-import stylesd from '../stylesd'
-import imgDefault from '../img/perfil.png'
-import DebouncedInputComponent from './DebouncedInput'
-import { styles as s, wrap } from 'react-native-style-tachyons'
-import translate from '../i18n/src/locales'
-import withUser from './hocs/withUser'
-import SongListWithSearch from './SongListWithSearch'
-import bg_profile from '../img/bg_profile.png';
+import SelectableSongList from "./SelectableSongList";
+import stylesd from "../stylesd";
+import imgDefault from "../img/perfil.png";
+import DebouncedInputComponent from "./DebouncedInput";
+import { styles as s, wrap } from "react-native-style-tachyons";
+import translate from "../i18n/src/locales";
+import withUser from "./hocs/withUser";
+import SongListWithSearch from "./SongListWithSearch";
+import bg_profile from "../img/bg_profile.png";
 
-const { width } = Dimensions.get('window')
+const { width } = Dimensions.get("window");
 
 class ArtistInfo extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      search: '',
-    }
+      search: ""
+    };
   }
+
   updateSearch = search => {
-    this.setState({ search })
-  }
+    this.setState({ search });
+  };
+
   render() {
-    const { user, hasOptions, navigation } = this.props
-    if (!user) return <View style={[s.flx_i, s.bg_secondary]} />
-    const { name, photoURL, songs, stats } = user
-    const { songsCount, differentArtists, differentGenres } = stats
+    const {
+      user,
+      hasOptions,
+      navigation,
+      canRequestMusic,
+      canDeleteSong
+    } = this.props;
+    if (!user) return <View style={[s.flx_i, s.bg_secondary]} />;
+    const { name, photoURL, songs, stats, username } = user;
+    const { songsCount, differentArtists, differentGenres } = stats;
 
     return (
-      <ImageBackground 
-        source={bg_profile} 
-        style={[s.flx_i, s.bg_secondary]} 
-        resizeMode='cover'
+      <ImageBackground
+        source={bg_profile}
+        style={[s.flx_i, s.bg_secondary]}
+        resizeMode="cover"
       >
-      
-      {/* <View style={[s.flx_i, s.bg_secondary]}> */}
+        {/* <View style={[s.flx_i, s.bg_secondary]}> */}
         {/* <View
           style={[
             s.absolute,
@@ -70,7 +84,7 @@ class ArtistInfo extends React.Component {
             <View style={[s.bg_white_40, s.br5, s.aic, s.pt2, s.ph3, s.pb3]}>
               <Thumbnail
                 source={
-                  photoURL ? { uri: photoURL + '?type=large' } : imgDefault
+                  photoURL ? { uri: photoURL + "?type=large" } : imgDefault
                 }
                 large
                 style={[s.w4, s.h4, { borderRadius: 60 }]}
@@ -81,24 +95,29 @@ class ArtistInfo extends React.Component {
                 <View style={[s.flx_i, s.ph1, s.aic]}>
                   <H1>{songsCount}</H1>
                   <Text style={[s.tc, s.grey]}>
-                    {translate('diferentSongs')}
+                    {translate("diferentSongs")}
                   </Text>
                 </View>
                 <View style={[s.flx_i, s.ph1, s.aic]}>
                   <H1>{differentArtists}</H1>
                   <Text style={[s.tc, s.grey]}>
-                    {translate('diferentArtists')}
+                    {translate("diferentArtists")}
                   </Text>
                 </View>
                 <View style={[s.flx_i, s.ph1, s.aic]}>
                   <H1>{differentGenres}</H1>
                   <Text style={[s.tc, s.grey]}>
-                    {translate('diferentGenres')}
+                    {translate("diferentGenres")}
                   </Text>
                 </View>
               </View>
             </View>
-            <SongListWithSearch songs={songs} />            
+            <SongListWithSearch
+              songs={songs}
+              username={username}
+              canRequestMusic={canRequestMusic}
+              canDeleteSong={canDeleteSong}
+            />
           </View>
         </View>
         {hasOptions && (
@@ -106,9 +125,9 @@ class ArtistInfo extends React.Component {
             active={true}
             direction="down"
             containerStyle={{}}
-            style={{ backgroundColor: 'red', marginBottom: -20 }}
+            style={{ backgroundColor: "red", marginBottom: -20 }}
             position="topRight"
-            onPress={() => navigation.navigate('EditProfile')}
+            onPress={() => navigation.navigate("EditProfile")}
           >
             <Icon name="md-create" />
           </Fab>
@@ -118,9 +137,9 @@ class ArtistInfo extends React.Component {
             active={true}
             direction="down"
             containerStyle={{}}
-            style={[s.bg_primary,{marginBottom: -20 }]}
+            style={[s.bg_primary, { marginBottom: -20 }]}
             position="topLeft"
-            onPress={() => navigation.navigate('Share')}
+            onPress={() => navigation.navigate("Share")}
           >
             <Icon name="md-share" />
           </Fab>
@@ -132,16 +151,16 @@ class ArtistInfo extends React.Component {
             containerStyle={{}}
             style={[s.bg_primary, { marginRight: -5 }]}
             position="bottomRight"
-            onPress={() => navigation.navigate('NewSong')}
+            onPress={() => navigation.navigate("NewSong")}
           >
             <Icon name="add" />
           </Fab>
         )}
-        
+
         {/* </View> */}
       </ImageBackground>
-    )
+    );
   }
 }
 
-export default withNavigation(withUser(ArtistInfo))
+export default withNavigation(withUser(ArtistInfo));

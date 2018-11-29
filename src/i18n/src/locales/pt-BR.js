@@ -43,5 +43,7 @@ export default {
     profile: "Perfil",
     duplicateSongsError: "Música já existente",
     logout: "Sair",
-    home: "Página inicial"
+    home: "Página inicial",
+    songDeleted: "Música removida!",
+    songRequest: "Música pedida!"
 }

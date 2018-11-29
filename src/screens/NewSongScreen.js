@@ -38,6 +38,9 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'rgb(255,239,215)',
   },
+  subcontainer: {
+    marginTop: 50
+  },
   inputSearch: {
     textAlign: 'center',
     fontSize: 16,
@@ -187,7 +190,7 @@ class NewSongScreen extends Component {
     return (
       <KeyboardAwareScrollView keyboardShouldPersistTaps={true}>
         <Container style={styles.container}>
-          <Content padder>
+          <Content style={styles.subcontainer} padder>
             <Text style={styles.title}>{translate("newSong")}</Text>
             {!showSongForm && (
               <Item style={styles.itemSearch}>

@@ -43,5 +43,7 @@ export default {
     profile: "Profile",
     duplicateSongsError: "Song has already been added",
     logout: "Logout",
-    home: "Home"
+    home: "Home",
+    songDeleted: "Song deleted!",
+    songRequest: "Song requested!"
 }

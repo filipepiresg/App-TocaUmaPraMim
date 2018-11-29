@@ -1,46 +1,53 @@
-import React, { Component } from 'react'
-import { AsyncStorage } from 'react-native'
-import withAuth from '../components/hocs/withAuth'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import React, { Component } from "react";
+import { AsyncStorage } from "react-native";
+import withAuth from "../components/hocs/withAuth";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-import ArtistInfo from '../components/ArtistInfo'
+import ArtistInfo from "../components/ArtistInfo";
 
 class ProfileScreen extends Component {
   state = {
-    username: null,
-  }
+    username: null
+  };
 
-  subscription = null
+  subscription = null;
 
   componentDidMount() {
     const didFocusSubscription = this.props.navigation.addListener(
-      'willFocus',
+      "willFocus",
       this.fetchUser
-    )
-    this.subscription = didFocusSubscription
+    );
+    this.subscription = didFocusSubscription;
   }
 
   componentWillUnmount() {
-    this.subscription.remove()
+    this.subscription.remove();
   }
 
   searchSong = search => {
-    this.setState({ search })
-  }
+    this.setState({ search });
+  };
 
   fetchUser = async () => {
-    this.setState({ username: null })
-    const { username } = JSON.parse(await AsyncStorage.getItem('loggedUser'))
-    this.setState({ username })
-  }
+    this.setState({ username: null });
+    const { username } = JSON.parse(await AsyncStorage.getItem("loggedUser"));
+    this.setState({ username });
+  };
 
   render() {
-    const { username } = this.state
+    const { username } = this.state;
 
-    if (!username) return null
+    if (!username) return null;
 
-    return <ArtistInfo username={username} hasOptions />
+    return (
+      <ArtistInfo
+        username={username}
+        hasOptions
+        canRequestMusic={true}
+        canDeleteSong={true}
+      />
+    );
   }
 }
 
-export default withAuth(ProfileScreen)
+export default withAuth(ProfileScreen);
