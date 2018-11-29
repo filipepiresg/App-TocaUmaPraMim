@@ -32,7 +32,7 @@ class SongListWithSearch extends Component {
   };
   render() {
     const { songs, searchQuery } = this.state;
-    const { loading, canRequestMusic, canDeleteSong } = this.props;
+    const { loading, canRequestMusic, canDeleteSong, username } = this.props;
     return (
       <View>
         <Item style={[s.pv3, s.br3]}>
@@ -47,6 +47,7 @@ class SongListWithSearch extends Component {
         <ScrollView style={{ height: height - 430 }}>
           <SelectableSongList
             loading={loading}
+            username={username}
             songs={songs}
             showGenres
             isHiddenAdd={canRequestMusic}

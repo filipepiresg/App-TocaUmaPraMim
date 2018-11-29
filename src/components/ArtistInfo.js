@@ -30,9 +30,11 @@ class ArtistInfo extends React.Component {
       search: ""
     };
   }
+
   updateSearch = search => {
     this.setState({ search });
   };
+
   render() {
     const {
       user,
@@ -42,7 +44,7 @@ class ArtistInfo extends React.Component {
       canDeleteSong
     } = this.props;
     if (!user) return <View style={[s.flx_i, s.bg_secondary]} />;
-    const { name, photoURL, songs, stats } = user;
+    const { name, photoURL, songs, stats, username } = user;
     const { songsCount, differentArtists, differentGenres } = stats;
 
     return (
@@ -112,6 +114,7 @@ class ArtistInfo extends React.Component {
             </View>
             <SongListWithSearch
               songs={songs}
+              username={username}
               canRequestMusic={canRequestMusic}
               canDeleteSong={canDeleteSong}
             />
