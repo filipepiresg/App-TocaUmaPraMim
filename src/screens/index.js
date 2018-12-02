@@ -3,12 +3,13 @@ import LoginScreen from "./LoginScreen";
 import ProfileScreen from "./ProfileScreen";
 import AuthLoadingScreen from "./AuthLoadingScreen";
 import RegisterScreen from "./RegisterScreen";
-import EditProfileScreen from './EditProfileScreen';
-import NewSongScreen from './NewSongScreen'
-import ArtistScreen from './ArtistScreen';
-import ConfigurationScreen from '../screens/ConfigurationScreen';
-import ShareScreen from '../screens/ShareScreen';
-import SectionScreen from '../screens/SectionScreen';
+import EditProfileScreen from "./EditProfileScreen";
+import NewSongScreen from "./NewSongScreen";
+import ArtistScreen from "./ArtistScreen";
+import ConfigurationScreen from "../screens/ConfigurationScreen";
+import ShareScreen from "../screens/ShareScreen";
+import SectionScreen from "../screens/SectionScreen";
+import OrderScreen from "../screens/OrderScreen";
 
 export {
   ExploreScreen,
@@ -21,5 +22,6 @@ export {
   ArtistScreen,
   ConfigurationScreen,
   ShareScreen,
-  SectionScreen
+  SectionScreen,
+  OrderScreen
 };
