@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { ActivityIndicator, ListView, Alert } from "react-native";
+import React, { Component } from "react"
+import { ActivityIndicator, ListView, Alert } from "react-native"
 import {
   List,
   ListItem,
@@ -9,15 +9,15 @@ import {
   Button,
   Icon,
   Toast
-} from "native-base";
-import PropTypes from "prop-types";
-import _ from "lodash";
-import { styles as s } from "react-native-style-tachyons";
-import data from "../jsons/genres.json";
-import colorsData from "../jsons/genresColors.json";
-import * as firebase from "firebase";
-import translate from "../i18n/src/locales";
-require("firebase/firestore");
+} from "native-base"
+import PropTypes from "prop-types"
+import _ from "lodash"
+import { styles as s } from "react-native-style-tachyons"
+import data from "../jsons/genres.json"
+import colorsData from "../jsons/genresColors.json"
+import * as firebase from "firebase"
+import translate from "../i18n/src/locales"
+require("firebase/firestore")
 
 /**
  * Exports an List component that shows an array of songs
@@ -29,16 +29,16 @@ class SelectableSongList extends Component {
     isSelectable: PropTypes.boolean,
     onSelect: PropTypes.array,
     loading: PropTypes.boolean
-  };
+  }
 
   constructor(props) {
-    super(props);
-    this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+    super(props)
+    this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
     this.state = {
       basic: true,
       selectedSong: null,
       songs: this.props.songs
-    };
+    }
   }
 
   renderLoading = () => {
@@ -46,15 +46,15 @@ class SelectableSongList extends Component {
       <View style={[s.pa3]}>
         <ActivityIndicator size="small" color="#ccc" />
       </View>
-    );
-  };
+    )
+  }
 
   renderGender = genre => {
-    let genres = [...data];
-    let colors = [...colorsData];
-    let a = genres.indexOf(genre);
-    if (a == -1) a = genre.length;
-    let color = colors[a];
+    let genres = [...data]
+    let colors = [...colorsData]
+    let a = genres.indexOf(genre)
+    if (a == -1) a = genre.length
+    let color = colors[a]
     return (
       <View
         style={[s.flx_row, s.jcfe, s.asc, s.ba, s.pa1, { borderColor: color }]}
@@ -63,33 +63,33 @@ class SelectableSongList extends Component {
           {genre.toUpperCase()}
         </Text>
       </View>
-    );
-  };
+    )
+  }
 
   /**
    * Stores the selected song to the state and call the return function
    */
   selectSong = song => {
-    this.setState({ selectedSong: song });
-    this.props.onSelect && this.props.onSelect(song);
-  };
+    this.setState({ selectedSong: song })
+    this.props.onSelect && this.props.onSelect(song)
+  }
 
   updateSongs = async () => {
     const url =
       "https://us-central1-tupm-app.cloudfunctions.net/getUserFromUsername?username=" +
-      this.props.username;
+      this.props.username
     fetch(url, {
       method: "GET"
     })
       .then(response => response.json())
       .then(this.fillUserStats)
       .then(user => {
-        this.setState({ songs: user.songs });
+        this.setState({ songs: user.songs })
       })
       .catch(error => {
-        console.error(error);
-      });
-  };
+        console.error(error)
+      })
+  }
 
   deleteSong = async song => {
     await firebase
@@ -98,28 +98,30 @@ class SelectableSongList extends Component {
       .doc(song.id)
       .delete()
       .then(() => {
-        this.updateSongs();
+        this.updateSongs()
         Toast.show({
           text: translate("songDeleted"),
           type: "success"
-        });
-      });
-  };
+        })
+      })
+  }
 
-  askSong = async ({ name, userId, genre, ...rest }) => {
-    console.log(rest);
+  askSong = ({ genre, artist, harmonic, id, name, userId }) => {
     const userRef = firebase
       .firestore()
       .collection("users")
-      .doc(userId);
+      .doc(userId)
 
     userRef.get().then(user => {
       if (user.exists) {
-        const { requestedSongs = [] } = user.data();
+        const { requestedSongs = [] } = user.data()
         userRef
           .set(
             {
-              requestedSongs: [...requestedSongs, { name, genre }]
+              requestedSongs: [
+                ...requestedSongs,
+                { genre, artist, harmonic, id, name }
+              ]
             },
             { merge: true }
           )
@@ -127,14 +129,14 @@ class SelectableSongList extends Component {
             Toast.show({
               text: translate("songRequest"),
               type: "success"
-            });
-          });
+            })
+          })
       }
-    });
-  };
+    })
+  }
 
   renderRow = song => {
-    const { isSelectable, showGenres, search = String } = this.props;
+    const { isSelectable, showGenres, search = String } = this.props
     return (
       (song.artist.includes(search) || song.name.includes(search)) && (
         <ListItem
@@ -153,27 +155,27 @@ class SelectableSongList extends Component {
           </Body>
         </ListItem>
       )
-    );
-  };
+    )
+  }
 
   renderRowButton = rowId => {
     return (
       <Button full danger onPress={() => this.deleteSong(rowId)}>
         <Icon active name="trash" />
       </Button>
-    );
-  };
+    )
+  }
 
   renderRowButtonLeft = data => {
     return (
       <Button full success onPress={() => this.askSong(data)}>
         <Icon active name="add" />
       </Button>
-    );
-  };
+    )
+  }
 
   render() {
-    const { loading, isHiddenDelete, isHiddenAdd } = this.props;
+    const { loading, isHiddenDelete, isHiddenAdd } = this.props
 
     return (
       <List
@@ -189,8 +191,8 @@ class SelectableSongList extends Component {
       >
         {loading && this.renderLoading()}
       </List>
-    );
+    )
   }
 }
 
-export default SelectableSongList;
+export default SelectableSongList
