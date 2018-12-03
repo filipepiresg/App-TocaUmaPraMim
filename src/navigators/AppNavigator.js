@@ -74,20 +74,6 @@ export default createBottomTabNavigator(
         )
       }
     },
-    Order: {
-      screen: OrderScreen,
-      navigationOptions: {
-        tabBarLabel: translate("profile"),
-        tabBarIcon: ({ tintColor }) => (
-          <Icon
-            type="MaterialIcons"
-            name="playlist-play"
-            style={{ color: tintColor }}
-            size={24}
-          />
-        )
-      }
-    },
     Profile: {
       screen: ProfileStack,
       navigationOptions: {
@@ -110,7 +96,7 @@ export default createBottomTabNavigator(
   {
     //router cconfig
     initialRouteName: "Profile",
-    order: ["Home", "Order", "Profile", "Configurations"],
+    order: ["Home", "Profile", "Configurations"],
     navigationOptions: {
       tabBarVisible: true
     },
