@@ -149,6 +149,7 @@ class NewSongScreen extends Component {
         .collection('songs')
         .where('name', '==', song.name)
         .where('artist', '==', song.artist)
+        .where('userId', '==', loggedUser.id)
         .get() 
         
       if(dbSongs.empty) {
