@@ -36,8 +36,7 @@ class SelectableSongList extends Component {
     this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
     this.state = {
       basic: true,
-      selectedSong: null,
-      songs: this.props.songs
+      selectedSong: null
     }
   }
 
@@ -74,23 +73,6 @@ class SelectableSongList extends Component {
     this.props.onSelect && this.props.onSelect(song)
   }
 
-  updateSongs = async () => {
-    const url =
-      "https://us-central1-tupm-app.cloudfunctions.net/getUserFromUsername?username=" +
-      this.props.username
-    fetch(url, {
-      method: "GET"
-    })
-      .then(response => response.json())
-      .then(this.fillUserStats)
-      .then(user => {
-        this.setState({ songs: user.songs })
-      })
-      .catch(error => {
-        console.error(error)
-      })
-  }
-
   deleteSong = async song => {
     await firebase
       .firestore()
@@ -98,7 +80,7 @@ class SelectableSongList extends Component {
       .doc(song.id)
       .delete()
       .then(() => {
-        this.updateSongs()
+        this.props.updateSongs()
         Toast.show({
           text: translate("songDeleted"),
           type: "success"
@@ -137,8 +119,10 @@ class SelectableSongList extends Component {
 
   renderRow = song => {
     const { isSelectable, showGenres, search = String } = this.props
+    
     return (
-      (song.artist.includes(search) || song.name.includes(search)) && (
+      ((!song.artist.name && song.artist.includes(search))  
+        || song.name.includes(search)) && (
         <ListItem
           onPress={() => isSelectable && this.selectSong(song)}
           key={song.songSlug + song.artistSlug}
@@ -175,12 +159,12 @@ class SelectableSongList extends Component {
   }
 
   render() {
-    const { loading, isHiddenDelete, isHiddenAdd } = this.props
-
+    const { songs, loading, isHiddenDelete, isHiddenAdd } = this.props
+    
     return (
       <List
         style={{ backgroundColor: "white" }}
-        dataSource={this.ds.cloneWithRows(this.state.songs)}
+        dataSource={this.ds.cloneWithRows(songs)}
         disableLeftSwipe={!isHiddenDelete}
         disableRightSwipe={isHiddenAdd}
         renderRow={data => this.renderRow(data)}

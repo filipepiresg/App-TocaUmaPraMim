@@ -35,6 +35,11 @@ class ArtistInfo extends React.Component {
     this.setState({ search });
   };
 
+  updateUser = () => {
+    console.log("aa")
+    this.props.fetchUser();
+  }
+
   render() {
     const {
       user,
