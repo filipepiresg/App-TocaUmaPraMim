@@ -209,6 +209,7 @@ class NewSongScreen extends Component {
                     loading={loadingSongs}
                     songs={searchResult}
                     onSelect={this.selectSong}
+                    search=''
                     showGenres = {false}
                     isSelectable
                   />

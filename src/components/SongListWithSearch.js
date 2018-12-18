@@ -30,6 +30,24 @@ class SongListWithSearch extends Component {
     const songs = fuse.search(searchQuery);
     this.setState({ songs: searchQuery.trim() ? songs : this.state.allSongs });
   };
+
+  updateSongs = async () => {
+    const url =
+      "https://us-central1-tupm-app.cloudfunctions.net/getUserFromUsername?username=" +
+      this.props.username
+    fetch(url, {
+      method: "GET"
+    })
+      .then(response => response.json())
+      .then(this.fillUserStats)
+      .then(user => {
+        this.setState({ songs: user.songs })
+      })
+      .catch(error => {
+        console.error(error)
+      })
+  }
+
   render() {
     const { songs, searchQuery } = this.state;
     const { loading, canRequestMusic, canDeleteSong, username } = this.props;
@@ -48,6 +66,7 @@ class SongListWithSearch extends Component {
           <SelectableSongList
             loading={loading}
             username={username}
+            updateSongs={this.updateSongs}
             songs={songs}
             showGenres
             search={searchQuery}
