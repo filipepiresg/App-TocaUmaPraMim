@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Text, StyleSheet, DatePickerIOS } from 'react-native'
 import { Form, Container, Content, Item, Label, Input, Button } from 'native-base'
 import stylesd from '../stylesd'
+import * as firebase from 'firebase'
 import DatePicker from 'react-native-datepicker'
 
 require('firebase/firestore')
@@ -41,16 +42,24 @@ const styles = StyleSheet.create({
 class SectionScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = { name:'', date: null, valid: false };
+    this.state = { section:{}, valid: false, editMode:false };
   }
 
-  updateSection = (name, value) => {
-    this.setState({ [name]: value }, () => this.validateUser())
+  componentDidMount() {
+    if(this.props.navigation.state.params) {
+      let section = this.props.navigation.state.params.section;
+      this.setState({ section, editMode:true }, ()=>this.validateUser());
+      
+    }
+  }
+
+  onChangeSection = (name, value) => {
+    this.setState({section: {...this.state.section, [name]: value} }, () => this.validateUser());
   }
 
   // Enhacement: Verify which one of the erros and send a proper message
   validateUser = () => {
-    const { name,date } = this.state
+    const { name,date } = this.state.section;
     let isValid = true
     // Removing location's validation because @caiofelipeam is still fixing it
     // (it's not returning correctly)
@@ -61,21 +70,49 @@ class SectionScreen extends Component {
     this.setState({ valid: isValid })
   }
 
-  saveSection() {
-    console.log("Salvar secao aqui.");
+  async updateSection() {
+    const section = this.state.section;
+    this.setState({ valid: false });
+    const db = firebase.firestore()
+    const docSection = db.collection('sections').doc(section.id);
+    docSection.update(section).then((something)=>{
+      console.log(something);
+      this.props.navigation.state.params.retrieveUserSections;
+      this.props.navigation.goBack();
+    });
+    
+  }
+    
+
+  async saveSection() {
+    const { name,date } = this.state.section;
+    this.setState({ valid: false });
+    let newSection = { name, date, isActive: true,  songs:[]};
+    firebase.auth().onAuthStateChanged( async currentUser => {
+      newSection.uid = currentUser.uid;
+      await firebase
+          .firestore()
+          .collection('sections')        
+          .add(newSection)
+      this.props.navigation.goBack()
+    })
   }
 
   render() {
-    const {name,date, valid} = this.state;
+    const { valid, editMode } = this.state;
+    const { name,date } =  this.state.section;
     return (
       <Container style={styles.container}>
         <Content padder style={styles.subcontainer}>
           <Form style={ styles.form}>
-            <Text style={styles.title}>Criar seção</Text>
+            { editMode ? (
+              <Text style={styles.title}>{name}</Text>
+            ) : (<Text style={styles.title}>Criar seção</Text>
+            )}
             <Item floatingLabel>
               <Label style={ styles.label }>Nome da seção</Label>
               <Input
-                onChangeText={name => this.updateSection("name",name)}
+                onChangeText={name => this.onChangeSection("name",name)}
                 value={name}/>
             </Item>
             <DatePicker
@@ -102,19 +139,30 @@ class SectionScreen extends Component {
                 }
                 // ... You can check the source to find the other keys.
               }}
-              onDateChange={(date) =>  this.updateSection("date",date)}
+              onDateChange={(date) =>  this.onChangeSection("date",date)}
             />
           </Form>
-          <Button
-              block
-              iconLeft
-              style={[styles.buttonStyle, valid && styles.bgOurBlue]}
-              disabled={!valid}
-                onPress={() => this.saveSection()}
-          >
-          <Text style={styles.buttonText}>Salvar</Text>
-          
-          </Button>
+          {editMode ?  (
+            <Button
+            block
+            iconLeft
+            style={[styles.buttonStyle, valid && styles.bgOurBlue]}
+            disabled={!valid}
+              onPress={() => this.updateSection()}
+        >
+        <Text style={styles.buttonText}>Atualizar</Text>
+        </Button>
+          ) : (
+            <Button
+            block
+            iconLeft
+            style={[styles.buttonStyle, valid && styles.bgOurBlue]}
+            disabled={!valid}
+              onPress={() => this.saveSection()}
+        >
+        <Text style={styles.buttonText}>Salvar</Text>
+        </Button>
+          )}
         </Content>
       </Container>
     )

@@ -47,11 +47,29 @@ class ExploreScreen extends Component {
       users: [],
       search: '',
       loading: false,
+      sections:[]
     }
   }
 
   componentDidMount() {
-    this.retrieveDataUsers()
+    this.retrieveDataUsers();
+    this.retrieveUserSections();
+  }
+
+  retrieveUserSections = async () =>{
+    const db = firebase.firestore()
+    db.settings({ timestampsInSnapshots: true })
+    firebase.auth().onAuthStateChanged( async currentUser => {
+      const dbSections = await db.collection('sections').where("uid", "==", currentUser.uid).get();
+      console.log("chamou");
+      const sections = []
+      dbSections.forEach(section => {
+        sections.push({...section.data(),id:section.id})
+      })
+      console.log(sections);
+      this.setState({ sections})
+    })
+   
   }
 
   retrieveDataUsers = async () => {
@@ -66,25 +84,33 @@ class ExploreScreen extends Component {
     this.setState({ users, loading: false })
   }
 
+  renderSections(sections){
+    return sections.map((section,i)=>{return (
+      <ListItem key={i} style= {styles.sectionStyle} underlayColor={"#000"}   onPress={() => this.props.navigation.navigate("Section",{section,retrieveUserSections: this.retrieveUserSections()})} icon>
+        <Icon active name="md-microphone" style={{ backgroundColor: s.primary.color, marginLeft:10 }} />
+        <Body style={{ alignItems:'center'}}>
+          <Text>{section.name}</Text>
+        </Body>
+      </ListItem>
+    )})
+  }
+
   render() {
-    const { search, users, loading } = this.state
+    const { search, users, loading, sections } = this.state
     const { navigation } = this.props
-    const section = false;
     return (
       <Container style={styles.container}>
         <Content style={styles.subcontainer}>
         <Text style={styles.title}>Seções</Text>
-        <Content contentContainerStyle={styles.section} scrollEnabled={false}>
-          { section ? (
-          <ListItem style= {styles.sectionStyle} underlayColor={"#000"}   onPress={() => navigation.navigate("Profile")} icon>
-            <Icon active name="md-microphone" style={{ backgroundColor: s.primary.color, marginLeft:10 }} />
-            <Body style={{ alignItems:'center'}}>
-              <Text>Secao 1</Text>
-            </Body>
-          </ListItem>
-          ): (
+        <View contentContainerStyle={styles.section} scrollEnabled={false}>
+          { sections != [] ? (
+            this.renderSections(sections)
+          ) : (
           <View style = {styles.addSectionStyle}>
-            <Text style = {styles.warningText} >Não existe seção cadastrada.*</Text>
+            <Text style = {styles.warningText} >Não existem seções cadastrada.*</Text>
+          </View>
+          )}
+          <View style = {styles.addSectionStyle}>
             <Button
               block
 
@@ -94,8 +120,7 @@ class ExploreScreen extends Component {
               <Text style={styles.buttonText}>Crie uma seção!</Text>
             </Button>
           </View>
-          )}
-        </Content>
+        </View>
         <View style={{borderTopWidth: 1,borderStyle:'solid', marginTop:5}}>
           <Text style={styles.title}>Explorer</Text>
             <Item style={styles.itemInput} rounded>
@@ -158,26 +183,32 @@ const styles = StyleSheet.create({
     paddingVertical: 10
   },
   section:{
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   addSectionStyle:{
     alignItems:'center',
-    width: '90%'
+    width: '90%',
+    justifyContent: 'center'
   },
   addButton: {
     marginBottom: 10,
     borderRadius: 10,
+    marginLeft:18,
     width: '100%',
     backgroundColor: stylesd.segundaCor
   },
   sectionStyle:{ 
     backgroundColor: "#ccc",
     alignItems:'center',
+    justifyContent:'center',
     width: '90%',
-    marginRight:10
+    marginRight:10,
+    marginBottom:10
   },
   buttonText:{
-    textAlign:'center'
+    textAlign:'center',
+    fontWeight: 'bold',
   },
   warningText:{
     color: 'red',
